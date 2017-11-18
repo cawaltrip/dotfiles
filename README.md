@@ -50,7 +50,7 @@ Credits
 =======
 
  * [anishathalye][anishathalye] for creating and maintaining [Dotbot][dotbot].
- * [vsund][vsund] ([vsund-dotfiles][repo]), [vbrandi][vbrandi] ([vbrandi-dotfiles][repo]), and [magicmonty][magicmonty] ([magicmonty-dotfiles][repo]) for the directory structure inspiration.
+ * [vsund][vsund] ([repo][vsund-dotfiles]), [vbrandi][vbrandi] ([repo][vbrandi-dotfiles]), and [magicmonty][magicmonty] ([repo][magicmonty-dotfiles]) for the directory structure inspiration.
 
 
 [dotbot]: https://github.com/anishathalye/dotbot
