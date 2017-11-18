@@ -1,5 +1,33 @@
 [user]
 	name = Chris Waltrip
 	email = chris@walt.rip
+[core]
+	editor = vim
+[web]
+	browser = firefox
 [push]
 	default = simple
+[color]
+	ui = auto
+[color "branch"]
+	current = 
+	local = 
+	remote = 
+[color "diff"]
+	meta = 
+	frag = 
+	old = red bold
+	new = green bold
+	whitespace = 
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+[github]
+	user = cawaltrip
+[alias]
+	c = commit
+	ca = commit -a
+	cm = commit -m
+	cam = commit -am
+
