@@ -1,3 +1,5 @@
 [user]
 	name = Chris Waltrip
 	email = chris@walt.rip
+[push]
+	default = simple
