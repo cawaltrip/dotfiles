@@ -4,6 +4,3 @@
 [submodule "configs/ui/awesome/apw"]
 	path = configs/ui/awesome/apw
 	url = https://github.com/mokasin/apw
-[submodule "configs/ui/awesome/awesome-copycats"]
-	path = configs/ui/awesome/awesome-copycats
-	url = https://github.com/lcpz/awesome-copycats.git
