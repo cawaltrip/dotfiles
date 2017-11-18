@@ -1,0 +1,41 @@
+# Created from Base16 Monokai theme, converted using terminal.sexy
+[colors]
+
+# special
+foreground      = #f8f8f2
+foreground_bold = #f8f8f2
+cursor          = #f8f8f2
+background      = #272822
+
+# black
+color0  = #272822
+color8  = #75715e
+
+# red
+color1  = #f92672
+color9  = #fd971f
+
+# green
+color2  = #a6e22e
+color10 = #383830
+
+# yellow
+color3  = #f4bf75
+color11 = #49483e
+
+# blue
+color4  = #66d9ef
+color12 = #a59f85
+
+# magenta
+color5  = #ae81ff
+color13 = #f5f4f1
+
+# cyan
+color6  = #a1efe4
+color14 = #cc6633
+
+# white
+color7  = #f8f8f2
+color15 = #f9f8f5
+

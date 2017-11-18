@@ -5,4 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Directory coloring
+eval `dircolors ~/.config/dircolors/dircolors`
+
 PS1='[\u@\h \W]\$ '
