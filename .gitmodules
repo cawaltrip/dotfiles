@@ -1,0 +1,6 @@
+[submodule "meta/dotbot"]
+	path = meta/dotbot
+	url = https://github.com/anishathalye/dotbot
+[submodule "configs/ui/awesome/apw"]
+	path = configs/ui/awesome/apw
+	url = https://github.com/mokasin/apw

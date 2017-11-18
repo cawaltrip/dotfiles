@@ -1,0 +1,7 @@
+- link:
+    ~/.bash_profile: configs/shells/bash/bash_profile
+    ~/.bashrc: configs/shells/bash/bashrc
+    ~/.bash_logout: configs/shells/bash/bash_logout
+    ~/.bash_aliases: configs/shells/bash/bash_aliases
+
+#  vim: set filetype=yaml ts=4 sw=4 tw=0 et :

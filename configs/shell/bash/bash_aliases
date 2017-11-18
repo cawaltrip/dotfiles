@@ -1,0 +1,5 @@
+# Standard, always have these aliases
+
+alias ls='ls -h --color=auto'
+alias lal='ls -Alh'
+alias cpr='rsync --info=progress2 --size-only --archive --inplace --human-readable'
