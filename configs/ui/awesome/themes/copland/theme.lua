@@ -15,7 +15,7 @@ local awesome, client = awesome, client
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/copland"
 theme.wallpaper                                 = theme.dir .. "/wall.png"
-theme.font                                      = "Tamzen 10.5"
+theme.font                                      = "Lato 10.5"
 theme.fg_normal                                 = "#BBBBBB"
 theme.fg_focus                                  = "#78A4FF"
 theme.bg_normal                                 = "#111111"
@@ -93,14 +93,14 @@ local green  = "#8FEB8F"
 
 -- Textclock
 --os.setlocale(os.getenv("LANG")) -- to localize the clock
-local mytextclock = wibox.widget.textclock("<span font='Tamzen 5'> </span>%H:%M ")
+local mytextclock = wibox.widget.textclock("<span font='Lato 5'> </span> %a, %d %b %Y, %H:%M ")
 mytextclock.font = theme.font
 
 -- Calendar
 lain.widget.calendar({
     attach_to = { mytextclock },
     notification_preset = {
-        font = "Tamzen 11",
+        font = "Lato 11",
         fg   = theme.fg_normal,
         bg   = theme.bg_normal
     }
@@ -118,7 +118,7 @@ local mail = lain.widget.imap({
         count = ""
 
         if mailcount > 0 then
-            mail = "<span font='Tamzen 5'> </span>Mail "
+            mail = "<span font='Lato 5'> </span>Mail "
             count = mailcount .. " "
         end
 
@@ -133,11 +133,11 @@ theme.mpd = lain.widget.mpd({
     settings = function()
         if mpd_now.state == "play" then
             title = mpd_now.title
-            artist  = " " .. mpd_now.artist  .. markup("#333333", " <span font='Tamzen 2'> </span>|<span font='Tamzen 5'> </span>")
+            artist  = " " .. mpd_now.artist  .. markup("#333333", " <span font='Lato 2'> </span>|<span font='Lato 5'> </span>")
             mpdicon:set_image(theme.play)
         elseif mpd_now.state == "pause" then
             title = "mpd "
-            artist  = "paused" .. markup("#333333", " |<span font='Tamzen 5'> </span>")
+            artist  = "paused" .. markup("#333333", " |<span font='Lato 5'> </span>")
             mpdicon:set_image(theme.pause)
         else
             title  = ""
@@ -215,7 +215,7 @@ local fsbar = wibox.widget {
 theme.fs = lain.widget.fs({
     partition = "/home",
     options = "--exclude-type=tmpfs",
-    notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "Tamzen 10.5" },
+    notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "Lato 10.5" },
     settings  = function()
         if tonumber(fs_now.used) < 90 then
             fsbar:set_color(theme.fg_normal)
@@ -230,21 +230,16 @@ local fswidget = wibox.container.margin(fsbg, 2, 7, 4, 4)
 
 -- ALSA volume bar
 local volicon = wibox.widget.imagebox(theme.vol)
-theme.volume = lain.widget.alsabar({
+theme.volume = lain.widget.pulsebar({
     width = 59, border_width = 0, ticks = true, ticks_size = 6,
     notification_preset = { font = theme.font },
-    --togglechannel = "IEC958,3",
-    settings = function()
-        if volume_now.status == "off" then
-            volicon:set_image(theme.vol_mute)
-        elseif volume_now.level == 0 then
-            volicon:set_image(theme.vol_no)
-        elseif volume_now.level <= 50 then
-            volicon:set_image(theme.vol_low)
-        else
-            volicon:set_image(theme.vol)
-        end
-    end,
+    --settings = function()
+        --vlevel = volume_now.left .. "-" .. volume_now.right .. "% | " .. volume_now.device
+        --    if volume_now.muted == "yes" then
+        --        vlevel = vlevel .. " M"
+        --    end
+        --widget:set_markup(lain.util.markup("#7493d2", vlevel))
+    --    end,
     colors = {
         background   = theme.bg_normal,
         mute         = red,
@@ -252,26 +247,26 @@ theme.volume = lain.widget.alsabar({
     }
 })
 theme.volume.tooltip.wibox.fg = theme.fg_focus
-theme.volume.bar:buttons(awful.util.table.join (
-          awful.button({}, 1, function()
-            awful.spawn.with_shell(string.format("%s -e alsamixer", awful.util.terminal))
-          end),
-          awful.button({}, 2, function()
-            awful.spawn(string.format("%s set %s 100%%", theme.volume.cmd, theme.volume.channel))
-            theme.volume.update()
-          end),
-          awful.button({}, 3, function()
-            awful.spawn(string.format("%s set %s toggle", theme.volume.cmd, theme.volume.togglechannel or theme.volume.channel))
-            theme.volume.update()
-          end),
-          awful.button({}, 4, function()
-            awful.spawn(string.format("%s set %s 1%%+", theme.volume.cmd, theme.volume.channel))
-            theme.volume.update()
-          end),
-          awful.button({}, 5, function()
-            awful.spawn(string.format("%s set %s 1%%-", theme.volume.cmd, theme.volume.channel))
-            theme.volume.update()
-          end)
+theme.volume.bar:buttons(awful.util.table.join(
+    awful.button({}, 1, function() -- left click
+        awful.spawn("pavucontrol")
+    end),
+    awful.button({}, 2, function() -- middle click
+        awful.spawn(string.format("pactl set-sink-volume %d 100%%", theme.volume.device))
+        theme.volume.update()
+    end),
+    awful.button({}, 3, function() -- right click
+        awful.spawn(string.format("pactl set-sink-mute %d toggle", theme.volume.device))
+        theme.volume.update()
+    end),
+    awful.button({}, 4, function() -- scroll up
+        awful.spawn(string.format("pactl set-sink-volume %d +1%%", theme.volume.device))
+        theme.volume.update()
+    end),
+    awful.button({}, 5, function() -- scroll down
+        awful.spawn(string.format("pactl set-sink-volume %d -1%%", theme.volume.device))
+        theme.volume.update()
+    end)
 ))
 local volumebg = wibox.container.background(theme.volume.bar, "#474747", gears.shape.rectangle)
 local volumewidget = wibox.container.margin(volumebg, 2, 7, 4, 4)
@@ -282,10 +277,10 @@ theme.weather = lain.widget.weather({
 })
 
 -- Separators
-local first     = wibox.widget.textbox(markup.font("Tamzen 3", " "))
+local first     = wibox.widget.textbox(markup.font("Lato 3", " "))
 local spr       = wibox.widget.textbox(' ')
-local small_spr = wibox.widget.textbox(markup.font("Tamzen 4", " "))
-local bar_spr   = wibox.widget.textbox(markup.font("Tamzen 3", " ") .. markup.fontfg(theme.font, "#333333", "|") .. markup.font("Tamzen 5", " "))
+local small_spr = wibox.widget.textbox(markup.font("Lato 4", " "))
+local bar_spr   = wibox.widget.textbox(markup.font("Lato 3", " ") .. markup.fontfg(theme.font, "#333333", "|") .. markup.font("Lato 5", " "))
 
 -- Eminent-like task filtering
 local orig_filter = awful.widget.taglist.filter.all
@@ -352,9 +347,9 @@ function theme.at_screen_connect(s)
             --mail.widget,
             mpdicon,
             theme.mpd.widget,
-            baticon,
-            batwidget,
-            bar_spr,
+            --baticon,
+            --batwidget,
+            --bar_spr,
             fsicon,
             fswidget,
             bar_spr,
