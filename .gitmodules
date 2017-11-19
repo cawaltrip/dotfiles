@@ -4,3 +4,9 @@
 [submodule "configs/ui/awesome/apw"]
 	path = configs/ui/awesome/apw
 	url = https://github.com/mokasin/apw
+[submodule "configs/ui/awesome/lain"]
+	path = configs/ui/awesome/lain
+	url = https://github.com/lcpz/lain.git
+[submodule "configs/ui/awesome/freedesktop"]
+	path = configs/ui/awesome/freedesktop
+	url = https://github.com/lcpz/awesome-freedesktop
