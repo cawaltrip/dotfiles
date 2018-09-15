@@ -8,4 +8,4 @@
 # Directory coloring
 eval `dircolors ~/.config/dircolors/dircolors`
 
-PS1='[\u@\h \W]\$ '
+PS1='[\u@\h \w]\$ '
