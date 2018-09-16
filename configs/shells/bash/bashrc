@@ -5,7 +5,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+[[ -f /etc/bashrc ]] && source /etc/bashrc
+[[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
+
 # Directory coloring
-eval `dircolors ~/.config/dircolors/dircolors`
+#eval `dircolors ~/.config/dircolors/dircolors`
+
+PATH=${PATH}:${HOME}/.local/bin:${HOME}/bin
+export PATH
 
 PS1='[\u@\h \w]\$ '
