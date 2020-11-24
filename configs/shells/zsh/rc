@@ -1,0 +1,43 @@
+#!/usr/bin/env zsh
+export LANG=en_US.UTF-8
+
+
+# Read in other configuration files
+source ${ZDOTDIR:-~/.config/zsh}/zsh_options
+source ${ZDOTDIR:-~/.config/zsh}/zsh_aliases
+source ${ZDOTDIR:-~/.config/zsh}/zsh_functions
+
+# oh-my-zsh options
+export ZSH="${HOME}/.config/zsh/oh-my-zsh"
+ZSH_THEME="robbyrussell"
+# CASE_SENSITIVE="true" # Case-sensitive completion
+# HYPHEN_INSENSITIVE="true" # Hyphen-insensitive - Case-sensitive must be off.
+# DISABLE_AUTO_UPDATE="true"
+DISABLE_UPDATE_PROMPT="true" # Update without prompting
+# export UPDATE_ZSH_DAYS=13 # Interval to check for updates
+# DISABLE_MAGIC_FUNCTIONS="true" # Fix pasting URLS/other text.
+# DISABLE_AUTO_TITLE="true" 
+COMPLETION_WAITING_DOTS="true" # Add red dots whilst waiting for completion.
+# DISABLE_UNTRACKED_FILES_DIRTY="true" # Speed up prompt @ large VCS repos
+# ZSH_CUSTOM=/path/to/new-custom-folder # Custom zsh plugins directory
+VSCODE=code
+ZSH_DISABLE_COMPFIX="true"
+
+# oh-my-zsh plugins
+plugins=(git aws battery brew colored-man-pages colorize)
+plugins+=(command-not-found)
+plugins+=(emoji git-prompt iterm2 osx tmux vscode)
+
+# Start oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR=vim
+else
+    which -s code &>> /dev/null
+    ((! PIPESTATUS)) && export EDITOR=code || export EDITOR=vim
+fi
+
+# Set the path
+export PATH=/usr/local/aws/bin:$HOME/.toolbox/bin:${PATH}

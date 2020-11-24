@@ -1,0 +1,5 @@
+alias ll='ls -lhG'
+alias lal='ls -AlhG'
+alias lla='ls -AlhG'
+
+alias history='fc -iDl 1'

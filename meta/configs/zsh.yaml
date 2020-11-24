@@ -1,0 +1,10 @@
+- link:
+    ~/.zshenv: configs/shells/zsh/environment
+    ~/.config/zsh/.zshrc: configs/shells/zsh/rc
+    ~/.config/zsh/zsh_options: configs/shells/zsh/options
+    ~/.config/zsh/zsh_aliases: configs/shells/zsh/aliases
+    ~/.config/zsh/zsh_functions: configs/shells/zsh/functions
+    ~/.config/zsh/zsh_login: configs/shells/zsh/login
+    ~/.config/zsh/zsh_logout: configs/shells/zsh/logout
+    ~/.config/zsh/oh-my-zsh: configs/shells/zsh/oh-my-zsh
+    ~/.config/zsh/zshrc: ~/.config/zsh/.zshrc

@@ -1,33 +1,36 @@
 [user]
-	name = Chris Waltrip
-	email = chris@walt.rip
+    name = Chris Waltrip
+    email = chris@walt.rip
 [core]
-	editor = vim
+    editor = vim
+    pager = less -FMRiX
 [web]
-	browser = firefox
+    browser = chrome
+[pull]
+    rebase = false
 [push]
-	default = simple
+    default = simple
 [color]
-	ui = auto
+    ui = auto
 [color "branch"]
-	current = 
-	local = 
-	remote = 
+    current = 
+    local = 
+    remote = 
 [color "diff"]
-	meta = 
-	frag = 
-	old = red bold
-	new = green bold
-	whitespace = 
+    meta = 
+    frag = 
+    old = red bold
+    new = green bold
+    whitespace = 
 [color "status"]
-	added = green bold
-	changed = yellow bold
-	untracked = red bold
+    added = green bold
+    changed = yellow bold
+    untracked = red bold
 [github]
-	user = cawaltrip
+    user = cawaltrip
 [alias]
-	c = commit
-	ca = commit -a
-	cm = commit -m
-	cam = commit -am
-
+    c = commit
+    ca = commit -a
+    cm = commit -m
+    cam = commit -am
+    dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)%an <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
