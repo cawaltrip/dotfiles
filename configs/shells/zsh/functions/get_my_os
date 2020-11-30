@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+# Determine OS
+case "$(uname -s)" in
+    Darwin*)        THIS_OS=MacOS;;
+    Linux*)         THIS_OS=Linux;;
+    CYGWIN*)        THIS_OS=Cygwin;;
+    MINGW*)         THIS_OS=MinGW;;
+    MSYS*)          THIS_OS=MSYS;;
+    FreeBSD*)       THIS_OS=FreeBSD;;
+    OpenBSD*)       THIS_OS=OpenBSD;;
+    DragonFly*)     THIS_OS=DragonFlyBSD;;
+    SunOS*)         THIS_OS=SunOS;;
+    GNU*)           THIS_OS=GNU;;
+    *)              THIS_OS="Unknown-$(uname -s)"
+esac
+
+echo "${THIS_OS}"

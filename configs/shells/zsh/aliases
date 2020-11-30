@@ -1,5 +1,10 @@
-alias ll='ls -lhG'
-alias lal='ls -AlhG'
-alias lla='ls -AlhG'
+#!/usr/bin/env zsh
+
+# NOTE: This file relies on the functions being sourced by zshrc first.
+is_bsd_based &&  ls_color="-G" || ls_color="--color=auto"
+
+alias ll="ls -lh ${ls_color}"
+alias lal="ls -Alh ${ls_color}"
+alias lla="ls -Alh ${ls_color}"
 
 alias history='fc -iDl 1'

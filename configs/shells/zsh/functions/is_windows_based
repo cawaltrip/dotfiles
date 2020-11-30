@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+THIS_OS=$(get_my_os)
+
+if [[ ${THIS_OS} == "MinGW" 
+    || ${THIS_OS} == "MSYS" 
+    || ${THIS_OS} == "Cygwin" ]]; then
+        return 0
+fi
+return 1

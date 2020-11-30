@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+THIS_OS=$(get_my_os)
+
+if [[ -f /etc/redhat-release || -f /etc/centos-release ]]; then
+    return 0
+fi
+if [[ -f /etc/os-release ]]; then
+    local os=grep -m1 '^ID_LIKE=' /etc/os-release | awk -F= '{ print $2 }'
+    if [[ "${os}" =~ "rhel" || "${os}" =~ "fedora" ]]; then
+        return 0
+    fi
+fi
+return 1

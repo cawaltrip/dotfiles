@@ -1,16 +1,20 @@
 #!/usr/bin/env zsh
-export LANG=en_US.UTF-8
 
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+export LANG=en_US.UTF-8
 
 # Read in other configuration files
 source ${ZDOTDIR:-~/.config/zsh}/zsh_options
-source ${ZDOTDIR:-~/.config/zsh}/zsh_aliases
 source ${ZDOTDIR:-~/.config/zsh}/zsh_functions
+source ${ZDOTDIR:-~/.config/zsh}/zsh_aliases # zsh_functions needed.
 
 # oh-my-zsh options
 export ZSH="${HOME}/.config/zsh/oh-my-zsh"
-ZSH_THEME="robbyrussell"
-# CASE_SENSITIVE="true" # Case-sensitive completion
+DEFAULT_USER="waltripc"
+ZSH_THEME="agnoster"
+CASE_SENSITIVE="true" # Case-sensitive completion
 # HYPHEN_INSENSITIVE="true" # Hyphen-insensitive - Case-sensitive must be off.
 # DISABLE_AUTO_UPDATE="true"
 DISABLE_UPDATE_PROMPT="true" # Update without prompting
@@ -18,15 +22,15 @@ DISABLE_UPDATE_PROMPT="true" # Update without prompting
 # DISABLE_MAGIC_FUNCTIONS="true" # Fix pasting URLS/other text.
 # DISABLE_AUTO_TITLE="true" 
 COMPLETION_WAITING_DOTS="true" # Add red dots whilst waiting for completion.
-# DISABLE_UNTRACKED_FILES_DIRTY="true" # Speed up prompt @ large VCS repos
+#DISABLE_UNTRACKED_FILES_DIRTY="normal" # Speed up prompt @ large VCS repos
 # ZSH_CUSTOM=/path/to/new-custom-folder # Custom zsh plugins directory
 VSCODE=code
 ZSH_DISABLE_COMPFIX="true"
 
 # oh-my-zsh plugins
-plugins=(git aws battery brew colored-man-pages colorize)
+plugins=(git gitfast aws battery brew colored-man-pages colorize)
 plugins+=(command-not-found)
-plugins+=(emoji git-prompt iterm2 osx tmux vscode)
+plugins+=(emoji iterm2 osx tmux vscode)
 
 # Start oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -39,5 +43,16 @@ else
     ((! PIPESTATUS)) && export EDITOR=code || export EDITOR=vim
 fi
 
+# Vim variables
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
 # Set the path
-export PATH=/usr/local/aws/bin:$HOME/.toolbox/bin:${PATH}
+path_dirs=(
+    ${HOME}/bin
+    ${HOME}/.toolbox/bin
+    /usr/local/aws/bin
+)
+for dir in ${path_dirs[@]}; do
+    [[ -d ${dir} ]] && PATH="${dir}:${PATH}"
+done
+export PATH
