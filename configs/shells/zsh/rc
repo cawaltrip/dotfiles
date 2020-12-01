@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# TODO (Chris): Move git-extras checks to its own file.
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -12,6 +14,7 @@ source ${ZDOTDIR:-~/.config/zsh}/zsh_aliases # zsh_functions needed.
 
 # oh-my-zsh options
 export ZSH="${HOME}/.config/zsh/oh-my-zsh"
+export ZSH_CUSTOM="${ZDOTDIR}/omz-customizations"
 DEFAULT_USER="waltripc"
 ZSH_THEME="agnoster"
 CASE_SENSITIVE="true" # Case-sensitive completion
@@ -34,6 +37,30 @@ plugins+=(emoji iterm2 osx tmux vscode)
 
 # Start oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+
+# Is git-extras installed?
+which git-extras &>> /dev/null
+if ((! PIPESTATUS)); then
+    if is_macos; then
+        git_ex_comp_file=$(brew list git-extras | grep "git-extras-completion\.zsh$")
+    elif is_redhat_based; then
+        # NOTE (Chris): git-extras RPM doesn't install ZSH completions and so
+        #               this needs to be installed from source or a new SPEC
+        #               file needs to be made.
+        # TODO (Chris): Create new rpm spec file for this that includes zsh.
+        unset git_ex_comp_file
+        #git_ex_comp_file=$()
+    elif is_debian_based; then
+        git_ex_comp_file=$(dpkg -L git-extras | grep "vendor-completions/_git-extras$")
+    elif is_windows_based; then
+        # TODO: Figure out where this is installed.
+        unset get_ex_comp_file
+    else
+        unset get_ex_comp_file
+    fi
+
+    [[ -f ${git_ex_comp_file} ]] && source ${git_ex_comp_file}
+fi
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
