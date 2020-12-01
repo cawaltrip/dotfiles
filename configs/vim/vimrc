@@ -3,9 +3,15 @@
 
 "==============================="
 ""----- Personal settings -----"
-set runtimepath+=~/.config/vim
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+" Set in main rc file via VIMINIT.
+"let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
+
 "
 ""----- Misc Temp files -----"
+set directory=$XDG_CACHE_HOME/vim,~/,/tmp
+set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
+set undodir=$XDG_CACHE_HOME/vim,~/,/tmp
 "set backupdir=$HOME/.cache/vim/tmp//
 "set directory=$HOME/.cache/vim/tmp//
 "set undodir=$HOME/.cache/vim/tmp//
@@ -14,6 +20,7 @@ set runtimepath+=~/.config/vim
 " make sure to save your work before exiting
 
 set viminfo='10,<50,s10,h,rA:,rB:
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
 
 set t_Co=256 
 
@@ -73,8 +80,6 @@ cnoremap kj <C-C>
 " " Note: In command mode mappings to esc run the command for some odd
 " " historical vi compatibility reason. We use the alternate method of
 " " existing which is Ctrl-C
-
-
 
 "----- lightweight status bar -----"
 source $HOME/.config/vim/vimrc_statusbar.vim

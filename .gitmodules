@@ -14,3 +14,6 @@
 	path = configs/shells/zsh/oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git
 	branch = master
+[submodule "configs/vim/splice.vim"]
+	path = configs/vim/splice.vim
+	url = https://github.com/sjl/splice.vim.git
