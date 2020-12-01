@@ -3,3 +3,4 @@
     ~/.config/vim/vimrc_keys.vim: configs/vim/vimrc_keys.vim
     ~/.config/vim/vimrc_statusbar.vim: configs/vim/vimrc_statusbar.vim
     ~/.config/vim/colors: configs/vim/colors
+    ~/.config/vim/splice: configs/vim/splice.vim

@@ -90,4 +90,3 @@ source $HOME/.config/vim/vimrc_keys.vim
 "----- GUI settings -----"
 "source $HOME/.config/vim/vimrc_gui.vim
 "source $HOME/.config/vim/vimrc_gui-keys.vim
-
