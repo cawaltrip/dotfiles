@@ -1,15 +1,19 @@
 [submodule "meta/dotbot"]
 	path = meta/dotbot
 	url = https://github.com/anishathalye/dotbot
+	branch = master
 [submodule "configs/ui/awesome/apw"]
 	path = configs/ui/awesome/apw
 	url = https://github.com/mokasin/apw
+	branch = master
 [submodule "configs/ui/awesome/lain"]
 	path = configs/ui/awesome/lain
 	url = https://github.com/lcpz/lain.git
+	branch = master
 [submodule "configs/ui/awesome/freedesktop"]
 	path = configs/ui/awesome/freedesktop
 	url = https://github.com/lcpz/awesome-freedesktop
+	branch = master
 [submodule "configs/shells/zsh/oh-my-zsh"]
 	path = configs/shells/zsh/oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git
@@ -17,3 +21,4 @@
 [submodule "configs/vim/splice.vim"]
 	path = configs/vim/splice.vim
 	url = https://github.com/sjl/splice.vim.git
+	branch = master
