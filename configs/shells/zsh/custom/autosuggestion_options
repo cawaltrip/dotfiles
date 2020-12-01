@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=1
