@@ -16,8 +16,8 @@ source ${ZDOTDIR:-~/.config/zsh}/zsh_aliases # zsh_functions needed.
 # oh-my-zsh options
 export ZSH="${HOME}/.config/zsh/oh-my-zsh"
 export ZSH_CUSTOM="${ZDOTDIR}/omz-customizations"
-DEFAULT_USER="waltripc"
-ZSH_THEME="agnoster"
+DEFAULT_USERS=(waltripc cawaltrip)
+ZSH_THEME="chriswaltrip"
 CASE_SENSITIVE="true" # Case-sensitive completion
 # HYPHEN_INSENSITIVE="true" # Hyphen-insensitive - Case-sensitive must be off.
 # DISABLE_AUTO_UPDATE="true"
@@ -84,6 +84,7 @@ path_dirs=(
     ${HOME}/bin
     ${HOME}/.toolbox/bin
     /usr/local/aws/bin
+    ${HOME}/go/bin
 )
 for dir in ${path_dirs[@]}; do
     [[ -d ${dir} ]] && PATH="${dir}:${PATH}"

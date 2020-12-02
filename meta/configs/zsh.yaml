@@ -9,3 +9,4 @@
     ~/.config/zsh/zsh_logout: configs/shells/zsh/logout
     ~/.config/zsh/oh-my-zsh: configs/shells/zsh/oh-my-zsh
     ~/.config/zsh/zshrc: ~/.config/zsh/.zshrc
+    ~/.config/zsh/omz-customizations: configs/shells/zsh/custom
