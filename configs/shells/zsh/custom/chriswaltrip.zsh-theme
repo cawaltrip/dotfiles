@@ -67,13 +67,24 @@ prompt_end() {
 # Allow for different default user names (allows for one rc file for multiple
 # systems).
 prompt_context() {
-    for user in "${DEFAULT_USERS[@]}"; do
-      if [[ "${USER}" == "${user}" ]]; then
-        return 0
-      fi
-    done
-    if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-      prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
+    if [[ -n "${DEFAULT_USERS}" ]]; then
+        if [[ -n ${SSH_CLIENT} || -n ${SSH_CONNECTION} || -n ${SSH_TTY} ]]; then
+            show_hostname="@%m"
+        fi
+        for user in "${DEFAULT_USERS[@]}"; do
+            if [[ "${USER}" == "${user}" ]]; then
+                break
+            fi
+            show_user="%n"
+        done
+        if [[ -n ${show_hostname} || -n ${show_user} ]]; then
+            prompt_segment black default \
+                "%(!.%{%F{yellow}%}.)${show_user}${show_hostname}"
+        fi
+    else
+        if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+            prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
+        fi
     fi
 }
 
