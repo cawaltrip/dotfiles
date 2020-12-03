@@ -1,0 +1,5 @@
+# Make sure this file is never encrypted.
+.gitattributes !filter !diff
+
+# Private brew files and taps
+private-brewfile filter=git-crypt diff=git-crypt
