@@ -1,0 +1,45 @@
+# For the most part, GnuPG uses sane defaults, so not many things need
+# to be set.  I like to make sure that UTF-8 is being used, take advantage
+# of TOFU's conflict resolution, and I leave some options at the bottom that
+# I may enable occasionally.
+
+# Keyservers
+keyserver hkps://keys.openpgp.org
+
+# Character set
+utf8-strings
+display-charset utf-8
+
+# Trust model
+## TOFU+PGP allows me to use the standard Web of Trust model of PGP while
+## using TOFU's conflict detection algorithm.  Settings TOFU's default policy
+## to unknown won't assign a positive trust to a binding.
+trust-model tofu+pgp
+tofu-default-policy unknown
+
+# Algorithms and ciphers
+#personal-cipher-preferences
+#personal-digest-preferences
+#cert-digest-algo
+#default-preference-list
+
+# Display options
+## Don't use comments please. This is the default.
+## See: https://debian-administration.org/users/dkg/weblog/97
+###no-comments
+
+## emit-version can be used up to four times to give extra information.
+## no-emit-version is default.
+###emit-version
+
+# Verification
+## Make sure I specify at what level I'm certifying a key (default is 0).
+ask-cert-level
+
+# Esoteric options
+## These are typically only set occasionally when I need them.
+#debug-level {none/0,basic/1,advanced/3-5,expert/6-8,guru/>8}
+#debug {flags}
+#debug-all
+#[no-]for-your-eyes-only
+#expert

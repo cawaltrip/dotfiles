@@ -1,0 +1,9 @@
+- shell:
+    -
+        command: install -m0700 -d ~/.config/gnupg
+        description: Create GnuPG directory with proper permissions.
+    -
+        command: chmod 0600 configs/gnupg/conf
+        description: Make sure proper file permissions exist for config file.
+- link:
+    ~/.config/gnupg/gpg.conf: configs/gnupg/conf
