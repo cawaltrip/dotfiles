@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-THIS_OS=$(get_my_os)
-
 if [[ -f /etc/redhat-release || -f /etc/centos-release ]]; then
     return 0
 fi

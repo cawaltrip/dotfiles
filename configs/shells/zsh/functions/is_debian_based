@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-THIS_OS=$(get_my_os)
-
 if [[ -f /etc/os-release ]]; then
     local os=$(grep -m1 '^ID_LIKE=' /etc/os-release | awk -F= '{ print $2 }')
     if [[ "${os}" =~ "debian" ]]; then

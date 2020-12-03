@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+# Returns the substituted command only if the original does not exist.
+[[ ${#} -ne 2 ]] && return 1
+
+original=${1}
+new=${2}
+final="${original}"
+
+which "${original}" &>> /dev/null
+if ((pipestatus)); then
+    which "${new}" &>> /dev/null
+    if ((! pipestatus)); then
+        final="${new}"
+    fi
+fi
+
+echo "${final}"
+return 0

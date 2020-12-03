@@ -6,3 +6,4 @@ autoload -Uz get_my_os
 autoload -Uz is_bsd_based is_macos
 autoload -Uz is_linux_based is_redhat_based is_debian_based
 autoload -Uz is_windows_based
+autoload -Uz substitute_command

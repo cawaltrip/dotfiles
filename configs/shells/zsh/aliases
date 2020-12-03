@@ -8,3 +8,5 @@ alias lal="ls -Alh ${ls_color}"
 alias lla="ls -Alh ${ls_color}"
 
 alias history='fc -iDl 1'
+
+alias dircolors="$(substitute_command dircolors gdircolors)"
