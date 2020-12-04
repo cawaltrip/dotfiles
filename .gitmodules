@@ -22,3 +22,18 @@
 	path = configs/vim/splice.vim
 	url = https://github.com/sjl/splice.vim.git
 	branch = master
+[submodule "meta/plugins/dotbot-brewfile"]
+	path = meta/plugins/dotbot-brewfile
+	url = https://github.com/sobolevn/dotbot-brewfile.git
+[submodule "meta/plugins/dotbot-apt"]
+	path = meta/plugins/dotbot-apt
+	url = https://github.com/bryant1410/dotbot-apt
+[submodule "meta/plugins/dotbot-yum"]
+	path = meta/plugins/dotbot-yum
+	url = https://gitlab.com/flyingchipmunk/dotbot-yum.git
+[submodule "meta/plugins/dotbot-vscode"]
+	path = meta/plugins/dotbot-vscode
+	url = https://github.com/hujianxin/dotbot-vscode.git
+[submodule "meta/plugins/dotbot-brew"]
+	path = meta/plugins/dotbot-brew
+	url = https://github.com/d12frosted/dotbot-brew.git
