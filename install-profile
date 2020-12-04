@@ -8,6 +8,7 @@ CONFIG_SUFFIX=".yaml"
 META_DIR="meta"
 CONFIG_DIR="configs"
 PROFILES_DIR="profiles"
+PLUGINS_DIR="plugins"
 
 DOTBOT_DIR="dotbot"
 DOTBOT_BIN="bin/dotbot"
@@ -30,9 +31,9 @@ done < "${profile}"
 
 shift
 
-for d in $(find "${META_DIR}/${DOTBOT_DIR}/${DOTBOT_PLUGINS}" \
+for dir in $(find "${META_DIR}/${PLUGINS_DIR}" \
     -type d -name "dotbot-*"); do
-    plugins+="--plugin-dir ${d} "
+    plugins+="--plugin-dir ${dir} "
 done
 
 for config in ${CONFIGS} ${@}; do
