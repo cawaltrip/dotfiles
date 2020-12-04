@@ -1,9 +1,10 @@
 - shell:
     -
         description: Load private Brewfile if present
-        command: [[ -f configs/homebrew/private-brewfile ]] && brew bundle --file=configs/homebrew/private-brewfile
+        command: if [[ -f configs/homebrew/private-brewfile ]]; then brew bundle --file=configs/homebrew/private-brewfile; fi
         stdout: true
-- brew:
+        stderr: true
+- brewfile:
     file: configs/homebrew/brewfile
 
 #  vim: set filetype=yaml ts=4 sw=4 tw=0 et :
