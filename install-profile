@@ -31,8 +31,12 @@ done < "${profile}"
 
 shift
 
+for d in $(find "${DOTBOT_DIR}/${DOTBOT_PLUGINS}" -type d -name "dotbot-*"); do
+    plugins+="--plugin-dir ${d} "
+done
 
-"${BASE_DIR}/${META_DIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASE_DIR}" -c "${META_DIR}/${BASE_CONFIG}${CONFIG_SUFFIX}"
+"${BASE_DIR}/${META_DIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASE_DIR}" \
+    "${plugins}" -c "${META_DIR}/${BASE_CONFIG}${CONFIG_SUFFIX}"
 
 for config in ${CONFIGS} ${@}; do
     echo -e "\nConfigure $config"

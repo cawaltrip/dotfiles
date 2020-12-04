@@ -1,0 +1,2 @@
+# Brew bundle debug information
+configs/homebrew/*.lock.json
