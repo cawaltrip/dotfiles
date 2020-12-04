@@ -17,18 +17,15 @@ BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
 pushd "${BASE_DIR}"
-git submodule update --init --recursive --remote
 
-for d in $(find "${DOTBOT_DIR}/${DOTBOT_PLUGINS}" -type d -name "dotbot-*"); do
+for d in $(find "${META_DIR}/${DOTBOT_DIR}/${DOTBOT_PLUGINS}" \
+    -type d -name "dotbot-*"); do
     plugins+="--plugin-dir ${d} "
 done
 
-"${BASE_DIR}/${META_DIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASE_DIR}" \
-    ${plugins} -c "${META_DIR}/${BASE_CONFIG}${CONFIG_SUFFIX}"
-
 for config in ${@}; do
     configContent="$(<"${BASE_DIR}/${META_DIR}/${BASE_CONFIG}${CONFIG_SUFFIX}")\n$(<"${BASE_DIR}/${META_DIR}/${CONFIG_DIR}/${config}${CONFIG_SUFFIX}")"
-    "${BASE_DIR}/${META_DIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASE_DIR}" -c <(echo -e "$configContent")
+    "${BASE_DIR}/${META_DIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASE_DIR}" ${plugins} -c <(echo -e "$configContent")
 done
 
 popd

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+pushd "${BASE_DIR}" &>> /dev/null
+git submodule update --init --recursive --remote
+if ((PIPESTATUS)); then
+    echo "FATAL: Could not update all git submodules"
+    popd &>>/dev/null
+    exit 1
+fi
+popd &>> /dev/null
+echo "SUCCESS: Updated all git submodules"
+exit 0
