@@ -73,6 +73,7 @@ prompt_context() {
         fi
         for user in "${DEFAULT_USERS[@]}"; do
             if [[ "${USER}" == "${user}" ]]; then
+                unset show_user
                 break
             fi
             show_user="%n"
