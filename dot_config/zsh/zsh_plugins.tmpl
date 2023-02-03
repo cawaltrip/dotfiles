@@ -1,0 +1,21 @@
+# Add all of the external plugins.  Should only be sourced.  Requires 'zinit'.
+
+# Check if we aren't being sourced and fail early.
+if ((! zsh_eval_context[(I)file] )); then
+    return
+fi
+
+# zi light MichaelAquilina/zsh-autoswitch-virtualenv
+
+zi snippet OMZP::git
+zi snippet OMZP::aws
+zi snippet OMZP::battery
+zi snippet OMZP::colored-man-pages # Not using Solaris, so no need to ice the entire repo.
+zi snippet OMZP::colorize
+
+{{- if eq .chezmoi.os "darwin" }}
+zi snippet OMZP::iterm2
+{{ end }}
+
+zi ice svn
+zi snippet OMZP::gitfast

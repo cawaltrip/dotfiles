@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+{{ if eq .chezmoi.os "darwin" -}}
+ls_color="-G"
+{{ else if eq .chezmoi.os "linux" }}
+ls_color="--color=auto"
+{{ end -}}
+
+alias ll="ls -lh ${ls_color}"
+alias lal="ls -Alh ${ls_color}"
+alias lla="ls -Alh ${ls_color}"
+
+alias history='fc -iDl 1'
+
+{{ if eq .chezmoi.os "darwin" -}}
+if [[ +commands[gdircolors] ]]; then
+    alias dircolors=gdircolors
+fi
+{{ end }}

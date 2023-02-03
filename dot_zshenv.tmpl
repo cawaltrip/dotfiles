@@ -1,0 +1,24 @@
+# XDG variables
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_BIN_HOME="${HOME}/.local/bin"
+
+# Make sure configuration directory is set.
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+
+# GnuPG directory
+export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+
+{{ if eq .chezmoi.os "darwin" -}}
+# Configure Homebrew
+{{ if eq .chezmoi.arch "arm64" -}}
+export HOMEBREW_BASE="/opt/homebrew"
+{{ else }}
+export HOMEBREW_BASE="/usr/local"
+{{ end }}
+export PATH="${HOMEBREW_BASE}/bin:${PATH}"
+{{ end }}
+
+export PATH="${XDG_BIN_HOME}:${PATH}"

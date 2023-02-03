@@ -1,0 +1,85 @@
+#!/usr/bin/env zsh
+
+# TODO (Chris): Move git-extras checks to its own file.
+# TODO (Chris): Speed up searching for git-extras autocompletion for other OSes.
+
+# If not running interactively, do nothing.
+[[ $- != *i* ]] && return
+
+export LANG=en_US.UTF-8
+
+# Make sure zinit is installed.
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+ZINIT_INIT="${ZINIT_HOME}/zinit.zsh"
+if [[ ! -d ${ZINIT_HOME} ]]; then
+    mkdir -p "${ZINIT_HOME}"
+    if ((! pipestatus)); then
+        git clone "https://github.com/zdharma-continuum/zinit.git" "${ZINIT_HOME}"
+    fi
+fi
+
+if [[ ! -f ${ZINIT_INIT} ]]; then
+    echo "ERROR: Could not find 'zinit'! Shell experience will be degraded."
+else
+    source ${ZINIT_INIT}
+fi
+
+# Read in my configuration files
+source ${ZDOTDIR:-~/.config/zsh}/zsh_options
+source ${ZDOTDIR:-~/.config/zsh}/zsh_plugins
+source ${ZDOTDIR:-~/.config/zsh}/zsh_functions
+source ${ZDOTDIR:-~/.config/zsh}/zsh_aliases
+
+# Call the prompt function
+eval "$(starship init zsh)"
+
+# Is git-extras installed?
+if (( ${+commands[git-extras]} )); then
+    {{ if eq .chezmoi.os "darwin" -}}
+    {{ if eq .chezmoi.os "arm64" -}}
+    base="/opt/homebrew"
+    {{ else }}
+    base="/usr/local"
+    {{ end }}
+    git_ex_comp_file=$(find "${base}/Cellar/git-extras" -type f -name "git-extras-completion.zsh" 2>/dev/null)
+    if [[ ! -f "${git_ex_comp_file}" ]]; then
+        git_ex_comp_file="$(brew list git-extras | grep "git-extras-completion\.zsh$")"
+    fi
+    {{ end }}
+
+    [[ -f "${git_ex_comp_file}" ]] && source "${git_ex_comp_file}"
+fi
+
+# Init pyenv if installed
+if (( ${+commands[pyenv]} )); then
+    eval "$(pyenv init -)"
+    #eval "$(pyenv init --path)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR=vim
+else
+    if (( ${+commands[code]} )); then
+        export EDITOR=code
+    else
+        export EDITOR=vim
+    fi
+fi
+
+# Vim variables
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
+# Set the path
+path_dirs=(
+    /opt/homebrew/bin
+    ${HOME}/.local/bin
+    ${HOME}/bin
+    /usr/local/aws/bin
+    ${HOME}/go/bin
+)
+for dir in ${path_dirs[@]}; do
+    [[ -d ${dir} ]] && PATH="${dir}:${PATH}"
+done
+export PATH
