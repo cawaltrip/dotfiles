@@ -1,0 +1,43 @@
+[user]
+    name = {{ .name | quote }}
+    email = {{ .email | quote }}
+[core]
+    editor = vim
+    pager = less -FMRiX
+[init]
+    defaultBranch = main
+[web]
+    browser = firefox
+[pull]
+    rebase = false
+[push]
+    default = simple
+    followTags = true
+[color]
+    ui = auto
+[color "branch"]
+    current = 
+    local = 
+    remote = 
+[color "diff"]
+    meta = 
+    frag = 
+    old = red bold
+    new = green bold
+    whitespace = 
+[color "status"]
+    added = green bold
+    changed = yellow bold
+    untracked = red bold
+[github]
+    user = cawaltrip
+[alias]
+    c = commit
+    ca = commit -a
+    cm = commit -m
+    cam = commit -am
+    dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)%an <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+    co = checkout
+    lg1 = log --graph --no-merges --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+    lg2 = log --graph --no-merges --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    lg = !"git lg1"
