@@ -1,2 +1,3 @@
 # Ignore the Brewfile
 Brewfile
+Brewfile.lock.json
