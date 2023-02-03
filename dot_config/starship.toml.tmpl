@@ -1,0 +1,165 @@
+format = """
+[](fg:black)\
+$battery\
+[](fg:black bg:navy)\
+$time\
+[](fg:navy bg:bright-pink)\
+$directory\
+[](fg:bright-pink bg:bright-yellow)\
+$git_branch\
+$git_status\
+[ ](fg:bright-yellow)\
+"""
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+# Color palette
+palette = "mycolors"
+
+[palettes.mycolors]
+navy = "#33658a"
+pink = "#da627d"
+peach = "#fca17d"
+babypurple = "#ca9bf7"
+babypink = "#ffb7ce"
+babyblue = "#89cff0"
+violet = "#cb99c9"
+bluegreen = "#9adedb"
+brown = "#836953"
+persian = "#aa9499"
+lilac = "#bdb0d0"
+pea = "#bee7a5"
+mint = "#aaf0d1"
+green = "#6ca35e"
+darkyellow = "#c4bb7d"
+darkviolet = "#966fd6"
+# Bright colors
+bright-pink = "#ff479c"
+bright-yellow = "#fffb38"
+# macOS system colors
+systemred = "#ff3b30"
+systemyellow = "#ffcc00"
+systemgreen = "#28cd41"
+sys-red-da = "#f26963"
+sys-yellow-da = "#ffd426"
+sys-green-da = "#5bdd56"
+# Some base colors
+black = "#000000"
+white = "#ffffff"
+
+
+[battery]
+full_symbol = "󲀙"
+charging_symbol = "󲀖 "
+discharging_symbol = "󲀉 "
+unknown_symbol = "󲀀 "
+empty_symbol = "󲀀 "
+format='[$symbol]($style)'
+
+[[battery.display]]
+threshold = 10
+charging_symbol = "󲀎 "
+discharging_symbol = "󲀁 "
+style = 'fg:sys-red-da bg:black'
+
+[[battery.display]]
+threshold = 20
+charging_symbol = "󲀏 "
+discharging_symbol = "󲀂 "
+style = 'fg:sys-red-da bg:black'
+
+[[battery.display]]
+threshold = 25
+charging_symbol = "󲀏 "
+discharging_symbol = "󲀃 "
+style = 'fg:sys-red-da bg:black'
+
+[[battery.display]]
+threshold = 30
+charging_symbol = "󲀑 "
+discharging_symbol = "󲀄 "
+style = 'fg:sys-yellow-da bg:black'
+
+[[battery.display]]
+threshold = 40
+charging_symbol = "󲀒 "
+discharging_symbol = "󲀅 "
+style = 'fg:sys-yellow-da bg:black'
+
+[[battery.display]]
+threshold = 50
+charging_symbol = "󲀓 "
+discharging_symbol = "󲀆 "
+style = 'fg:sys-yellow-da bg:black'
+
+[[battery.display]]
+threshold = 60
+charging_symbol = "󲀔 "
+discharging_symbol = "󲀇 "
+style = 'fg:sys-green-da bg:black'
+
+[[battery.display]]
+threshold = 70
+charging_symbol = "󲀕 "
+discharging_symbol = "󲀈 "
+style = 'fg:sys-green-da bg:black'
+
+[[battery.display]]
+threshold = 75
+charging_symbol = "󲀖 "
+discharging_symbol = "󲀉 "
+style = 'fg:sys-green-da bg:black'
+
+[[battery.display]]
+threshold = 80
+charging_symbol = "󲀗 "
+discharging_symbol = "󲀊 "
+style = 'fg:sys-green-da bg:black'
+
+[[battery.display]]
+threshold = 90
+charging_symbol = "󲀘 "
+discharging_symbol = "󲀋 "
+style = 'fg:sys-green-da bg:black'
+
+[[battery.display]]
+threshold = 100
+charging_symbol = "󲀙 "
+discharging_symbol = "󲀌 "
+style = 'fg:sys-green-da bg:black'
+
+[directory]
+style = "bg:bright-pink fg:white"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+truncate_to_repo = true
+
+[directory.substitutions]
+"workplace" = " "
+"Documents" = " "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"tmp" = "󱤤 "
+
+[aws]
+symbol = "󰸏 "
+style = "fg:#ff9900"
+
+[git_branch]
+symbol = ""
+style = "bg:bright-yellow fg:black"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:bright-yellow fg:black"
+format = '[$all_status$ahead_behind ]($style)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+use_12hr = false
+style = "bg:navy fg:white"
+format = '[ $time ]($style)'
