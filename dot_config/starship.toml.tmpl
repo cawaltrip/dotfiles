@@ -1,5 +1,6 @@
 format = """
 [](fg:black)\
+$status\
 $battery\
 [](fg:black bg:navy)\
 $time\
@@ -17,6 +18,7 @@ add_newline = false
 # Color palette
 palette = "mycolors"
 
+# Colors ending in "-d" denotes dark mode; "-da" denotes dark mode accessible color.
 [palettes.mycolors]
 navy = "#33658a"
 pink = "#da627d"
@@ -38,9 +40,9 @@ darkviolet = "#966fd6"
 bright-pink = "#ff479c"
 bright-yellow = "#fffb38"
 # macOS system colors
-systemred = "#ff3b30"
-systemyellow = "#ffcc00"
-systemgreen = "#28cd41"
+sys-red-d = "#ff3b30"
+sys-yellow-d = "#ffcc00"
+sys-green-d = "#28cd41"
 sys-red-da = "#f26963"
 sys-yellow-da = "#ffd426"
 sys-green-da = "#5bdd56"
@@ -163,3 +165,10 @@ time_format = "%R" # Hour:Minute Format
 use_12hr = false
 style = "bg:navy fg:white"
 format = '[ $time ]($style)'
+
+[status]
+style = 'fg:sys-red-da bg:black'
+symbol = '✖'
+format = '[$symbol$signal_name $int ]($style)'
+map_symbol = true
+disabled = false
