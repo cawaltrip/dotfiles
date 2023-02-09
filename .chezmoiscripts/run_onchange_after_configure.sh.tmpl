@@ -1,0 +1,52 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+# Languages/Locale
+defaults write NSGlobalDomain AppleLanguages -array en-US
+defaults write NSGlobalDomain AppleLocale en_US
+
+# Input Devices
+defaults write NSGlobalDomain InitialKeyRepeat -int 25 
+defaults write NSGlobalDomain KeyRepeat -int 6
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+
+# Dock
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-time-modifier -float 0.5
+defaults write com.apple.dock show-recents -bool false
+defaults write com.apple.dock tilesize -int 48
+defaults write com.apple.dock mineffect -string suck
+
+# Finder
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+defaults write com.apple.finder FXDefaultSearchScope -string SCcf # Search current folder
+# defaults write com.apple.universalaccess showWindowTitlebarIcons -bool true
+defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Desktop
+defaults write com.apple.finder _FXSortFoldersFirstOnDesktop -bool true
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
+defaults write com.apple.menuextra.clock DateFormat -string "\"EEE d MMM HH:mm:ss\""
+
+# Mission Control
+defaults write com.apple.dock mru-spaces -bool false
+
+# Activity Monitor
+defaults write com.apple.ActivityMonitor UpdatePeriod -int 2
+
+# Printing
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Saving
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+{{- end -}}
