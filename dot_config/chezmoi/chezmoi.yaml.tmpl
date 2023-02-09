@@ -1,0 +1,45 @@
+# Global flags
+{{- $ephemeral := false -}}  # currently unused
+{{- $headless := false -}}  # currently unused
+{{- $personal := false -}}  # true if this machine should have personal secrets
+{{- $work := false -}}  # true if this machine should have work secrets
+
+# Handle hostname (including on macOS).
+{{- $hostname := .chezmoi.hostname -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
+{{-   if eq $computerName "Chris’s MacBook Pro" -}}
+{{-     $hostname = "chapterhouse" -}}
+{{-   else -}}
+{{-     $hostname = $computerName -}}
+{{-   end -}}
+{{- end -}}
+
+# Get all the configuration values
+{{- $name := promptStringOnce . "name" "Name" -}}
+{{- $email := promptStringOnce . "email" "Email address" -}}
+{{- $bitwardenAccount := promptStringOnce . "bitwardenAccount" "Bitwarden email address" -}}
+
+{{- if not $ephemeral -}}
+{{-   if eq $hostname "chapterhouse" -}}
+{{-     $personal = true -}}
+{{-   else if stdinIsATTY -}}
+{{-     $personal = promptBoolOnce . "personal" "Store personal secrets?" -}}
+{{-     $work = promptBoolOnce . "work" "Store work secrets?" -}}
+{{-     $headless = promptBoolOnce . "headless" "Is this system headless?" -}}
+{{-     $ephemeral = promptBoolOnce . "ephemeral" "Is this system ephemeral?" -}}
+{{-   else -}}
+{{-     $ephemeral = true -}}
+{{-     $headless = true -}}
+{{-   end -}}
+{{- end -}}
+
+data:
+    name: "Chris Waltrip"
+    email: {{ $email | quote }}
+    hostname: {{ $hostname | quote }}
+    personal: {{ $personal }}
+    work: {{ $work }}
+    ephemeral: {{ $ephemeral }}
+    headless: {{ $headless }}
+    bitwardenAccount: {{ $bitwardenAccount | quote }} # currently unused
