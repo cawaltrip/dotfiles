@@ -1,3 +1,10 @@
+README.md
+
 # Ignore the Brewfile
 Brewfile
 Brewfile.lock.json
+
+{{/* Only include Library if on macOS */}}
+{{- if ne .chezmoi.os "darwin" -}}
+Library
+{{- end }}
