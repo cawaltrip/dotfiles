@@ -1,10 +1,11 @@
-# Global flags
-{{- $ephemeral := false -}}  # currently unused
-{{- $headless := false -}}  # currently unused
-{{- $personal := false -}}  # true if this machine should have personal secrets
-{{- $work := false -}}  # true if this machine should have work secrets
+{{/* Global flags */}}
+{{- $ephemeral := false -}}{{/* currently unused */}}
+{{- $headless := false -}}{{/* currently unused */}}
+{{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
+{{- $work := false -}}{{/* true if this machine should have work secrets */}}
+{{- "" -}}
 
-# Handle hostname (including on macOS).
+{{/* Handle hostname (including on macOS). */}}
 {{- $hostname := .chezmoi.hostname -}}
 {{- if eq .chezmoi.os "darwin" -}}
 {{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
@@ -15,8 +16,7 @@
 {{-   end -}}
 {{- end -}}
 
-# Get all the configuration values
-{{- $name := promptStringOnce . "name" "Name" -}}
+{{/* Get all the configuration values */}}
 {{- $email := promptStringOnce . "email" "Email address" -}}
 {{- $bitwardenAccount := promptStringOnce . "bitwardenAccount" "Bitwarden email address" -}}
 
@@ -42,4 +42,4 @@ data:
     work: {{ $work }}
     ephemeral: {{ $ephemeral }}
     headless: {{ $headless }}
-    bitwardenAccount: {{ $bitwardenAccount | quote }} # currently unused
+    bitwardenAccount: {{ $bitwardenAccount | quote }}{{/* currently unused */}}
