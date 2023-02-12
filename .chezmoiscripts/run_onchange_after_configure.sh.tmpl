@@ -49,4 +49,16 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
-{{- end -}}
+# Disable Keyboard -> Shortcuts -> Mission Control -> Move left/right a space.
+/usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:79:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist
+/usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:80:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist
+/usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:81:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist
+/usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:82:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist
+
+# Ask the system to read the hotkey plist file and ignore the output. Likely updates an in-memory cache with the new plist values.
+defaults read com.apple.symbolichotkeys.plist > /dev/null
+
+# Run reactivateSettings to apply the updated settings.
+/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -uP
+
+{{ end -}}

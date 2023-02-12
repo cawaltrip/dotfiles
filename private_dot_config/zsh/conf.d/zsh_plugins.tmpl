@@ -5,13 +5,20 @@ if ((! zsh_eval_context[(I)file] )); then
     return
 fi
 
-# zi light MichaelAquilina/zsh-autoswitch-virtualenv
+# Set some variables that will be used in the plugins.
+export CASE_SENSITIVE=false
+export HYPHEN_INSENSITIVE=false
+export COMPLETION_WAITING_DOTS=true
+
+zinit ice blockf
+zinit light zsh-users/zsh-completions
 
 zi snippet OMZP::git
 zi snippet OMZP::aws
 zi snippet OMZP::battery
 zi snippet OMZP::colored-man-pages # Not using Solaris, so no need to ice the entire repo.
 zi snippet OMZP::colorize
+zi snippet OMZL::completion.zsh
 
 {{- if eq .chezmoi.os "darwin" }}
 zi snippet OMZP::iterm2
@@ -19,3 +26,6 @@ zi snippet OMZP::iterm2
 
 zi ice svn
 zi snippet OMZP::gitfast
+
+# Unset variables that are no longer needed
+unset CASE_SENSITIVE HYPHEN_INSENSITIVE
