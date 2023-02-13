@@ -1,0 +1,3 @@
+{{ if .personal -}}
+{{   bitwardenAttachmentByRef "privateKey" "{{- .hostname -}}_id_ed25519" }}
+{{ end -}}

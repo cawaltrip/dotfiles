@@ -11,6 +11,11 @@ This is a collection of my dotfiles, managed with [chezmoi](https://chezmoi.io).
 
 ## Installation
 1. [Install chezmoi](https://www.chezmoi.io/install/).
+1. [Install Bitwarden CLI](https://bitwarden.com/help/cli/)
+1. Login to Bitwarden.
+    ```bash
+    export BW_SESSION=$(bw login --raw)
+    ```
 1. Initialize this repository.
     ```bash
     chezmoi init cawaltrip
