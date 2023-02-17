@@ -12,6 +12,8 @@ alias lla="ls -Alh ${ls_color}"
 
 alias history='fc -iDl 1'
 
+alias co='git checkout'
+
 {{ if eq .chezmoi.os "darwin" -}}
 if [[ +commands[gdircolors] ]]; then
     alias dircolors=gdircolors
