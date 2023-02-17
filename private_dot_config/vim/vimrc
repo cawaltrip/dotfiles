@@ -1,0 +1,82 @@
+" Make environment conform to XDG spec.
+set directory=$XDG_CACHE_HOME/vim,/tmp
+set backupdir=$XDG_CACHE_HOME/vim,/tmp
+set undodir=$XDG_CACHE_HOME/vim,/tmp
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
+
+"" viminfo
+set viminfo='10,<50,s10,h,rA:,rB:
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+
+"Grab the global vimrc"
+if filereadable("/etc/vimrc")
+    source /etc/vimrc
+elseif filereadable("/etc/vim/vimrc")
+    source /etc/vim/vimrc
+endif
+
+"============================================================================="
+
+""----- Encoding -----"
+set encoding=utf-8
+"set t_Co=256 
+
+colorscheme codedark
+
+
+syntax on
+set background=dark "sets the background as dark | light
+set linebreak
+set number "sets the line numbers shown
+set relativenumber "sets the line number to relative position
+set laststatus=2 "show the status bar the whole time
+
+set spellsuggest+=10
+"set spellfile=$HOME/.config/vim/spell/tech.en-us.add
+" notes about tabs and indenting
+" https://stackoverflow.com/questions/1878974/redefine-tab-as-4-spaces
+" Setting some text / page formatting
+set autoindent " automagically remember indent in new lines
+set smartindent " uses automagic indenting and understands some C code conventions
+set tabstop=8 "hard tab stops at certain characters
+set smarttab "uses sw st and ts but remembers for <BS>
+set softtabstop=2 "use with shiftwidt to set tab char value without changing tab setting
+set shiftwidth=2 "The number of characters that indent when you choose > indentation
+set expandtab "use spaces use instead of <tab> 
+
+" setting the special character values
+set listchars=tab:¬¸,nbsp:¤,trail:°,eol:¶,precedes:«,extends:»
+
+" ----- Markdown specific settings -----
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'sh', 'dosini', 'dosbatch', 'cpp']
+let g:markdown_fenced_languages += ['javascript', 'css', 'js=javascript', 'conf=dosini']
+
+"VIM markdown highlighting "underscore hack"
+syn match markdownError "/w/@<=/w/@="
+" -----     -----"
+
+if filereadable("$XDG_CONFIG_HOME/vim/lastsession.vim")
+    source $XDG_CONFIG_HOME/vim/lastsession.vim
+endif
+
+"saving some little finger strain by re-mapping the esc key
+"https://vi.stackexchange.com/questions/16963/remap-esc-key-in-vim
+" esc in insert mode
+inoremap kj <esc>
+
+" esc in command mode
+cnoremap kj <C-C>
+" " Note: In command mode mappings to esc run the command for some odd
+" " historical vi compatibility reason. We use the alternate method of
+" " existing which is Ctrl-C
+
+"----- lightweight status bar -----"
+source $XDG_CONFIG_HOME/vim/vimrc_statusbar.vim
+
+"----- Custom Keys -----"
+source $XDG_CONFIG_HOME/vim/vimrc_keys.vim
+
+"----- GUI settings -----"
+"source $HOME/.config/vim/vimrc_gui.vim
+"source $HOME/.config/vim/vimrc_gui-keys.vim
