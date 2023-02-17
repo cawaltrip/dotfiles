@@ -3,6 +3,7 @@ set directory=$XDG_CACHE_HOME/vim,/tmp
 set backupdir=$XDG_CACHE_HOME/vim,/tmp
 set undodir=$XDG_CACHE_HOME/vim,/tmp
 set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+set packpath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
 let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
 "" viminfo
