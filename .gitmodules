@@ -1,3 +1,6 @@
 [submodule "private_dot_config/vim/pack/tools/splice.vim"]
 	path = private_dot_config/vim/pack/tools/splice.vim
 	url = https://github.com/sjl/splice.vim.git
+[submodule "private_dot_config/vim/colors/vim-code-dark"]
+	path = private_dot_config/vim/pack/colors/vim-code-dark
+	url = https://github.com/tomasiser/vim-code-dark.git
