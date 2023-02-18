@@ -31,30 +31,12 @@ autoload -U up-line-or-beginning-search down-line-or-beginning-search
 # Read in my configuration files
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_options
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_plugins
-source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_completions
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_keybindings
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_functions
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_aliases
 
 # Call the prompt function
 eval "$(starship init zsh)"
-
-# Is git-extras installed?
-if (( ${+commands[git-extras]} )); then
-    {{ if eq .chezmoi.os "darwin" -}}
-    {{ if eq .chezmoi.os "arm64" -}}
-    base="/opt/homebrew"
-    {{ else }}
-    base="/usr/local"
-    {{ end }}
-    git_ex_comp_file=$(find "${base}/Cellar/git-extras" -type f -name "git-extras-completion.zsh" 2>/dev/null)
-    if [[ ! -f "${git_ex_comp_file}" ]]; then
-        git_ex_comp_file="$(brew list git-extras | grep "git-extras-completion\.zsh$")"
-    fi
-    {{ end }}
-
-    [[ -f "${git_ex_comp_file}" ]] && source "${git_ex_comp_file}"
-fi
 
 # Init pyenv if installed
 if (( ${+commands[pyenv]} )); then

@@ -1,3 +1,28 @@
 #!/usr/bin/env zsh
 
+# Check if we aren't being sourced and fail early.
+if ((! zsh_eval_context[(I)file] )); then
+    return
+fi
+
+# Is git-extras installed?
+if (( ${+commands[git-extras]} )); then
+    {{ if eq .chezmoi.os "darwin" -}}
+    git_ex_comp_file="${HOMEBREW_PREFIX}/opt/git-extras/share/git-extras/git-extras-completion.zsh"
+    {{ end -}}
+
+    [[ -f "${git_ex_comp_file}" ]] && source "${git_ex_comp_file}"
+fi
+
+{{ if eq .chezmoi.os "darwin" -}}
+brew_functions="${HOMEBREW_PREFIX}/share/zsh/zsh-site-functions"
+if [[ -d ${brew_functions} ]]; then
+    fpath=("${brew_functions}" "${fpath}")
+fi
+{{ end -}}
+
 export fpath=("${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/functions" ${fpath})
+autoload -Uz chezmoi
+
+autoload -U compinit
+compinit

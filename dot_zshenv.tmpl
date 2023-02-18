@@ -15,11 +15,11 @@ export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 {{ if eq .chezmoi.os "darwin" -}}
 # Configure Homebrew
 {{ if eq .chezmoi.arch "arm64" -}}
-export HOMEBREW_BASE="/opt/homebrew"
+export HOMEBREW_PREFIX="/opt/homebrew"
 {{ else }}
-export HOMEBREW_BASE="/usr/local"
+export HOMEBREW_PREFIX="/usr/local"
 {{ end }}
-export PATH="${HOMEBREW_BASE}/bin:${PATH}"
+export PATH="${HOMEBREW_PREFIX}/bin:${PATH}"
 {{ end }}
 
 export PATH="${XDG_BIN_HOME}:${PATH}"

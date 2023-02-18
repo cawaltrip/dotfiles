@@ -1,0 +1,26 @@
+# Wrapper around chezmoi to make sure password manager is unlocked for 
+# operations requiring it.
+
+chezmoi() {
+    if [[ $1 == "diff" || $1 == "apply" || $1 == "verify" ]]; then
+        bw_config="${XDG_CONFIG_HOME:-~/.config}/bitwarden"
+        passwordfile="${bw_config}/bwpass"
+        tokenfile="${bw_config}/bwtoken"
+        bw_status="$(bw status | jq -r '.status')"
+        if [[ ${bw_status} != "unlocked" ]]; then
+            if [[ ${bw_status} == "locked" ]]; then
+                export BW_SESSION="$(bw unlock --passwordfile ${passwordfile} --raw)"
+            elif [[ ${bw_status} == "unauthenticated" ]]; then
+                source "${tokenfile}"
+                bw_login=$(bw login --apikey)
+                if ((pipestatus)); then
+                    echo "WARN: Could not login to Bitwarden"
+                else
+                    export BW_SESSION="$(bw unlock --passwordfile ${passwordfile} --raw)"
+                fi
+            fi
+        fi
+    fi
+
+    command chezmoi "$@"
+}
