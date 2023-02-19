@@ -15,14 +15,21 @@ if (( ${+commands[git-extras]} )); then
 fi
 
 {{ if eq .chezmoi.os "darwin" -}}
-brew_functions="${HOMEBREW_PREFIX}/share/zsh/zsh-site-functions"
+brew_functions="${HOMEBREW_PREFIX}/share/zsh/site-functions"
 if [[ -d ${brew_functions} ]]; then
-    fpath=("${brew_functions}" "${fpath}")
+    fpath=(${brew_functions} ${fpath})
 fi
 {{ end -}}
 
-export fpath=("${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/functions" ${fpath})
+fpath=(${XDG_CONFIG_HO}/zsh/functions ${fpath})
 autoload -Uz chezmoi
 
-autoload -U compinit
+# Init pyenv if installed
+if (( ${+commands[pyenv]} )); then
+    eval "$(pyenv init -)"
+    #eval "$(pyenv init --path)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+autoload -Uz compinit
 compinit

@@ -24,9 +24,8 @@ else
     source ${ZINIT_INIT}
 fi
 
-# autoloads
-autoload -U compaudit compinit zrecompile
-autoload -U up-line-or-beginning-search down-line-or-beginning-search
+# Load modules
+zmodload zsh/computil zsh/complist
 
 # Read in my configuration files
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_options
@@ -35,15 +34,12 @@ source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_keybindings
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_functions
 source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/zsh_aliases
 
+# autoloads
+autoload -U compaudit compinit zrecompile
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+
 # Call the prompt function
 eval "$(starship init zsh)"
-
-# Init pyenv if installed
-if (( ${+commands[pyenv]} )); then
-    eval "$(pyenv init -)"
-    #eval "$(pyenv init --path)"
-    eval "$(pyenv virtualenv-init -)"
-fi
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
