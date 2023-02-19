@@ -21,7 +21,7 @@ if [[ -d ${brew_functions} ]]; then
 fi
 {{ end -}}
 
-fpath=(${XDG_CONFIG_HO}/zsh/functions ${fpath})
+fpath=(${XDG_CONFIG_HOME}/zsh/functions ${fpath})
 autoload -Uz chezmoi
 
 # Init pyenv if installed
