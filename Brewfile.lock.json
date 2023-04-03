@@ -1546,6 +1546,12 @@
         "options": {
           "full_name": "kindle"
         }
+      },
+      "logi-options-plus": {
+        "version": "1.34.0.376143",
+        "options": {
+          "full_name": "logi-options-plus"
+        }
       }
     },
     "mas": {
