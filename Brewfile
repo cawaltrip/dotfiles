@@ -1,13 +1,14 @@
 tap "cawaltrip/tap"
 tap "aws/tap"
 tap "dart-lang/dart"
+tap "hashicorp/tap"
 tap "homebrew/bundle"
-tap "homebrew/cask" # Only needs to be tapped when doing dev work.
+# tap "homebrew/cask" # Only needs to be tapped when doing dev work.
 tap "homebrew/cask-drivers"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/command-not-found"
-tap "homebrew/core" # Only needs to be tapped when doing dev work.
+# tap "homebrew/core" # Only needs to be tapped when doing dev work.
 tap "sass/sass"
 brew "aws-cdk"
 brew "awscli"
@@ -24,6 +25,7 @@ brew "git-extras"
 brew "git-filter-repo"
 brew "golang"
 brew "harfbuzz"
+brew "hashicorp/tap/terraform"
 brew "imagemagick"
 brew "jpeg-xl"
 brew "jq"
@@ -38,7 +40,10 @@ brew "openjpeg"
 brew "pango"
 brew "pastel"
 brew "pigz"
+brew "poetry"
 brew "pycparser"
+brew "pyenv"
+brew "pyenv-virtualenv"
 brew "pygments"
 brew "python"
 brew "sass/sass/sass"
@@ -65,8 +70,11 @@ cask "discord"
 cask "figma"
 cask "firefox"
 cask "firefox-developer-edition"
-cask "font-fira-code-nerd-font"
+# cask "font-fira-code-nerd-font"
+cask "cawaltrip/font-fira-code-nerd-font"
+cask "font-hubot-sans"
 cask "font-inconsolata"
+cask "font-mona-sans"
 cask "font-source-code-pro"
 cask "font-source-sans-pro"
 cask "fontforge"
@@ -97,12 +105,11 @@ cask "utm"
 cask "visual-studio-code"
 cask "webstorm"
 cask "wireshark"
-mas "Brother P-touch Editor", id: 1453365242
-mas "GarageBand", id: 682658836
-mas "iMovie", id: 408981434
+# mas "GarageBand", id: 682658836
+# mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Logic Pro", id: 634148309
-mas "MainStage", id: 634159523
+# mas "MainStage", id: 634159523
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PLIST Editor", id: 1157491961
