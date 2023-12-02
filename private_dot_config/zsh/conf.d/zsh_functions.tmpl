@@ -24,8 +24,12 @@ fi
 fpath=(${XDG_CONFIG_HOME}/zsh/functions ${fpath})
 autoload -Uz chezmoi
 
+# Disable Python virtual environment prompt
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 # Init pyenv if installed
 if (( ${+commands[pyenv]} )); then
+    export PYENV_ROOT=~/.local/opt/pyenv
     eval "$(pyenv init -)"
     #eval "$(pyenv init --path)"
     eval "$(pyenv virtualenv-init -)"
