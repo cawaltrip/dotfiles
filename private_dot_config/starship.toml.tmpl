@@ -9,7 +9,11 @@ $directory\
 [](fg:bright-pink bg:bright-yellow)\
 $git_branch\
 $git_status\
-[ ](fg:bright-yellow)\
+[](fg:bright-yellow bg:bright-green)\
+$python\
+$nodejs\
+[ ](fg:bright-green)\
+
 """
 
 # Disable the blank line at the start of the prompt
@@ -39,6 +43,10 @@ darkviolet = "#966fd6"
 # Bright colors
 bright-pink = "#ff479c"
 bright-yellow = "#fffb38"
+bright-green = "#7fff00"
+# Special colors
+python-blue = "#4b8bbe"
+nodejs-green = "#68a063"
 # macOS system colors
 sys-red-d = "#ff3b30"
 sys-yellow-d = "#ffcc00"
@@ -172,3 +180,23 @@ symbol = '✖'
 format = '[$symbol$signal_name $int ]($style)'
 map_symbol = true
 disabled = false
+
+[python]
+style = "bg:bright-green fg:black"
+version_format = 'v${major}.${minor}'
+symbol = ' '
+pyenv_version_name = true
+# pyenv_prefix = 
+format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
+
+[nodejs]
+style = "bg:bright-green fg:black"
+symbol = ' '
+version_format = 'v${major}.${minor}'
+format = '[$symbol($version )]($style)'
+
+# [ruby]
+# style = "bg:bright-green fg:black"
+# symbol = ' '
+# version_format = 'v${major}.${minor}'
+# format = '[$symbol($version )]($style)'
