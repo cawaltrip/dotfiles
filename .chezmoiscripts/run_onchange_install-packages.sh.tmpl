@@ -1,7 +1,131 @@
 {{ if eq .chezmoi.os "darwin" -}}
 #!/usr/bin/env zsh
 
-# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+# set -eufo pipefail
+
+# NOTE: If doing homebrew dev work, also tap: 
+#         "homebrew/cask" 
+#         "homebrew/core"
+
+{{ $taps := list
+    "cawaltrip/tap"
+    "aws/tap"
+    "hashicorp/tap"
+    "homebrew/bundle"
+    "homebrew/cask-fonts"
+    "homebrew/cask-versions"
+    "homebrew/command-not-found"
+}}
+
+{{ $brews := list
+    "aws-cdk"
+    "awscli"
+    "chezmoi"
+    "coreutils"
+    "crudini"
+    "git"
+    "git-extras"
+    "git-filter-repo"
+    "jq"
+    "mas"
+    "node"
+    "pastel"
+    "poetry"
+    "pycparser"
+    "pyenv"
+    "pyenv-virtualenv"
+    "pygments"
+    "python"
+    "sevenzip"
+    "starship"
+    "tmux"
+    "unar"
+    "vermin"
+    "wget"
+}}
+
+# TODO: Get "cawaltrip/font-fira-code-nerd-font" to work properly.
+{{ $casks := list 
+    "alfred"
+    "bartender"
+    "batteries"
+    "bettertouchtool"
+    "firefox"
+    
+    "font-hubot-sans"
+    "font-inconsolata"
+    "font-mona-sans"
+    "font-source-code-pro"
+    "font-source-sans-3"
+    "iterm2"
+    "keyboardcleantool"
+    "logi-options-plus"
+    "microsoft-office"
+    "moom"
+    "pycharm"
+    "smooze-pro"
+    "visual-studio-code"
+}}
+
+{{ if .personal -}}
+{{  $taps = concat $taps (list
+      "dart-lang/dart"
+      "sass/sass") -}}
+{{  $brews = concat $brews (list
+      "bitwarden-cli"
+      "ffmpeg"
+      "fontforge"
+      "fzf"
+      "golang"
+      "harfbuzz"
+      "hashicorp/tap/terraform"
+      "imagemagick"
+      "jpeg-xl"
+      "leptonica"
+      "libheif"
+      "libtiff"
+      "little-cms2"
+      "openjpeg"
+      "pango"
+      "pigz"
+      "sass/sass/sass"
+      "svn"
+      "webp"
+      "webpack"
+      "yarn"
+      "yt-dlp") -}}
+{{  $casks = concat $casks (list
+      "adobe-creative-cloud"
+      "bitwarden"
+      "discord"
+      "figma"
+      "firefox-developer-edition"
+      "fontforge"
+      "goland"
+      "google-chrome-dev"
+      "kindle"
+      "mactex-no-gui"
+      "musescore"
+      "ngrok"
+      "obs"
+      "omnidisksweeper"
+      "omnifocus"
+      "pronterface"
+      "slack"
+      "steam"
+      "texstudio"
+      "unicodechecker"
+      "utm"
+      "webstorm"
+      "wireshark"
+       ) -}}
+{{ end -}}
+
+{{ if .work }}
+{{  $brews = concat $brews (list
+      "1password-cli") -}}
+{{ end -}}
+
 if ((! $+commands[brew] )); then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     {{ if eq .chezmoi.arch "arm64" -}}
@@ -11,5 +135,16 @@ if ((! $+commands[brew] )); then
     {{ end -}}
     export PATH="${HOMEBREW_PREFIX}/bin:${PATH}"
 fi
-brew bundle --file={{ joinPath .chezmoi.sourceDir "Brewfile" | quote }}
+
+brew bundle --debug --no-lock --file=/dev/stdin <<EOF
+{{ range ($taps | sortAlpha | uniq) -}}
+tap "{{ . }}"
+{{ end -}}
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+EOF
 {{ end -}}
