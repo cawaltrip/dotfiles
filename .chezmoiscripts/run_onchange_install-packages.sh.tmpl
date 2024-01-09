@@ -15,6 +15,7 @@
     "homebrew/cask-fonts"
     "homebrew/cask-versions"
     "homebrew/command-not-found"
+    "ubuntu/microk8s"
 }}
 
 {{ $brews := list
@@ -38,6 +39,7 @@
     "python"
     "sevenzip"
     "starship"
+    "thefuck"
     "tmux"
     "unar"
     "vermin"
@@ -123,6 +125,20 @@
 
 {{ if .work }}
 {{  $brews = concat $brews (list
+      "cawaltrip/tap/onelogin-aws-cli"
+      "docker"
+      "gh"
+      "gradle"
+      "helm"
+      "k9s"
+      "kubectl"
+      "podman"
+      "ubuntu/microk8s/microk8s"
+      "tfenv") -}}
+{{  $casks = concat $casks (list
+      "amethyst"
+      "burp-suite-professional"
+      "1password"
       "1password-cli") -}}
 {{ end -}}
 

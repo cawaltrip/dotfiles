@@ -14,6 +14,11 @@ if (( ${+commands[git-extras]} )); then
     [[ -f "${git_ex_comp_file}" ]] && source "${git_ex_comp_file}"
 fi
 
+# If GVM is installed, source it.
+if [[ -f ${HOME}/.gvm/scripts/gvm ]]; then
+    source ${HOME}/.gvm/scripts/gvm
+fi
+
 {{ if eq .chezmoi.os "darwin" -}}
 brew_functions="${HOMEBREW_PREFIX}/share/zsh/site-functions"
 if [[ -d ${brew_functions} ]]; then
