@@ -11,6 +11,8 @@
 {{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
 {{-   if eq $computerName "Chris’s MacBook Pro" -}}
 {{-     $hostname = "chapterhouse" -}}
+{{-   else if eq $computerName "Chris Waltrip KFLFK3Q77P" -}}
+{{-     $hostname = "caladan" -}}
 {{-   else -}}
 {{-     $hostname = $computerName -}}
 {{-   end -}}
@@ -23,6 +25,8 @@
 {{- if not $ephemeral -}}
 {{-   if eq $hostname "chapterhouse" -}}
 {{-     $personal = true -}}
+{{-   else if eq $hostname "caladan" -}}
+{{-     $work = true -}}
 {{-   else if stdinIsATTY -}}
 {{-     $personal = promptBoolOnce . "personal" "Store personal secrets?" -}}
 {{-     $work = promptBoolOnce . "work" "Store work secrets?" -}}
