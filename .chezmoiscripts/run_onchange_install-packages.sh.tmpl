@@ -68,6 +68,7 @@
     "pycharm"
     "smooze-pro"
     "slack"
+    "utm"
     "visual-studio-code"
 }}
 
@@ -117,7 +118,6 @@
       "steam"
       "texstudio"
       "unicodechecker"
-      "utm"
       "webstorm"
       "wireshark"
        ) -}}
@@ -129,6 +129,7 @@
       "docker"
       "gh"
       "gradle"
+      "hashicorp/tap/packer"
       "helm"
       "k9s"
       "kubectl"
@@ -137,9 +138,12 @@
       "tfenv") -}}
 {{  $casks = concat $casks (list
       "amethyst"
+      "aws-vpn-client"
       "burp-suite-professional"
+      "openlens"
       "1password"
-      "1password-cli") -}}
+      "1password-cli"
+      "viscosity" ) -}}
 {{ end -}}
 
 if ((! $+commands[brew] )); then
