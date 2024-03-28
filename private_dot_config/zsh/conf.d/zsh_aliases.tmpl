@@ -25,3 +25,7 @@ alias brew64="PATH=/usr/local/bin:\$PATH arch -x86_64 brew"
 if (( ${+commands[terraform]} )); then
     alias tf=terraform
 fi
+
+if (( ${+commands[onelogin-aws-login]} )); then
+    alias onelogin-aws-login='onelogin-aws-login -C ~/.config/onelogin-aws-cli/config'
+fi
