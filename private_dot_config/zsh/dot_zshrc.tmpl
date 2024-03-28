@@ -57,7 +57,6 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # Set the path
 path_dirs=(
-    ${PYENV_ROOT}/bin
     ${HOMEBREW_PREFIX:-/opt/homebrew}/sbin
     ${HOMEBREW_PREFIX:-/opt/homebrew}/bin
     ${HOME}/.local/bin
@@ -65,6 +64,7 @@ path_dirs=(
     /usr/local/aws/bin
     ${HOME}/go/bin
     ${HOME}/Qt
+    ${PYENV_ROOT}/shims
 )
 for dir in ${path_dirs[@]}; do
     [[ -d ${dir} ]] && PATH="${dir}:${PATH}"

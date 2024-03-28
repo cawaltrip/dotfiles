@@ -21,3 +21,7 @@ if [[ +commands[gdircolors] ]]; then
 fi
 alias brew64="PATH=/usr/local/bin:\$PATH arch -x86_64 brew"
 {{ end }}
+
+if (( ${+commands[terraform]} )); then
+    alias tf=terraform
+fi
