@@ -1,18 +1,13 @@
 format = """
-[](fg:black)\
+[](fg:base)\
 $status\
 $battery\
-[](fg:black bg:navy)\
-$time\
-[](fg:navy bg:bright-pink)\
-$directory\
-[](fg:bright-pink bg:bright-yellow)\
-$git_branch\
-$git_status\
-[](fg:bright-yellow bg:bright-green)\
-$python\
-$nodejs\
-[ ](fg:bright-green)\
+[$time](fg:base bg:blue)\
+[$directory](fg:prev_bg bg:red)\
+([$git_branch$git_status](fg:prev_bg bg:yellow))\
+([ $python](fg:prev_bg bg:python-blue))\
+([ $nodejs](fg:prev_bg bg:nodejs-green))\
+[ ](fg:prev_bg)\
 
 """
 
@@ -20,7 +15,7 @@ $nodejs\
 add_newline = false
 
 # Color palette
-palette = "mycolors"
+palette = "catppuccin_mocha"
 
 # Colors ending in "-d" denotes dark mode; "-da" denotes dark mode accessible color.
 [palettes.mycolors]
@@ -199,6 +194,8 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+
+
 # Special colors
 python-blue = "#4b8bbe"
 nodejs-green = "#68a063"
@@ -223,76 +220,76 @@ format='[$symbol]($style)'
 threshold = 10
 charging_symbol = "󲀎 "
 discharging_symbol = "󲀁 "
-style = 'fg:sys-red-da bg:black'
+style = 'fg:sys-red-da bg:base'
 
 [[battery.display]]
 threshold = 20
 charging_symbol = "󲀏 "
 discharging_symbol = "󲀂 "
-style = 'fg:sys-red-da bg:black'
+style = 'fg:sys-red-da bg:base'
 
 [[battery.display]]
 threshold = 25
 charging_symbol = "󲀏 "
 discharging_symbol = "󲀃 "
-style = 'fg:sys-red-da bg:black'
+style = 'fg:sys-red-da bg:base'
 
 [[battery.display]]
 threshold = 30
 charging_symbol = "󲀑 "
 discharging_symbol = "󲀄 "
-style = 'fg:sys-yellow-da bg:black'
+style = 'fg:sys-yellow-da bg:base'
 
 [[battery.display]]
 threshold = 40
 charging_symbol = "󲀒 "
 discharging_symbol = "󲀅 "
-style = 'fg:sys-yellow-da bg:black'
+style = 'fg:sys-yellow-da bg:base'
 
 [[battery.display]]
 threshold = 50
 charging_symbol = "󲀓 "
 discharging_symbol = "󲀆 "
-style = 'fg:sys-yellow-da bg:black'
+style = 'fg:sys-yellow-da bg:base'
 
 [[battery.display]]
 threshold = 60
 charging_symbol = "󲀔 "
 discharging_symbol = "󲀇 "
-style = 'fg:sys-green-da bg:black'
+style = 'fg:sys-green-da bg:base'
 
 [[battery.display]]
 threshold = 70
 charging_symbol = "󲀕 "
 discharging_symbol = "󲀈 "
-style = 'fg:sys-green-da bg:black'
+style = 'fg:sys-green-da bg:base'
 
 [[battery.display]]
 threshold = 75
 charging_symbol = "󲀖 "
 discharging_symbol = "󲀉 "
-style = 'fg:sys-green-da bg:black'
+style = 'fg:sys-green-da bg:base'
 
 [[battery.display]]
 threshold = 80
 charging_symbol = "󲀗 "
 discharging_symbol = "󲀊 "
-style = 'fg:sys-green-da bg:black'
+style = 'fg:sys-green-da bg:base'
 
 [[battery.display]]
 threshold = 90
 charging_symbol = "󲀘 "
 discharging_symbol = "󲀋 "
-style = 'fg:sys-green-da bg:black'
+style = 'fg:sys-green-da bg:base'
 
 [[battery.display]]
 threshold = 100
 charging_symbol = "󲀙 "
 discharging_symbol = "󲀌 "
-style = 'fg:sys-green-da bg:black'
+style = 'fg:sys-green-da bg:base'
 
 [directory]
-style = "bg:bright-pink fg:white"
+style = "bg:red fg:base"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -312,29 +309,29 @@ style = "fg:#ff9900"
 
 [git_branch]
 symbol = ""
-style = "bg:bright-yellow fg:black"
+style = "bg:yellow fg:base"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:bright-yellow fg:black"
+style = "bg:yellow fg:base"
 format = '[$all_status$ahead_behind ]($style)'
 
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
 use_12hr = false
-style = "bg:navy fg:white"
+style = "bg:blue fg:base"
 format = '[ $time ]($style)'
 
 [status]
-style = 'fg:sys-red-da bg:black'
+style = 'fg:sys-red-da bg:base'
 symbol = '✖'
 format = '[$symbol$signal_name $int ]($style)'
 map_symbol = true
 disabled = false
 
 [python]
-style = "bg:bright-green fg:black"
+style = "bg:python-blue fg:base"
 version_format = 'v${major}.${minor}'
 symbol = ' '
 pyenv_version_name = true
@@ -342,13 +339,13 @@ pyenv_version_name = true
 format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
 
 [nodejs]
-style = "bg:bright-green fg:black"
+style = "bg:nodejs-green fg:text"
 symbol = ' '
 version_format = 'v${major}.${minor}'
 format = '[$symbol($version )]($style)'
 
 # [ruby]
-# style = "bg:bright-green fg:black"
+# style = "bg:bright-green fg:base"
 # symbol = ' '
 # version_format = 'v${major}.${minor}'
 # format = '[$symbol($version )]($style)'
