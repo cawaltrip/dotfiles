@@ -24,6 +24,8 @@
     "chezmoi"
     "coreutils"
     "crudini"
+    "fd"
+    "fzf"
     "gawk"
     "git"
     "git-extras"
@@ -32,6 +34,7 @@
     "mas"
     "node"
     "pastel"
+    "pipenv"
     "poetry"
     "pycparser"
     "pyenv"
@@ -40,6 +43,7 @@
     "python"
     "sevenzip"
     "starship"
+    "the_silver_surfer"
     "thefuck"
     "tmux"
     "unar"
@@ -60,9 +64,10 @@
     "font-mona-sans"
     "font-source-code-pro"
     "font-source-sans-3"
+    "fork"
     "iterm2"
     "keyboardcleantool"
-    "logi-options-plus"
+    "logi-options+"
     "moom"
     "obs"
     "pycharm"
@@ -76,13 +81,14 @@
 {{ if .personal -}}
 {{  $taps = concat $taps (list
       "dart-lang/dart"
-      "sass/sass") -}}
+      "sass/sass"
+    ) -}}
 {{  $brews = concat $brews (list
       "bitwarden-cli"
       "ffmpeg"
       "fontforge"
       "fzf"
-      "golang"
+      "go"
       "harfbuzz"
       "hashicorp/tap/terraform"
       "imagemagick"
@@ -95,22 +101,24 @@
       "pango"
       "pigz"
       "sass/sass/sass"
-      "svn"
+      "subversion"
       "webp"
       "webpack"
       "yarn"
-      "yt-dlp") -}}
+      "yt-dlp"
+    ) -}}
 {{  $casks = concat $casks (list
       "adobe-creative-cloud"
       "bitwarden"
       "discord"
       "figma"
-      "firefox-developer-edition"
+      "firefox@developer-edition"
       "fontforge"
       "goland"
-      "google-chrome-dev"
+      "google-chrome@dev"
       "kindle"
       "mactex-no-gui"
+      "microsoft-auto-update"
       "microsoft-office"
       "musescore"
       "ngrok"
@@ -122,7 +130,7 @@
       "unicodechecker"
       "webstorm"
       "wireshark"
-       ) -}}
+    ) -}}
 {{ end -}}
 
 {{ if .work }}
@@ -130,22 +138,34 @@
       "cawaltrip/tap/onelogin-aws-cli"
       "docker"
       "gh"
+      "git-lfs"
       "gradle"
       "hashicorp/tap/packer"
       "helm"
       "k9s"
-      "kubectl"
+      "kubernetes-cli"
+      "minikube"
       "podman"
       "ubuntu/microk8s/microk8s"
-      "tfenv") -}}
+      "tfenv"
+      "ykman"
+    ) -}}
 {{  $casks = concat $casks (list
-      "amethyst"
-      "aws-vpn-client"
-      "burp-suite-professional"
-      "openlens"
       "1password"
       "1password-cli"
-      "viscosity" ) -}}
+      "amethyst"
+      "android-studio"
+      "aws-vpn-client"
+      "burp-suite-professional"
+      "corretto@21"
+      "cursor"
+      "docker"
+      "openlens"
+      "postman"
+      "powershell"
+      "slack"
+      "viscosity"
+    ) -}}
 {{ end -}}
 
 if ((! $+commands[brew] )); then
