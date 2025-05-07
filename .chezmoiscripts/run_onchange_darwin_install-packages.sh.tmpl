@@ -1,0 +1,10 @@
+{{- $pkgs := .packages -}}
+{{- $names := keys $pkgs | sortAlpha -}}
+
+Found {{ len $names }} packages:
+{{- range $i, $name := $names -}}
+  {{- $pkgMap := index $pkgs $name -}}
+  {{- $winOverride := index $pkgMap "windows" | default "(none)" -}}
+
+{{ printf "%3d. %s → windows override: %s\n" (add $i 1) $name $winOverride }}
+{{- end -}}

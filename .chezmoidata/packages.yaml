@@ -1,0 +1,399 @@
+# 1) Cross-OS managers and (global) Homebrew taps
+managers:
+  brew:
+    taps:
+      - cawaltrip/tap
+      - aws/tap
+      - hashicorp/tap
+      - homebrew/bundle
+      - homebrew/cask-fonts
+      - homebrew/cask-versions
+      - homebrew/command-not-found
+      - ubuntu/microk8s
+      # If doing homebrew dev work, also tap
+      # - homebrew/cask
+      # - homebrew/core
+  scoop:
+    buckets:
+      - extras
+      - nerd-fonts
+
+# 2) Single-source package definitions (no installers block ⇒ use the key as-is)
+packages:
+  1password: {}
+  1password-cli:
+    windows: AgileBits.1Password.CLI
+  adobe-creative-cloud:
+    windows: Adobe.CreativeCloud
+  alfred: {}
+  amethyst: {}
+  android-studio:
+    windows: Google.AndroidStudio
+  aws-cdk: {}
+  aws-vpn-client:
+    windows: Amazon.AWSVPNClient
+  awscli:
+    windows: Amazon.AWSCLI
+  bartender: {}
+  batteries: {}
+  bettertouchtool: {}
+  bitwarden:
+    windows: Bitwarden.Bitwarden
+  bitwarden-cli:
+    windows: Bitwarden.CLI
+  burp-suite-professional:
+    windows: PortSwigger.BurpSuite.Professional
+  chrome:
+    darwin: google-chrome
+    windows: Google.Chrome
+  chrome-dev:
+    darwin: google-chrome@dev
+    windows: Google.Chrome.Dev
+  coreutils: {}
+  corretto21:
+    darwin: corretto@21
+    windows: Amazon.Corretto.21.JDK
+  crudini:
+    windows:
+      pipx: crudini
+  cursor: {}
+  discord: {}
+  docker:
+    darwin:
+      cask: docker # Required because of name conflict between formula & cask
+  fd:
+    windows: sharkdp.fd
+  ffmpeg:
+    windows: Gyan.FFmpeg
+  figma: {}
+  firefox:
+    windows: Mozilla.Firefox
+  firefox-dev:
+    darwin: firefox@developer-edition
+    windows: Mozilla.Firefox.DeveloperEdition
+  font-hubot-sans: {}
+  font-inconsolata: {}
+  font-mona-sans: {}
+  font-source-code-pro: {}
+  font-source-sans-3: {}
+  fontforge:
+    windows: FontForge.FontForge
+  fork:
+    windows:
+      scoop: fork
+  fzf: {}
+  gawk: {}
+  gh: {}
+  git:
+    windows: Git.Git
+  git-extras: {} # TODO: Create a scoop package for this.
+  git-filter-repo:
+    windows:
+      scoop: git-filter-repo
+  git-lfs:
+    windows:
+      scoop: git-lfs
+  go:
+    windows: GoLang.Go
+  goland:
+    windows: JetBrains.GoLand
+  google-chrome@dev: {}
+  gradle:
+    windows:
+      scoop: gradle
+  harfbuzz:
+    windows:
+      scoop: harfbuzz
+  helm:
+    windows: Helm.Helm
+  imagemagick:
+    windows: ImageMagick.ImageMagick
+  iterm2: {}
+  jpeg-xl:
+    windows:
+      scoop: libjxl
+  jq:
+    windows: jqlang.jq
+  k9s:
+    windows: Derailed.k9s
+  keyboardcleantool: {}
+  kindle: {}
+  kubernetes-cli:
+    windows: Kubernetes.kubectl
+  latex:
+    darwin: mactex-no-gui
+    windows: MikTeX.MikTeX
+  leptonica: {}
+  libheif: {}
+  libtiff: {}
+  little-cms2: {}
+  logi-options+:
+    windows: Logitech.OptionsPlus
+  mas: {}
+  microk8s:
+    darwin: ubuntu/microk8s/microk8s
+    windows:
+      scoop: microk8s
+  microsoft-auto-update: {}
+  microsoft-office: {}
+  microsoft-office-businesspro: {}
+  minikube:
+    windows: Kubernetes.minikube
+  moom: {}
+  musescore:
+    windows: Musescore.Musescore
+  ngrok:
+    windows: Ngrok.Ngrok
+  nodejs:
+    darwin: node
+    windows: OpenJS.NodeJS
+  obs:
+    windows: OBSProject.OBSStudio
+  obsidian:
+    windows: Obsidian.Obsidian
+  omnidisksweeper: {}
+  omnifocus: {}
+  onelogin-aws-cli:
+    darwin: cawaltrip/tap/onelogin-aws-cli
+  openjpeg: {}
+  openlens:
+    windows: MuhammedKalkan.OpenLens
+  packer:
+    darwin: hashicorp/tap/packer
+  pango: {}
+  pastel:
+    windows: sharkdp.pastel
+  pipenv: {}
+  pigz: {}
+  poetry:
+    windows:
+      pipx: poetry
+  podman:
+    windows: RedHat.Podman
+  postman: {}
+  powershell:
+    windows: Microsoft.PowerShell
+  pronterface: {}
+  pycharm:
+    windows: JetBrains.PyCharm
+  pycparser: {}
+  pyenv: {}
+  pyenv-virtualenv: {}
+  pygments: {}
+  python3.10:
+    darwin: python@3.10
+    windows: Python.Python.3.10
+  python3.11:
+    darwin: python@3.11
+    windows: Python.Python.3.11
+  python3.12:
+    darwin: python@3.12
+    windows: Python.Python.3.12
+  python3.13:
+    darwin: python@3.13
+    windows: Python.Python.3.13
+  sass:
+    darwin: sass/sass/sass
+    windows:
+      scoop: sass
+  sevenzip:
+    windows: 7zip.7zip
+  shottr: {}
+  smooze-pro: {}
+  slack: {}
+  starship: {}
+  steam: {}
+  subversion:
+    windows: TortoiseSVN.TortoiseSVN
+  terraform:
+    darwin: hashicorp/tap/terraform
+  texstudio:
+    windows: TeXstudio.TeXstudio
+  tfenv: {}
+  the_silver_surfer: {}
+  thefuck: {}
+  tmux: {}
+  unar: {}
+  unicodechecker: {}
+  utm: {}
+  vermin:
+    windows:
+      pipx: vermin
+  viscosity:
+    windows: SparkLabs.Viscosity
+  vscode:
+    darwin: visual-studio-code
+  webp: {}
+  webpack: {}
+  webstorm:
+    windows: JetBrains.WebStorm
+  wget: {}
+  wireshark: {}
+  yarn:
+    windows: Yarn.Yarn
+  ykman:
+    windows: Yubico.YubiKeyManagerCLI
+  yt-dlp:
+    windows: yt-dlp.yt-dlp
+  yq: {}
+
+
+# 3) Logical groups
+groups:
+  aws:
+    - aws-cdk
+    - awscli
+  core:
+    shared:
+      - adobe-creative-cloud
+      - bitwarden
+      - bitwarden-cli
+      # - chrome
+      - firefox
+      - latex
+      - powershell
+      - sevenzip
+      - texstudio
+      - viscosity
+      - vscode
+    darwin:
+      - alfred
+      - bartender
+      - batteries
+      - bettertouchtool
+      - iterm2
+      - keyboardcleantool
+      - mas
+      - moom
+      - omnidisksweeper
+      - omnifocus
+      - shottr
+      - smooze-pro
+      - utm
+  dev:
+    shared:
+      - aws-vpn-client
+      - android-studio
+      - chrome-dev
+      # - corretto@21
+      - figma
+      - firefox-dev
+      - fontforge
+      - goland
+      - gh
+      - git
+      - git-filter-repo
+      - git-lfs
+      - go
+      - jq
+      - ngrok
+      - node
+      - pastel
+      - pipenv
+      - poetry
+      # - postman
+      - pycparser
+      - pyenv
+      - pyenv-virtualenv
+      - pygments
+      - python3.10
+      - python3.11
+      - python3.12
+      - python3.13
+      - subversion
+      - webstorm
+      - yarn
+      - yq
+    darwin:
+      - git-extras
+      - unicodechecker
+      - webpack
+  fonts:
+    darwin:
+      - font-hubot-sans
+      - font-inconsolata
+      - font-mona-sans
+      - font-source-code-pro
+      - font-source-sans-3
+  iac:
+    shared:
+      - docker
+      - helm
+      - k9s
+      - kubernetes-cli
+      - microk8s
+      - minikube
+      - openlens
+      - packer
+      - podman
+      - terraform
+    darwin:
+      - tfenv
+  media:
+    shared:
+      - ffmpeg
+      - harfbuzz
+      - imagemagick
+      - webp
+      - kindle
+      - musescore
+    darwin:
+      - pigz
+      - pronterface
+  security:
+    shared:
+      - burp-suite-professional
+      - wireshark
+  shell:
+    shared:
+      - fd
+      - fzf
+      - crudini
+      - starship
+      - yt-dlp
+    darwin:
+      - coreutils
+      - gawk
+      - the_silver_surfer
+      - thefuck
+      - tmux
+      - unar
+      - wget
+  gaming:
+    shared:
+      - discord
+      - steam
+
+# 4) Profiles
+profiles:
+  shared:
+    taps:
+      # only the global taps
+      - cawaltrip/tap
+      - aws/tap
+      - hashicorp/tap
+      - homebrew/bundle
+      - homebrew/cask-fonts
+      - homebrew/cask-versions
+      - homebrew/command-not-found
+      - ubuntu/microk8s
+    groups:
+      - global
+    packages: []   # no ad-hoc extras
+
+  personal:
+    taps:
+      # global taps + personal additions
+      - dart-lang/dart
+      - sass/sass
+    groups:
+      - global
+      - personal
+    packages: []
+
+  work:
+    taps:
+    groups:
+      - global
+      - work
+    packages: []
