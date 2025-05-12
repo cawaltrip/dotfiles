@@ -34,7 +34,8 @@
 {{- $bitwardenAccount := promptStringOnce . "bitwardenAccount" "Bitwarden email address" -}}
 
 {{- if not $ephemeral -}}
-  {{- if eq $hostname "chapterhouse" -}}
+  {{- if or (eq $hostname "chapterhouse")
+            (eq $hostname "galatea") -}}
     {{- $personal = true -}}
   {{- else if eq $hostname "caladan" -}}
     {{- $work = true -}}
@@ -90,6 +91,14 @@
                (eq $osid "linux-fedora") -}}
   {{- $defaultPackageBinary = "dnf" }}
 {{- end -}}
+
+{{- if eq $osid "windows" -}}
+cd:
+  command: pwsh.exe
+  args:
+    - "-NoLogo"
+    - "-NoExit"
+{{- end }}
 
 data:
   name: "Chris Waltrip"
