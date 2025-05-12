@@ -3,19 +3,30 @@
 {{- $headless := false -}}{{/* currently unused */}}
 {{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
 {{- $work := false -}}{{/* true if this machine should have work secrets */}}
-{{- "" -}}
+{{- $isUnixLike := false -}}
+
+{{- /* Set a well-defined OS ID to prevent nested checks. */ -}}
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+  {{- $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+{{- if eq .chezmoi.os "linux" -}}
+  {{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+    {{- $osid = "linux-microsoft" -}}
+  {{- end -}}
+{{- end -}}
 
 {{/* Handle hostname (including on macOS). */}}
 {{- $hostname := .chezmoi.hostname -}}
 {{- if eq .chezmoi.os "darwin" -}}
-{{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
-{{-   if eq $computerName "Chris’s MacBook Pro" -}}
-{{-     $hostname = "chapterhouse" -}}
-{{-   else if eq $computerName "Chris Waltrip KFLFK3Q77P" -}}
-{{-     $hostname = "caladan" -}}
-{{-   else -}}
-{{-     $hostname = $computerName -}}
-{{-   end -}}
+  {{- $computerName := output "scutil" "--get" "ComputerName" | trim -}}
+  {{- if eq $computerName "Chris’s MacBook Pro" -}}
+    {{- $hostname = "chapterhouse" -}}
+  {{- else if eq $computerName "Chris Waltrip KFLFK3Q77P" -}}
+    {{- $hostname = "caladan" -}}
+  {{- else -}}
+    {{- $hostname = $computerName -}}
+  {{- end -}}
 {{- end -}}
 
 {{/* Get all the configuration values */}}
@@ -23,27 +34,77 @@
 {{- $bitwardenAccount := promptStringOnce . "bitwardenAccount" "Bitwarden email address" -}}
 
 {{- if not $ephemeral -}}
-{{-   if eq $hostname "chapterhouse" -}}
-{{-     $personal = true -}}
-{{-   else if eq $hostname "caladan" -}}
-{{-     $work = true -}}
-{{-   else if stdinIsATTY -}}
-{{-     $personal = promptBoolOnce . "personal" "Store personal secrets?" -}}
-{{-     $work = promptBoolOnce . "work" "Store work secrets?" -}}
-{{-     $headless = promptBoolOnce . "headless" "Is this system headless?" -}}
-{{-     $ephemeral = promptBoolOnce . "ephemeral" "Is this system ephemeral?" -}}
-{{-   else -}}
-{{-     $ephemeral = true -}}
-{{-     $headless = true -}}
-{{-   end -}}
+  {{- if eq $hostname "chapterhouse" -}}
+    {{- $personal = true -}}
+  {{- else if eq $hostname "caladan" -}}
+    {{- $work = true -}}
+  {{- else if stdinIsATTY -}}
+    {{- $personal = promptBoolOnce . "personal" "Is this system for personal use?" -}}
+    {{- $work = promptBoolOnce . "work" "Is this system for work use?" -}}
+    {{- $headless = promptBoolOnce . "headless" "Is this system headless?" -}}
+    {{- $ephemeral = promptBoolOnce . "ephemeral" "Is this system ephemeral?" -}}
+  {{- else -}}
+    {{- $ephemeral = true -}}
+    {{- $headless = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{ $isUnixLike := false -}}
+{{- if or (eq .chezmoi.os "darwin")
+          (eq .chezmoi.os "linux") -}}
+  {{- $isUnixLike = true -}}
+{{- end -}}
+
+{{- $profilesToApply := list "shared" -}}
+{{- if $work -}}
+  {{- $profilesToApply = append $profilesToApply "work" -}}
+{{- end -}}
+{{- if $personal -}}
+  {{- $profilesToApply = append $profilesToApply "personal" -}}
+{{- end -}}
+{{- if $headless -}}
+  {{- $profilesToApply = append $profilesToApply "headless" -}}
+{{- end -}}
+{{- if $ephemeral -}}
+  {{- $profilesToApply = append $profilesToApply "ephemeral" -}}
+{{- end -}}
+{{- $profilesToApply = append $profilesToApply $osid -}}
+{{- if $isUnixLike -}}
+  {{- $profilesToApply = append $profilesToApply "unixlike" -}}
+{{- end -}}
+
+{{- /* TODO: Add more OS here */ -}}
+{{- /* TODO: Add WSL checks here too */ -}}
+{{- $defaultPackageBinary := "NOTSET" -}}
+{{- if eq $osid "darwin" -}}
+  {{- $defaultPackageBinary = "brew" -}}
+{{- else if eq $osid "windows" -}}
+  {{- $defaultPackageBinary = "winget" -}}
+{{- else if or (eq $osid "linux-debian")
+               (eq $osid "linux-ubuntu")
+               (eq $osid "linux-kali") -}}
+  {{- $defaultPackageBinary = "apt" }}
+{{- else if or (eq $osid "linux-redhat")
+               (eq $osid "linux-amzn-al2")
+               (eq $osid "linux-amzn-al2023")
+               (eq $osid "linux-fedora") -}}
+  {{- $defaultPackageBinary = "dnf" }}
 {{- end -}}
 
 data:
-    name: "Chris Waltrip"
-    email: {{ $email | quote }}
-    hostname: {{ $hostname | quote }}
-    personal: {{ $personal }}
-    work: {{ $work }}
-    ephemeral: {{ $ephemeral }}
-    headless: {{ $headless }}
-    bitwardenAccount: {{ $bitwardenAccount | quote }}{{/* currently unused */}}
+  name: "Chris Waltrip"
+  email: {{ $email | quote }}
+  hostname: {{ $hostname | quote }}
+  osid: {{ $osid | quote }}
+  personal: {{ $personal }}
+  work: {{ $work }}
+  ephemeral: {{ $ephemeral }}
+  headless: {{ $headless }}
+  isUnixLike: {{ $isUnixLike }}
+  bitwardenAccount: {{ $bitwardenAccount | quote }}{{/* currently unused */}}
+  packagesToInstall:
+    profiles:
+      {{ toYaml $profilesToApply }}
+    groups: []
+    packages: []
+    defaultInstaller: {{ $defaultPackageBinary | quote }}
