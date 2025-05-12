@@ -61,7 +61,7 @@
 {{- end -}}
 
 {{- /* Get list of packages to install */ -}}
-{{- if .packagesToInstall -}}
+{{- if hasKey . "packagesToInstall" -}}
   {{- if hasKey .packagesToInstall "profiles" -}}
     {{- range $profile := .packagesToInstall.profiles -}}
       {{- $profilesToApply = append $profilesToApply $profile -}}
