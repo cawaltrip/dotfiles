@@ -3,7 +3,18 @@
 {{- $headless := false -}}{{/* currently unused */}}
 {{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
 {{- $work := false -}}{{/* true if this machine should have work secrets */}}
-{{- "" -}}
+{{- $isUnixLike := false -}}
+
+{{- /* Set a well-defined OS ID to prevent nested checks. */ -}}
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+  {{- $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+{{- if eq .chezmoi.os "linux" -}}
+  {{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+    {{- $osid = "linux-microsoft" -}}
+  {{- end -}}
+{{- end -}}
 
 {{/* Handle hostname (including on macOS). */}}
 {{- $hostname := .chezmoi.hostname -}}
@@ -38,7 +49,13 @@
   {{- end -}}
 {{- end -}}
 
-{{- $profilesToApply := list -}}
+{{ $isUnixLike := false -}}
+{{- if or (eq .chezmoi.os "darwin")
+          (eq .chezmoi.os "linux") -}}
+  {{- $isUnixLike = true -}}
+{{- end -}}
+
+{{- $profilesToApply := list "shared" -}}
 {{- if $work -}}
   {{- $profilesToApply = append $profilesToApply "work" -}}
 {{- end -}}
@@ -51,16 +68,9 @@
 {{- if $ephemeral -}}
   {{- $profilesToApply = append $profilesToApply "ephemeral" -}}
 {{- end -}}
-
-{{- /* Set a well-defined OS ID to prevent nested checks. */ -}}
-{{- $osid := .chezmoi.os -}}
-{{- if hasKey .chezmoi.osRelease "id" -}}
-  {{- $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
-{{- if eq .chezmoi.os "linux" -}}
-  {{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-    {{- $osid = "linux-microsoft" -}}
-  {{- end -}}
+{{- $profilesToApply = append $profilesToApply $osid -}}
+{{- if $isUnixLike -}}
+  {{- $profilesToApply = append $profilesToApply "unixlike" -}}
 {{- end -}}
 
 {{- /* TODO: Add more OS here */ -}}
@@ -76,7 +86,7 @@
   {{- $defaultPackageBinary = "apt" }}
 {{- else if or (eq $osid "linux-redhat")
                (eq $osid "linux-amzn-al2")
-               (eq $osid "linux-amzn-al2023)
+               (eq $osid "linux-amzn-al2023")
                (eq $osid "linux-fedora") -}}
   {{- $defaultPackageBinary = "dnf" }}
 {{- end -}}
@@ -90,6 +100,7 @@ data:
   work: {{ $work }}
   ephemeral: {{ $ephemeral }}
   headless: {{ $headless }}
+  isUnixLike: {{ $isUnixLike }}
   bitwardenAccount: {{ $bitwardenAccount | quote }}{{/* currently unused */}}
   packagesToInstall:
     profiles:
