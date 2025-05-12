@@ -34,8 +34,12 @@ packageManagement:
         cask: 8bitdo-ultimate-software
       windows: 9PMC9MN3ZZ85
     adobe-creative-cloud:
+      darwin:
+        cask: adobe-creative-cloud
       windows: Adobe.CreativeCloud
-    alfred: {}
+    alfred:
+      darwin:
+        cask: alfred
     amethyst: {}
     android-studio:
       windows: Google.AndroidStudio
@@ -44,10 +48,18 @@ packageManagement:
       windows: Amazon.AWSVPNClient
     awscli:
       windows: Amazon.AWSCLI
-    bartender: {}
-    batteries: {}
-    bettertouchtool: {}
+    bartender:
+      darwin:
+        cask: bartender
+    batteries:
+      darwin:
+        cask: batteries
+    bettertouchtool:
+      darwin:
+        cask: bettertouchtool
     bitwarden:
+      darwin:
+        cask: bitwarden
       windows: Bitwarden.Bitwarden
     bitwarden-cli:
       windows: Bitwarden.CLI
@@ -56,12 +68,16 @@ packageManagement:
     calibre:
       windows: calibre.calibre
     chrome:
-      darwin: google-chrome
+      darwin:
+        cask: google-chrome
       windows: Google.Chrome
     chrome-dev:
-      darwin: google-chrome@dev
+      darwin:
+        cask: google-chrome@dev
       windows: Google.Chrome.Dev
     clion:
+      darwin:
+        cask: clion
       windows: JetBrains.CLion
     coreutils: {}
     corretto21:
@@ -74,7 +90,9 @@ packageManagement:
       darwin: ultimaker-cura
       windows: Ultimaker.Cura
     cursor: {}
-    discord: {}
+    discord:
+      darwin:
+        cask: discord
     docker:
       darwin:
         cask: docker # Required because of name conflict between formula & cask
@@ -83,18 +101,35 @@ packageManagement:
       windows: sharkdp.fd
     ffmpeg:
       windows: Gyan.FFmpeg
-    figma: {}
+    figma:
+      darwin:
+        cask: figma
     firefox:
+      darwin:
+        cask: firefox
       windows: Mozilla.Firefox
     firefox-dev:
-      darwin: firefox@developer-edition
+      darwin: 
+        cask: firefox@developer-edition
       windows: Mozilla.Firefox.DeveloperEdition
-    font-hubot-sans: {}
-    font-inconsolata: {}
-    font-mona-sans: {}
-    font-source-code-pro: {}
-    font-source-sans-3: {}
+    font-hubot-sans:
+      darwin:
+        cask: font-hubot-sans
+    font-inconsolata:
+      darwin:
+        cask: font-inconsolata
+    font-mona-sans:
+      darwin:
+        cask: font-mona-sans
+    font-source-code-pro:
+      darwin:
+        cask: font-source-code-pro
+    font-source-sans-3:
+      darwin:
+        cask: font-source-sans-3
     fontforge:
+      darwin:
+        cask: fontforge
       windows: FontForge.FontForge
     fork:
       windows:
@@ -117,6 +152,8 @@ packageManagement:
     go:
       windows: GoLang.Go
     goland:
+      darwin:
+        cask: goland
       windows: JetBrains.GoLand
     google-chrome@dev: {}
     gradle:
@@ -127,13 +164,19 @@ packageManagement:
         scoop: harfbuzz
     helm:
       windows: Helm.Helm
+    idea:
+      darwin:
+        cask: intellij-idea
+      windows: JetBrains.IntelliJIDEA.Ultimate
     imagemagick:
       windows: ImageMagick.ImageMagick
     imhex:
       windows: WerWolv.ImHex
     insomnia:
       windows: Insomnia.Insomnia
-    iterm2: {}
+    iterm2:
+      darwin:
+        cask: iterm2
     jpeg-xl:
       windows:
         scoop: libjxl
@@ -141,18 +184,23 @@ packageManagement:
       windows: jqlang.jq
     k9s:
       windows: Derailed.k9s
-    keyboardcleantool: {}
+    keyboardcleantool:
+      darwin:
+        cask: keyboardcleantool
     kindle: {}
     kubernetes-cli:
       windows: Kubernetes.kubectl
     latex:
-      darwin: mactex-no-gui
+      darwin:
+        cask: mactex-no-gui
       windows: MikTeX.MikTeX
     leptonica: {}
     libheif: {}
     libtiff: {}
     little-cms2: {}
     logi-options+:
+      darwin:
+        cask: logi-options+
       windows: Logitech.OptionsPlus
     mas: {}
     microk8s:
@@ -164,8 +212,12 @@ packageManagement:
     microsoft-office-businesspro: {}
     minikube:
       windows: Kubernetes.minikube
-    moom: {}
+    moom:
+      darwin:
+        cask: moom
     musescore:
+      darwin:
+        cask: musescore
       windows: Musescore.Musescore
     ngrok:
       windows: Ngrok.Ngrok
@@ -173,11 +225,17 @@ packageManagement:
       darwin: node
       windows: OpenJS.NodeJS
     obs:
+      darwin:
+        cask: obs
       windows: OBSProject.OBSStudio
     obsidian:
       windows: Obsidian.Obsidian
-    omnidisksweeper: {}
-    omnifocus: {}
+    omnidisksweeper:
+      darwin:
+        cask: omnidisksweeper
+    omnifocus:
+      darwin:
+        cask: omnifocus
     onelogin-aws-cli:
       darwin: cawaltrip/tap/onelogin-aws-cli
     openjpeg: {}
@@ -197,10 +255,16 @@ packageManagement:
       windows: RedHat.Podman
     postman: {}
     powershell:
+      darwin:
+        cask: powershell
       windows: Microsoft.PowerShell
     pronterface: {}
-    protonvpn: {}
+    protonvpn:
+      darwin:
+        cask: protonvpn
     pycharm:
+      darwin:
+        cask: pycharm
       windows: JetBrains.PyCharm
     pycparser: {}
     pyenv: {}
@@ -223,43 +287,65 @@ packageManagement:
         cask: retroarch-metal
       windows: Libretro.RetroArch
     rom-tools: {}
+    rider:
+      darwin:
+        cask: rider
     sass:
       darwin: sass/sass/sass
       windows:
         scoop: sass
     sevenzip:
       windows: 7zip.7zip
-    shottr: {}
-    smooze-pro: {}
+    shottr:
+      darwin:
+        cask: shottr
+    smooze-pro:
+      darwin:
+        cask: smooze-pro
     slack: {}
     starship: {}
-    steam: {}
+    steam:
+      darwin:
+        cask: steam
     subversion:
       windows: TortoiseSVN.TortoiseSVN
     terraform:
       darwin: hashicorp/tap/terraform
     texstudio:
+      darwin:
+        cask: texstudio
       windows: TeXstudio.TeXstudio
     tfenv: {}
-    the_silver_surfer: {}
+    the_silver_searcher: {}
     thefuck: {}
     tmux: {}
     unar: {}
-    unicodechecker: {}
-    utm: {}
+    unicodechecker:
+      darwin:
+        cask: unicodechecker
+    utm:
+      darwin:
+        cask: utm
     vermin:
       windows:
         pipx: vermin
     viscosity:
+      darwin:
+        cask: viscosity
       windows: SparkLabs.Viscosity
     vscode:
-      darwin: visual-studio-code
+      darwin:
+        cask: visual-studio-code
     webp: {}
     webpack: {}
     webstorm:
+      darwin:
+        cask: webstorm
       windows: JetBrains.WebStorm
     wget: {}
-    wireshark: {}
+    wireshark:
+      darwin:
+        cask: wireshark
     yarn:
       windows: Yarn.Yarn
     ykman:
@@ -453,11 +539,16 @@ packageManagement:
       groups:
         - aws
       packages: []   # no ad-hoc extras
+    darwin: {}
     windows:
       scoop:
         buckets:
           - extras
           - nerd-fonts
+    gaming:
+      groups:
+        - gaming
+        - gaming-emulation
     personal:
       taps:
         # global taps + personal additions
