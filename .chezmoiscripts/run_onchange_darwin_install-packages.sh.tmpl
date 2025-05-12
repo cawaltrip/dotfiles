@@ -1,18 +1,9 @@
 {{- if eq .chezmoi.os "darwin" -}}
-{{- $raw := includeTemplate "get_packages.tmpl" . -}}
+#!{{ lookPath "zsh" }}
+{{ $raw := includeTemplate "get_packages.tmpl" . -}}
 {{- $ctx := $raw | fromYaml -}}
 
-{{- if hasKey $ctx "errors" -}}
-  {{- printf "Could not attempt to install the following:\n" -}}
-  {{- range $key, $values := $ctx.errors -}}
-    {{- printf "%s\n" $key -}}
-    {{- range $item := $values -}}
-      {{- printf "- %s\n" $item -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-
-brew bundle --debug --no-lock --file=/dev/stdin <<EOF
+brew bundle --debug --file=/dev/stdin <<EOF
 {{ if hasKey $ctx "tapsToInstall" -}}
 {{ range $ctx.tapsToInstall -}}
 tap "{{ . }}"
