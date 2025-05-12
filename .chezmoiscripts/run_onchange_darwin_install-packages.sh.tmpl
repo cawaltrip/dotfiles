@@ -1,10 +1,35 @@
-{{- $pkgs := .packages -}}
-{{- $names := keys $pkgs | sortAlpha -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{- $raw := includeTemplate "get_packages.tmpl" . -}}
+{{- $ctx := $raw | fromYaml -}}
 
-Found {{ len $names }} packages:
-{{- range $i, $name := $names -}}
-  {{- $pkgMap := index $pkgs $name -}}
-  {{- $winOverride := index $pkgMap "windows" | default "(none)" -}}
+{{- if hasKey $ctx "errors" -}}
+  {{- printf "Could not attempt to install the following:\n" -}}
+  {{- range $key, $values := $ctx.errors -}}
+    {{- printf "%s\n" $key -}}
+    {{- range $item := $values -}}
+      {{- printf "- %s\n" $item -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 
-{{ printf "%3d. %s → windows override: %s\n" (add $i 1) $name $winOverride }}
+brew bundle --debug --no-lock --file=/dev/stdin <<EOF
+{{ if hasKey $ctx "tapsToInstall" -}}
+{{ range $ctx.tapsToInstall -}}
+tap "{{ . }}"
+{{ end -}}
+{{ end -}}
+
+{{ if hasKey $ctx "packagesToInstall" -}}
+{{ if hasKey $ctx.packagesToInstall "brew" -}}
+{{ range $ctx.packagesToInstall.brew -}}
+brew "{{ . }}"
+{{ end -}}
+{{ end -}}
+{{ if hasKey $ctx.packagesToInstall "cask" -}}
+{{ range $ctx.packagesToInstall.cask -}}
+cask "{{ . }}"
+{{ end -}}
+{{ end -}}
+{{ end -}}
+EOF
 {{- end -}}
