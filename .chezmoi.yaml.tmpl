@@ -55,7 +55,7 @@
   {{- $isUnixLike = true -}}
 {{- end -}}
 
-{{- $profilesToApply := list "shared" -}}
+{{- $profilesToApply := list "core" -}}
 {{- if $work -}}
   {{- $profilesToApply = append $profilesToApply "work" -}}
 {{- end -}}
@@ -104,7 +104,9 @@ data:
   bitwardenAccount: {{ $bitwardenAccount | quote }}{{/* currently unused */}}
   packagesToInstall:
     profiles:
-      {{ toYaml $profilesToApply }}
+{{- range $profile := $profilesToApply }}
+      - {{ $profile }}
+{{- end }}
     groups: []
     packages: []
     defaultInstaller: {{ $defaultPackageBinary | quote }}
