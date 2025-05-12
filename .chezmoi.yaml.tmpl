@@ -5,6 +5,10 @@
 {{- $work := false -}}{{/* true if this machine should have work secrets */}}
 {{- $isUnixLike := false -}}
 
+{{- $profilesToApply := list -}}
+{{- $groupsToApply := list -}}
+{{- $packagesToApply := list -}}
+
 {{- /* Set a well-defined OS ID to prevent nested checks. */ -}}
 {{- $osid := .chezmoi.os -}}
 {{- if hasKey .chezmoi.osRelease "id" -}}
@@ -56,7 +60,26 @@
   {{- $isUnixLike = true -}}
 {{- end -}}
 
-{{- $profilesToApply := list "core" -}}
+{{- /* Get list of packages to install */ -}}
+{{- if .packagesToInstall -}}
+  {{- if hasKey .packagesToInstall "profiles" -}}
+    {{- range $profile := .packagesToInstall.profiles -}}
+      {{- $profilesToApply = append $profilesToApply $profile -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if hasKey .packagesToInstall "groups" -}}
+    {{- range $group := .packagesToInstall.groups -}}
+      {{- $groupsToApply = append $groupsToApply $group -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if hasKey .packagesToInstall "packages" -}}
+    {{- range $package := .packagesToInstall.packages -}}
+      {{- $packagesToApply = append $packagesToApply $package -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $profilesToApply = append $profilesToApply "core" -}}
 {{- if $work -}}
   {{- $profilesToApply = append $profilesToApply "work" -}}
 {{- end -}}
@@ -73,6 +96,10 @@
 {{- if $isUnixLike -}}
   {{- $profilesToApply = append $profilesToApply "unixlike" -}}
 {{- end -}}
+{{- /* Dedupe */ -}}
+{{- $profilesToApply = $profilesToApply | uniq -}}
+{{- $groupsToApply = $groupsToApply | uniq -}}
+{{- $packagesToApply = $packagesToApply | uniq -}}
 
 {{- /* TODO: Add more OS here */ -}}
 {{- /* TODO: Add WSL checks here too */ -}}
@@ -100,6 +127,10 @@ cd:
     - "-NoExit"
 {{- end }}
 
+{{- $profilesDict := dict "profiles" $profilesToApply -}}
+{{- $groupsDict := dict "groups" $groupsToApply -}}
+{{- $packagesDict := dict "packages" $packagesToApply -}}
+
 data:
   name: "Chris Waltrip"
   email: {{ $email | quote }}
@@ -110,12 +141,9 @@ data:
   ephemeral: {{ $ephemeral }}
   headless: {{ $headless }}
   isUnixLike: {{ $isUnixLike }}
-  bitwardenAccount: {{ $bitwardenAccount | quote }}{{/* currently unused */}}
+  bitwardenAccount: {{ $bitwardenAccount | quote }}
   packagesToInstall:
-    profiles:
-{{- range $profile := $profilesToApply }}
-      - {{ $profile }}
-{{- end }}
-    groups: []
-    packages: []
+    {{- toYaml $profilesDict | trim | nindent 4 }}
+    {{- toYaml $groupsDict | trim | nindent 4 }}
+    {{- toYaml $packagesDict | trim | nindent 4 }}
     defaultInstaller: {{ $defaultPackageBinary | quote }}
