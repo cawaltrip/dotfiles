@@ -131,8 +131,10 @@
 {{- /* Go through and grab any packages specified in the profiles themselves */ -}}
 {{- range $profileName := $profilesList -}}
   {{- $profile := index $packagesData.profiles $profileName | default dict -}}
-  {{- range $pkg := $profile.packages | default list -}}
-    {{- $packagesList = append $packagesList $pkg -}}
+  {{- if hasKey $profile "packages" -}}
+    {{- range $pkg := $profile.packages | default list -}}
+      {{- $packagesList = append $packagesList $pkg -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
