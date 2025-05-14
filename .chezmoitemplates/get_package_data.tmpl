@@ -1,0 +1,95 @@
+{{- $packagesData := .packagesData -}}
+{{- $groups := .groups -}}
+{{- $currentOS := .currentOS -}}
+{{- $isUnixLike := .isUnixLike -}}
+{{- $defaultInstaller := .defaultInstaller -}}
+
+{{- $packages := dict -}}
+{{- $packagesToAdd := list -}}
+{{- $errors := list -}}
+{{- $ctx := dict -}}
+
+{{- range $group := $groups -}}
+  {{- if kindIs "map" $group -}}
+    {{- range (get $group "shared" | default dict) -}}
+      {{- $packagesToAdd = append $packagesToAdd . -}}
+    {{- end -}}
+    {{- range (get $group $currentOS | default dict) -}}
+      {{- $packagesToAdd = append $packagesToAdd . -}}
+    {{- end -}}
+    {{- if $isUnixLike -}}
+      {{- range (get $group "unixlike" | default dict) -}}
+        {{- $packagesToAdd = append $packagesToAdd . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- range $group -}}
+      {{- $packagesToAdd = append $packagesToAdd . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{ $packagesToAdd = $packagesToAdd | uniq -}}
+
+{{- /* Get the metadata for all of them */ -}}
+{{- range $packageName := $packagesToAdd -}}
+  {{- if or (not (hasKey $packagesData "packages"))
+            (not (hasKey $packagesData.packages $packageName)) -}}
+    {{- $errors = append $errors $packageName -}}
+    {{- continue -}}
+  {{- end -}}
+  {{- $package := index $packagesData.packages $packageName -}}
+  {{- $_ := set $packages $packageName $package -}}
+{{- end -}}
+
+{{- $packagesToInstall := dict -}}
+{{- range $name, $meta := $packages -}}
+  {{- $entry := index $meta $currentOS | default $name -}}
+  {{- $pkgKey := "" -}}
+  {{- $packageName := "" -}}
+
+  {{- /** 
+        * If $entry is a string, then the entry (package) was either empty,
+        * in which case, the entry is now just the name of the package,
+        * or the $currentOS was a key in the entry and its value was just
+        * a string representing the name of the package.
+        */ -}}
+  {{- if kindIs "string" $entry -}}
+    {{- $pkgKey = $defaultInstaller -}}
+    {{- $packageName = $entry -}}
+
+  {{- /**
+        * If $entry is a map, then not only was $currentOS found as a key, but
+        * but the value inside isn't just a string.  This means that it's a 
+        * non-default installer and we need to add that to the proper key in
+        * our context.
+        */ -}}
+  {{- else if kindIs "map" $entry -}}
+    {{- $subKeys := keys $entry -}}
+    {{- if eq (len $subKeys) 1 }}
+      {{- $pkgKey = first $subKeys -}}
+      {{- $packageName = get $entry $pkgKey -}}
+    {{- end -}}
+  {{- /* Something went wrong.  Add to the errors. */ -}}
+  {{- else -}}
+    {{- $errors = append $errors $packageName -}}
+  {{- end -}}
+
+  {{- /* Need to check if $pkgKey is already in $packagesToInstall and add it if not. */ -}}
+  {{- if not (hasKey $packagesToInstall $pkgKey) -}}
+    {{- $_ := set $packagesToInstall $pkgKey list -}}
+  {{- end -}}
+
+  {{- /* Append the new package to the existing list */ -}}
+  {{- $currentList := get $packagesToInstall $pkgKey -}}
+  {{- $newList := append $currentList $packageName -}}
+  {{- $_ := set $packagesToInstall $pkgKey $newList -}}
+{{- end -}}
+
+{{- $errors = $errors | uniq -}}
+
+{{- if gt (len $errors) 0 -}}
+  {{- $ctx = merge $ctx (dict "errors" $errors)}}
+{{- end -}}
+
+{{- $ctx = merge $ctx (dict "packagesToInstall" $packagesToInstall) -}}
+{{- toYaml $ctx -}}

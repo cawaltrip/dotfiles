@@ -1,0 +1,29 @@
+{{- $profiles := .profiles -}}
+{{- $repoTypes := .repoTypes -}}
+
+{{- $repoCollection := dict -}}
+{{- range $repoType := $repoTypes -}}
+  {{- $_ := set $repoCollection $repoType list -}}
+{{- end -}}
+
+{{- range $profileName, $profile := $profiles -}}
+  {{- range $repoType := $repoTypes -}}
+    {{- if hasKey $profile $repoType -}}
+      {{/* {{- $repos := index $profile $repoType -}} */}}
+      {{- $repoList := get $repoCollection $repoType -}}
+      {{- $repos := get $profile $repoType -}}
+      {{- range $repoKey, $repoValue := $repos -}}
+        {{- /* if $repo is a map, then we probably care about its name */ -}}
+        {{- if kindIs "map" $repoValue -}}
+          {{- $newRepo := dict $repoKey $repoValue -}}
+          {{- $repoList = append $repoList $newRepo -}}
+        {{- else -}}
+          {{- $repoList = append $repoList $repoValue -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $_ := set $repoCollection $repoType $repoList -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- toYaml $repoCollection -}}

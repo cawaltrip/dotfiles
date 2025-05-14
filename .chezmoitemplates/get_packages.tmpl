@@ -1,229 +1,89 @@
 {{- /* TODO (Chris): Let taps be included inside packages? */ -}}
-
-{{- $packagesData := .packageManagement -}}
-{{- $toInstall := .packagesToInstall -}}
-{{- $currentOS := .osid -}}
-{{- $isUnixLike := .isUnixLike -}}
+{{- $packagesData := get . "packageManagement" | default dict -}}
+{{- $toInstall := get . "packagesToInstall" | default dict -}}
+{{- $currentOS := .osid | default .chezmoi.os -}}
+{{- $isUnixLike := .isUnixLike | default false -}}
 {{- $ctx := dict -}}
 
-{{- /* Error info */ -}}
+{{- /* Internal use variables */ -}}
+{{- $profiles := dict -}}
+{{- $groups := dict -}}
+{{- $groupsToAdd := list -}}
+{{- $packages := dict -}}
+{{- $packagesToAdd := list -}}
+{{- $repos := dict -}}
+{{- $managerRepoTypes := list -}}
+
 {{- $errors := dict -}}
-{{- $profileErrors := list -}}
-{{- $groupErrors := list -}}
-{{- $packageErrors := list -}}
-
-{{- /* Final lists of everything */ -}}
-{{- $tapsToInstall := list -}}
-{{- $packagesToInstall := list -}}
-
-{{- /* Used internally to collect packages */ -}}
-{{- $profilesList := list -}}
-{{- $groupsList := list -}}
-{{- $packagesList := list -}}
 
 {{- /* Get the default installer, fall back `packages.yaml` definition. */ -}}
-{{- $defaultInstaller := get $packagesData.defaultManagers $currentOS -}}
+{{- /* TODO: Decide if I want to redo this */ -}}
+{{- $defaultInstaller := get $packagesData.defaultManagers $currentOS | default "NOTSET" -}}
 {{- if hasKey $toInstall "defaultInstaller" -}}
   {{- $defaultInstaller = $toInstall.defaultInstaller -}}
 {{- end -}}
 
-{{- /* Get all of the profiles to install. */ -}}
-{{- range $p := $toInstall.profiles -}}
-  {{- $profilesList = append $profilesList $p -}}
+{{- if eq $currentOS "windows" -}}
+  {{- $managerRepoTypes = append $managerRepoTypes "buckets" -}}
 {{- end -}}
-{{- $profilesList = $profilesList | uniq -}}
+{{- if $isUnixLike -}}
+  {{- $managerRepoTypes = append $managerRepoTypes "taps" -}}
+  {{- $managerRepoTypes = append $managerRepoTypes "buckets" -}}
+{{- end -}}
 
-{{- /* Error check the profiles */ -}}
-{{- range $profileName := $profilesList -}}
+{{- /* Get all of the profiles to install. */ -}}
+{{- range $profileName := $toInstall.profiles | default dict -}}
+  {{- /* If the profile name doesn't exist, add it to the errors and continue */ -}}
   {{- if or (not (hasKey $packagesData "profiles"))
             (not (hasKey $packagesData.profiles $profileName)) -}}
-    {{- $profileErrors = append $profileErrors $profileName -}}
-    {{- $profilesList = without $profilesList $profileName -}}
+    {{- $_ := set $errors "profiles" (append (get $errors "profiles" | default list) $profileName) -}}
+    {{- continue -}}
   {{- end -}}
+  {{- /* Otherwise, get the profile metadata and add it to our main list */ -}}
+  {{- $profile := index $packagesData.profiles $profileName -}}
+  {{- $_ := set $profiles $profileName $profile -}}
+{{- end -}}
+{{- /* No need to dedupe! */ -}}
+
+{{- $managerRepoData := dict 
+      "profiles" $profiles
+      "repoTypes" $managerRepoTypes
+  -}}
+{{- $reposRaw := includeTemplate "get_manager_repo_data.tmpl" $managerRepoData -}}
+{{- $repos = $reposRaw | fromYaml -}}
+
+{{- /* Collect all the group data */ -}}
+{{- $groupData := dict 
+      "packagesData" $packagesData
+      "toInstall" $toInstall
+      "profiles" $profiles
+  -}}
+{{- $groupsRaw := includeTemplate "get_group_data.tmpl" $groupData -}}
+{{- $groups = $groupsRaw | fromYaml -}}
+
+{{- /* Get all the packages from all the groups */ -}}
+{{- $packagesTemplateData := dict 
+    "packagesData" $packagesData 
+    "groups" $groups.groupsToInstall 
+    "currentOS" $currentOS 
+    "isUnixLike" $isUnixLike 
+    "defaultInstaller" $defaultInstaller
+  -}}
+{{- $packagesRaw := includeTemplate "get_package_data.tmpl" $packagesTemplateData -}}
+{{- $packages = $packagesRaw | fromYaml -}}
+
+{{- /* Clean up the error handling */ -}}
+{{- if hasKey $groups "errors" -}}
+  {{- $_ := set $errors "groups" $groups.errors -}}
+{{- end -}}
+{{- if hasKey $packages "errors" -}}
+  {{- $_ := set $errors "packages" $packages.errors -}}
 {{- end -}}
 
-{{- /* Handle all OS/manager-specific stuff */ -}}
-{{- range $profileName := $profilesList -}}
-  {{- $profile := index $packagesData.profiles $profileName | default dict -}}
-  {{- if hasKey $profile $currentOS -}}
-    {{- /* Homebrew taps */ -}}
-    {{- if hasKey $profile "taps" -}}
-      {{- $tapsToInstall := list -}}
-      {{- range $tap := $profile.taps | default list -}}
-        {{- $tapsToInstall = append $tapsToInstall $tap -}}
-      {{- end -}}  
-      {{- /* Dedupe and add to output */ -}}
-      {{- $tapsToInstall = $tapsToInstall | uniq -}}
-      {{- $ctx = merge $ctx (dict "tapsToInstall" $tapsToInstall) -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-
-{{- /* Handle all the Linux-specific stuff */ -}}
-{{- /* Nothing yet, currently */ -}}
-
-{{- /* Handle all the Windows-specific stuff */ -}}
-{{- /* Nothing yet, currently */ -}}
-
-{{- /* 
-    Go through the groups that are specified both in the profiles
-    and toInstall to get a list of every group that we need to
-    collect packages from.
-*/ -}}
-{{- range $profileName := $profilesList -}}
-  {{- $profile := index $packagesData.profiles $profileName | default dict -}}
-  {{- if hasKey $profile "groups" -}}
-    {{- /* {{- printf "profile: '%s' groups:\n" $profileName -}} */ -}}
-    {{- /* {{- toYaml $profile.groups -}} */ -}}
-    {{- range $groupName := $profile.groups | default list -}}
-      {{- $groupsList = append $groupsList $groupName -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-{{- if hasKey $toInstall "groups" -}}
-  {{- range $groupName := $toInstall.groups | default list -}}
-    {{- $groupsList = append $groupsList $groupName -}}
-  {{- end -}}
-{{- end -}}
-{{- /* Dedupe */ -}}
-{{- $groupsList = $groupsList | uniq -}}
-
-{{- /* Error check the groups */ -}}
-{{- range $groupName := $groupsList -}}
-  {{- if or (not (hasKey $packagesData "groups"))
-            (not (hasKey $packagesData.groups $groupName)) -}}
-    {{- $groupErrors = append $groupErrors $groupName -}}
-    {{- $groupsList = without $groupsList $groupName -}}
-  {{- end -}}
-{{- end -}}
-
-
-{{- /* Go through and get all the packages that need to be installed */ -}}
-{{- /* From the groups */ -}}
-{{- range $groupName := $groupsList -}}
-{{- $groupDef := index $packagesData.groups $groupName -}}
-  {{- if kindIs "slice" $groupDef -}}
-    {{- /* {{- printf "\tgroupDef is a slice\n" -}} */ -}}
-  {{- else -}}
-    {{- $keyList := list -}}
-    {{- if hasKey $groupDef "shared" -}}
-      {{- $keyList = append $keyList "shared" -}}
-      {{- /* {{- printf "\tgroupDef has a shared key\n" -}} */ -}}
-    {{- end -}}
-    {{- if hasKey $groupDef $currentOS -}}
-      {{- $keyList = append $keyList $currentOS -}}
-      {{- /* {{- printf "\tgroupDef has a key: '%s'\n" $currentOS -}} */ -}}
-    {{- end -}}
-    {{- if and $isUnixLike (hasKey $groupDef "unixlike") -}}
-      {{- $keyList = append $keyList "unixlike" -}}
-    {{- end -}}
-    {{- /* {{- printf "list of keys to parse: %s\n" $keyList -}} */ -}}
-    {{- range $subGroup := $keyList -}}
-      {{- $pkgs := index $groupDef $subGroup | default list -}}
-      {{- range $pkg := $pkgs -}}
-        {{- /* {{- printf "Package: '%s'" $pkg -}} */ -}}
-        {{- $packagesList = append $packagesList $pkg -}}
-      {{- end -}} {{- /* end adding packages */ -}}
-    {{- end -}} {{- /* end iterate through subgroups */ -}}
-  {{- end -}} {{- /* end map vs slice */ -}}
-{{- end -}} {{- /* end $groupsList */ -}}
-
-{{- /* Go through and grab any packages specified in the profiles themselves */ -}}
-{{- range $profileName := $profilesList -}}
-  {{- $profile := index $packagesData.profiles $profileName | default dict -}}
-  {{- if hasKey $profile "packages" -}}
-    {{- range $pkg := $profile.packages | default list -}}
-      {{- $packagesList = append $packagesList $pkg -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-
-{{- /* Grab any ad-hoc packages from toInstall */ -}}
-{{- if hasKey $toInstall "packages" -}}
-  {{- range $pkg := $toInstall.packages | default list -}}
-    {{- $packagesList = append $packagesList $pkg -}}
-  {{- end -}}
-{{- end -}}
-
-{{- /* Dedupe */ -}}
-{{- $packagesList = $packagesList | uniq -}}
-
-{{- /* Error check packages */ -}}
-{{- range $pkg := $packagesList -}}
-  {{- if or (not (hasKey $packagesData "packages"))
-            (not (hasKey $packagesData.packages $pkg)) -}}
-      {{- $packageErrors = append $packageErrors $pkg -}}
-      {{- $packagesList = without $packagesList $pkg -}}
-  {{- end -}}
-{{- end -}}
-
-{{- /* Turn the slice of names into 'map[name]metadata' */ -}}
-{{- $packageMap := dict -}}
-{{- range $packagesList -}}
-  {{/* {{- printf "adding package: '%s'\n" . -}} */}}
-  {{- $packageMap = merge $packageMap (dict . (index $packagesData.packages .)) -}}
-{{- end -}}
-
-{{- /* Create the final list of packages to install */ -}}
-{{- $packagesToInstall := dict -}}
-{{- range $name, $meta := $packageMap -}}
-  {{- $entry := index $meta $currentOS | default $name -}}
-  {{- $pkgKey := "" -}}
-  {{- $packageName := "" -}}
-
-  {{- /** 
-        * If $entry is a string, then the entry (package) was either empty,
-        * in which case, the entry is now just the name of the package,
-        * or the $currentOS was a key in the entry and its value was just
-        * a string representing the name of the package.
-        */ -}}
-  {{- if kindIs "string" $entry -}}
-    {{- $pkgKey = $defaultInstaller -}}
-    {{- $packageName = $entry -}}
-
-  {{- /**
-        * If $entry is a map, then not only was $currentOS found as a key, but
-        * but the value inside isn't just a string.  This means that it's a 
-        * non-default installer and we need to add that to the proper key in
-        * our context.
-        */ -}}
-  {{- else if kindIs "map" $entry -}}
-    {{- $subKeys := keys $entry -}}
-    {{- if eq (len $subKeys) 1 }}
-      {{- $pkgKey = first $subKeys -}}
-      {{- $packageName = get $entry $pkgKey -}}
-    {{- end -}}
-  {{- /* Something went wrong.  Add to the errors. */ -}}
-  {{- else -}}
-    {{- $packageErrors = append $packageErrors $name -}}
-  {{- end -}}
-
-  {{- /* Need to check if $pkgKey is already in $packagesToInstall and add it if not. */ -}}
-  {{- if not (hasKey $packagesToInstall $pkgKey) -}}
-    {{- $_ := set $packagesToInstall $pkgKey list -}}
-  {{- end -}}
-
-  {{- /* Append the new package to the existing list */ -}}
-  {{- $currentList := get $packagesToInstall $pkgKey -}}
-  {{- $newList := append $currentList $packageName -}}
-  {{- $_ := set $packagesToInstall $pkgKey $newList -}}
-
-  {{- /* {{- printf "$packagesToInstall = '%s'\n" $packagesToInstall -}} */ -}}
-{{- end -}}
-
-{{- /* Create the context to return */ -}}
-{{- if gt (len $profileErrors) 0 -}}
-  {{- $_ := set $errors "profiles" $profileErrors -}}
-{{- end -}}
-{{- if gt (len $groupErrors) 0 -}}
-  {{- $_ := set $errors "groups" $groupErrors -}}
-{{- end -}}
-{{- if gt (len $packageErrors) 0 -}}
-  {{- $_ := set $errors "packages" $packageErrors -}}
-{{- end -}}
 {{- if gt (len (keys $errors)) 0 -}}
-  {{- $ctx = merge $ctx (dict "errors" $errors) -}}
+  {{- $_ := set $ctx "errors" $errors -}}
 {{- end -}}
 
-{{- $ctx = merge $ctx (dict "packagesToInstall" $packagesToInstall) -}}
-{{- toYaml $ctx | trimPrefix "\n" -}}
+{{- $_ := set $ctx "packagesToInstall" $packages.packagesToInstall -}}
+
+{{- toYaml $ctx -}}

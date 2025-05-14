@@ -1,0 +1,39 @@
+{{- $packagesData := .packagesData -}}
+{{- $toInstall := .toInstall -}}
+{{- $profiles := .profiles -}}
+
+{{- $groups := dict -}}
+{{- $groupsToAdd := list -}}
+{{- $errors := list -}}
+{{- $ctx := dict -}}
+
+{{- /* Get all of the groups to install */ -}}
+{{- range $profiles -}}
+  {{- $groupsList := get . "groups" | default list -}}
+  {{- range $groupName := $groupsList -}}
+    {{- $groupsToAdd = append $groupsToAdd $groupName -}}
+  {{- end -}}
+{{- end -}}
+{{- range $groupName := get $toInstall "groups" | default dict }}
+  {{- $groupsToAdd = append $groupsToAdd $groupName -}}
+{{- end -}}
+
+{{- /* Get the metadata for all of them */ -}}
+{{- range $groupName := $groupsToAdd -}}
+  {{- if or (not (hasKey $packagesData "groups"))
+            (not (hasKey $packagesData.groups $groupName)) -}}
+    {{- $errors = append $errors $groupName -}}
+    {{- continue -}}
+  {{- end -}}
+  {{- $group := index $packagesData.groups $groupName -}}
+  {{- $_ := set $groups $groupName $group -}}
+{{- end -}}
+
+{{- $errors = $errors | uniq -}}
+
+{{- if gt (len $errors) 0 -}}
+  {{- $ctx = merge $ctx (dict "errors" $errors)}}
+{{- end -}}
+
+{{- $ctx = merge $ctx (dict "groupsToInstall" $groups) -}}
+{{- toYaml $ctx -}}
