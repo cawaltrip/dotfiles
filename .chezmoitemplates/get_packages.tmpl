@@ -84,6 +84,10 @@
   {{- $_ := set $ctx "errors" $errors -}}
 {{- end -}}
 
+{{- if gt (len (keys $repos)) 0 -}}
+  {{- $_ := set $ctx "reposToInstall" $repos -}}
+{{- end -}}
+
 {{- $_ := set $ctx "packagesToInstall" $packages.packagesToInstall -}}
 
 {{- toYaml $ctx -}}
