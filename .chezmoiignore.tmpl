@@ -9,3 +9,11 @@ Brewfile.lock.json
 {{- if ne .chezmoi.os "darwin" -}}
 Library
 {{- end }}
+
+{{- if eq .chezmoi.os "windows" -}}
+.config/zsh
+.config/vim
+.zshenv
+{{- else -}}
+Documents
+{{- end }}

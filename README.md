@@ -45,5 +45,13 @@ After all of the applications are installed, a few have manual configuration ste
 #### Firefox
 The initialization will install Firefox and create a profile including custom user chrome, and will configure Firefox to use it.  Extensions, however, aren't installed.  Open Firefox, and login to Firefox Sync to sync extensions and their settings.  The only extension I have with a lot of customization is Tree Style Tab (which is what `userChrome.css` helps style).
 
+## TODO
+Things I'm still working on:
+* Incorporate the password manager + pre-read-source-state hook better.
+    * PowerShell doesn't like to run the script I've created.
+    * Need to flesh out the unixlike part.
+* Move shared configs to `.chezmoitemplates`.
+* Install my custom version of FiraCode on Windows automatically.
+
 ## License
 This repository is licensed under the [MIT No Attribution](https://spdx.org/licenses/MIT-0.html) (SPDX: `MIT-0`) license.  See the [license](LICENSE) file for the full text.

@@ -1,4 +1,5 @@
 {{- /* TODO (Chris): Let taps be included inside packages? */ -}}
+{{- /* TODO (Chris): Make sure when adding scoops, we get all the metadata.  Make sure to fix inside `packages.yaml` too! */ -}}
 {{- $packagesData := get . "packageManagement" | default dict -}}
 {{- $toInstall := get . "packagesToInstall" | default dict -}}
 {{- $currentOS := .osid | default .chezmoi.os -}}
@@ -89,5 +90,4 @@
 {{- end -}}
 
 {{- $_ := set $ctx "packagesToInstall" $packages.packagesToInstall -}}
-
 {{- toYaml $ctx -}}

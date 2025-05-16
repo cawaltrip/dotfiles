@@ -1,0 +1,197 @@
+{{- /* TODO: Check for whether any values exist before creating objects. */ -}}
+{{- if eq .chezmoi.os "windows" -}}
+{{ $raw := includeTemplate "get_packages.tmpl" . -}}
+{{- $ctx := $raw | fromYaml -}}
+{{- $chezmoiCacheDir := .chezmoi.cacheDir -}}
+{{- $chezmoiSourceDir := .chezmoi.sourceDir -}}
+
+{{- /* Represent the JSON as PowerShell objects */ -}}
+{{/* $DataObjects = Join-Path -Path "{{ $chezmoiSourceDir }}" -ChildPath ".chezmoiscripts/helpers/DataObjects.ps1" */}}
+{{/* . $DataObjects */}}
+function New-WingetPackageIdentifier {
+  param(
+    [string]$PackageIdentifier
+  )
+
+  [PSCustomObject]@{
+    PackageIdentifier = $PackageIdentifier
+  }
+}
+  
+function New-WingetSourceDetails {
+  param(
+    [string]$Argument,
+    [string]$Identifier,
+    [string]$Name,
+    [string]$Type
+  )
+
+  [PSCustomObject]@{
+    Argument = $Argument
+    Identifier = $Identifier
+    Name = $Name
+    Type = $Type
+  }
+}
+
+function New-WingetPackages {
+  param(
+    $Packages,
+    $SourceDetails
+  )
+
+  [PSCustomObject]@{
+    Packages = $Packages
+    SourceDetails = $SourceDetails
+  }
+}
+
+function New-WingetJsonFile {
+  param(
+    $Sources
+  )
+
+  [PSCustomObject]@{
+    '$schema' = "https://aka.ms/winget-packages.schema.2.0.json"
+    CreationDate = $(Get-Date (Get-Date).ToUniversalTime() -Format "yyyy-MM-ddTHH:mm:ss.fffzzz")
+    Sources = $Sources
+    WinGetVersion = $(winget --version).TrimStart('v')
+  }
+}
+
+function New-ScoopBucket {
+  param(
+    [string]$Name,
+    [string]$Source
+  )
+
+  [PSCustomObject]@{
+    Name = $Name
+    Source = $Source
+  }
+}
+
+function New-ScoopApp {
+  param(
+    [string]$Name,
+    [string]$Source
+  )
+
+  [PSCustomObject]@{
+    Name = $Name
+    Source = $Source
+  }
+}
+
+function New-ScoopJsonFile {
+  param(
+    $Buckets,
+    $Apps
+  )
+
+  [PSCustomObject]@{
+    buckets=$Buckets
+    apps=$Apps
+  }
+}
+
+$WingetJsonFilePath = Join-Path -Path {{ $chezmoiCacheDir }} -ChildPath "WingetFile.json"
+$ScoopJsonFilePath = Join-Path -Path {{ $chezmoiCacheDir }} -ChildPath "Scoopfile.json"
+
+$WingetSourceDetails = New-WingetSourceDetails -Argument "https://cdn.winget.microsoft.com/cache" -Identifier "Microsoft.Winget.Source_8wekyb3d8bbwe" -Name "winget" -Type "Microsoft.PreIndexed.Package"
+$MsstoreSourceDetails = New-WingetSourceDetails -Argument "https://storeedgefd.dsx.mp.microsoft.com/v9.0" -Identifier "StoreEdgeFD" -Name "msstore" -Type "Microsoft.Rest"
+
+$WingetPackagesList = @(
+{{- range $package := $ctx.packagesToInstall.winget }}
+  New-WingetPackageIdentifier -PackageIdentifier "{{ $package }}"
+{{- end -}}
+)
+
+$MsstorePackageList = @(
+{{- if hasKey $ctx.packagesToInstall "msstore" -}}
+  {{- range $package := $ctx.packagesToInstall.msstore }} 
+    New-WingetPackageIdentifier -PackageIdentifier "{{ $package }}"
+  {{- end -}}
+{{- else -}}
+$null
+{{- end -}}
+)
+
+$WingetPackages = New-WingetPackages -Packages $WingetPackagesList -SourceDetails $WingetSourceDetails
+$MsstorePackages = New-WingetPackages -Packages $MsstorePackageList -SourceDetails $MsstoreSourceDetails
+
+$WingetJsonFile = New-WingetJsonFile -Sources $WingetPackages, $MsstorePackages
+
+# Handle Scoops
+$ScoopBucketList = @(
+  {{- if and (hasKey $ctx "reposToInstall")
+             (hasKey $ctx.reposToInstall "buckets")
+    -}}
+    {{- range $item := $ctx.reposToInstall.buckets -}}
+      {{- range $name, $bucket := $item }}
+        New-ScoopBucket -Name {{ $name | quote }} -Source {{ get $bucket "source" | quote }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+)
+
+$ScoopAppList = @(
+  {{- if and (hasKey $ctx "packagesToInstall")
+             (hasKey $ctx.packagesToInstall "scoop")
+    -}}
+    {{- range $app := $ctx.packagesToInstall.scoop }}
+      New-ScoopApp -Name {{ get $app "name" | quote }} -Source {{ get $app "source" | quote }}
+    {{- end -}}
+  {{- end -}}
+)
+
+$ScoopJsonFile = New-ScoopJsonFile -Buckets $ScoopBucketList -Apps $ScoopAppList
+
+# collect each target file + its contents
+$FilesToWrite = @(
+  @{ Path = $WingetJsonFilePath
+     Content = (ConvertTo-Json $WingetJsonFile -Depth 100) }
+  @{ Path = $ScoopJsonFilePath
+     Content = (ConvertTo-Json $ScoopJsonFile -Depth 100) }
+)
+
+# ensure each file exists and then write
+foreach ($f in $FilesToWrite) {
+  if (!(Test-Path -Path $f.Path -PathType Leaf)) {
+    New-Item -ItemType File -Path $f.Path -Force | Out-Null
+  }
+  Set-Content -Path $f.Path -Value $f.Content -Encoding UTF8
+}
+
+
+
+{{/* Install Winget packages */}}
+winget import -i $WingetJsonFilePath --accept-package-agreements --accept-source-agreements --ignore-unavailable
+
+{{/* Install Scoop packages */}}
+scoop import $ScoopJsonFilePath
+
+{{/* Install pipx packages */}}
+{{ if and (hasKey $ctx.packagesToInstall "pipx")
+          (gt (len $ctx.packagesToInstall.pipx) 0) -}}
+pipx install {{ get $ctx.packagesToInstall "pipx" | join " " }}
+{{ end }}
+
+# Make sure all our items are on the PATH.
+# TODO: Might want to put this elsewhere.
+Write-Host "Making sure PATH is correctly set"
+$WingetPackagesPath = Join-Path -Path $env:LOCALAPPDATA -ChildPath "Microsoft/WinGet/Packages"
+$executablesToAdd = Get-ChildItem -Path $WingetPackagesPath -Filter "*.exe" -Recurse -ErrorAction SilentlyContinue
+$currentEnv = [Environment]::GetEnvironmentVariable("Path", "User")
+foreach ($exec in $executablesToAdd) {
+  $execDirectory = "$($exec.Directory)"
+  if (-not ($currentEnv.Split(';') -contains $execDirectory)) {
+    [Environment]::SetEnvironmentVariable(
+      'Path',
+      "$currentEnv;$execDirectory",
+      'User'
+    )
+  }
+}
+
+{{ end }}

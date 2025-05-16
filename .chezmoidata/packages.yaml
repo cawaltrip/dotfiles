@@ -32,7 +32,8 @@ packageManagement:
     8bitdo:
       darwin:
         cask: 8bitdo-ultimate-software
-      windows: 9PMC9MN3ZZ85
+      windows:
+        msstore: 9PMC9MN3ZZ85
     adobe-creative-cloud:
       darwin:
         cask: adobe-creative-cloud
@@ -93,6 +94,7 @@ packageManagement:
     discord:
       darwin:
         cask: discord
+      windows: Discord.Discord
     docker:
       darwin:
         cask: docker # Required because of name conflict between formula & cask
@@ -133,22 +135,32 @@ packageManagement:
       windows: FontForge.FontForge
     fork:
       windows:
-        scoop: fork
-    fzf: {}
+        scoop:
+          name: fork
+          source: extras
+    fzf:
+      windows: junegunn.fzf
     gawk: {}
-    gh: {}
+    gh:
+      windows: GitHub.cli
     ghidra:
       windows:
-        scoop: ghidra
+        scoop:
+          name: ghidra
+          source: extras
     git:
       windows: Git.Git
     git-extras: {} # TODO: Create a scoop package for this.
     git-filter-repo:
       windows:
-        scoop: git-filter-repo
+        scoop:
+          name: git-filter-repo
+          source: main
     git-lfs:
       windows:
-        scoop: git-lfs
+        scoop: 
+          name: git-lfs
+          source: main
     go:
       windows: GoLang.Go
     goland:
@@ -158,10 +170,14 @@ packageManagement:
     google-chrome@dev: {}
     gradle:
       windows:
-        scoop: gradle
+        scoop:
+          name: gradle
+          source: main
     harfbuzz:
       windows:
-        scoop: harfbuzz
+        scoop: 
+          name: harfbuzz
+          source: main
     helm:
       windows: Helm.Helm
     idea:
@@ -179,7 +195,9 @@ packageManagement:
         cask: iterm2
     jpeg-xl:
       windows:
-        scoop: libjxl
+        scoop:
+          name: libjxl
+          source: main
     jq:
       windows: jqlang.jq
     k9s:
@@ -206,7 +224,9 @@ packageManagement:
     microk8s:
       darwin: ubuntu/microk8s/microk8s
       windows:
-        scoop: microk8s
+        scoop:
+          name: microk8s
+          source: main
     microsoft-auto-update: {}
     microsoft-office: {}
     microsoft-office-businesspro: {}
@@ -293,7 +313,9 @@ packageManagement:
     sass:
       darwin: sass/sass/sass
       windows:
-        scoop: sass
+        scoop: 
+          name: sass
+          source: main
     sevenzip:
       windows: 7zip.7zip
     shottr:
@@ -303,10 +325,12 @@ packageManagement:
       darwin:
         cask: smooze-pro
     slack: {}
-    starship: {}
+    starship:
+      windows: Starship.Starship
     steam:
       darwin:
         cask: steam
+      windows: Valve.Steam
     subversion:
       windows: TortoiseSVN.TortoiseSVN
     terraform:
@@ -336,7 +360,9 @@ packageManagement:
     vscode:
       darwin:
         cask: visual-studio-code
-    webp: {}
+      windows: Microsoft.VisualStudioCode
+    webp:
+      windows: Google.libwebp
     webpack: {}
     webstorm:
       darwin:
@@ -352,7 +378,8 @@ packageManagement:
       windows: Yubico.YubiKeyManagerCLI
     yt-dlp:
       windows: yt-dlp.yt-dlp
-    yq: {}
+    yq:
+      windows: MikeFarah.yq
   
   groups:
     3dprinting:
@@ -390,6 +417,8 @@ packageManagement:
         - shottr
         - smooze-pro
         - utm
+      windows:
+        - 8bitdo
     dev:
       shared:
         - gh
@@ -482,10 +511,11 @@ packageManagement:
     media:
       shared:
         - ffmpeg
-        - harfbuzz
         - imagemagick
         - webp
         - obs
+      darwin:
+        - harfbuzz
     music:
       - musescore
     security:
@@ -541,10 +571,13 @@ packageManagement:
       packages: []   # no ad-hoc extras
     darwin: {}
     windows:
-      scoop:
-        buckets:
-          - extras
-          - nerd-fonts
+      buckets:
+        main:
+          source: https://github.com/ScoopInstaller/Main.git
+        extras:
+          source: https://github.com/ScoopInstaller/Extras
+        nerd-fonts:
+          source: https://github.com/matthewjberger/scoop-nerd-fonts
     gaming:
       groups:
         - gaming
