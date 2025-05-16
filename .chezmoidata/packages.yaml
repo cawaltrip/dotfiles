@@ -511,10 +511,11 @@ packageManagement:
     media:
       shared:
         - ffmpeg
-        - harfbuzz
         - imagemagick
         - webp
         - obs
+      darwin:
+        - harfbuzz
     music:
       - musescore
     security:
