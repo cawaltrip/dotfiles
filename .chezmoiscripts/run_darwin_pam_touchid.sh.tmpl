@@ -1,0 +1,37 @@
+{{- if eq .osid "darwin" -}}
+#!/bin/sh
+
+# make sure we’re running as root
+if [ "$(id -u)" -ne 0 ]; then
+  echo "You must be root to do this." >&2
+  exit 1
+fi
+
+sudo_local=/etc/pam.d/sudo_local
+sudo_template="${sudo_local}.template"
+
+# template must exist
+if [ ! -f "$sudo_template" ]; then
+  echo "$sudo_template file not found." >&2
+  exit 1
+fi
+
+# find the (possibly commented) pam_tid.so line
+# use grep -E for the “?” quantifier; capture line number
+auth_line=$(grep -n -E '^#?auth[[:space:]]*sufficient[[:space:]]*pam_tid\.so$' \
+              "$sudo_template" 2>/dev/null) || {
+  echo "Could not find touch ID entry" >&2
+  exit 1
+}
+
+# extract just the line number (the part before the first “:”)
+line_number=$(printf '%s\n' "$auth_line" | cut -d: -f1)
+
+# uncomment that line in the copy
+if [ -f "$sudo_local" ] && [ ! -w "$sudo_local" ]; then
+    chmod +w "$sudo_local"
+fi
+  
+sed "${line_number}s/^#auth/auth/" "$sudo_template" > "$sudo_local"
+chmod 444 "$sudo_local"
+{{- end -}}
