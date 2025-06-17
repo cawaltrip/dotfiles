@@ -1,5 +1,6 @@
 {{- $packagesData := .packagesData -}}
 {{- $groups := .groups -}}
+{{- $toInstall := .toInstall -}}
 {{- $currentOS := .currentOS -}}
 {{- $isUnixLike := .isUnixLike -}}
 {{- $defaultInstaller := .defaultInstaller -}}
@@ -27,6 +28,9 @@
       {{- $packagesToAdd = append $packagesToAdd . -}}
     {{- end -}}
   {{- end -}}
+{{- end -}}
+{{- range $toInstall.packages | default list -}}
+  {{- $packagesToAdd = append $packagesToAdd . -}}
 {{- end -}}
 {{ $packagesToAdd = $packagesToAdd | uniq -}}
 

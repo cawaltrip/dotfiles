@@ -65,7 +65,8 @@
 {{- /* Get all the packages from all the groups */ -}}
 {{- $packagesTemplateData := dict 
     "packagesData" $packagesData 
-    "groups" $groups.groupsToInstall 
+    "groups" $groups.groupsToInstall
+    "toInstall" $toInstall
     "currentOS" $currentOS 
     "isUnixLike" $isUnixLike 
     "defaultInstaller" $defaultInstaller
