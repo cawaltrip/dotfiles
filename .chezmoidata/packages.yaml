@@ -34,6 +34,7 @@ packageManagement:
         cask: 8bitdo-ultimate-software
       windows:
         msstore: 9PMC9MN3ZZ85
+    act: {}
     adobe-creative-cloud:
       darwin:
         cask: adobe-creative-cloud
@@ -87,6 +88,8 @@ packageManagement:
     crudini:
       windows:
         pipx: crudini
+      darwin:
+        brew: cawaltrip/tap/crudini
     cura:
       darwin: ultimaker-cura
       windows: Ultimaker.Cura
@@ -98,6 +101,7 @@ packageManagement:
     docker:
       darwin:
         cask: docker # Required because of name conflict between formula & cask
+    docutils: {}
     exiftool: {}
     fd:
       windows: sharkdp.fd
@@ -133,6 +137,7 @@ packageManagement:
       darwin:
         cask: fontforge
       windows: FontForge.FontForge
+    fonttools: {}
     fork:
       windows:
         scoop:
@@ -168,6 +173,7 @@ packageManagement:
         cask: goland
       windows: JetBrains.GoLand
     google-chrome@dev: {}
+    gping: {}
     gradle:
       windows:
         scoop:
@@ -188,6 +194,10 @@ packageManagement:
       windows: ImageMagick.ImageMagick
     imhex:
       windows: WerWolv.ImHex
+    inkscape:
+      darwin:
+        cask: inkscape
+    innoextract: {}
     insomnia:
       windows: Insomnia.Insomnia
     iterm2:
@@ -302,6 +312,8 @@ packageManagement:
     python3.13:
       darwin: python@3.13
       windows: Python.Python.3.13
+    qemu: {}
+    rename: {}
     retroarch:
       darwin: 
         cask: retroarch-metal
@@ -335,6 +347,7 @@ packageManagement:
       windows: TortoiseSVN.TortoiseSVN
     terraform:
       darwin: hashicorp/tap/terraform
+    testdisk: {}
     texstudio:
       darwin:
         cask: texstudio
@@ -353,6 +366,7 @@ packageManagement:
     vermin:
       windows:
         pipx: vermin
+    virtualenv: {}
     viscosity:
       darwin:
         cask: viscosity
@@ -380,7 +394,6 @@ packageManagement:
       windows: yt-dlp.yt-dlp
     yq:
       windows: MikeFarah.yq
-  
   groups:
     3dprinting:
       shared:
@@ -395,10 +408,12 @@ packageManagement:
         - adobe-creative-cloud
         - bitwarden
         - bitwarden-cli
+        - chezmoi
         # - chrome
         - firefox
         - latex
         - powershell
+        - pipx
         - sevenzip
         - texstudio
         - viscosity
@@ -431,6 +446,7 @@ packageManagement:
         - yq
       darwin:
         - git-extras
+        - docutils
     dev-android:
       shared:
         - android-studio
@@ -475,8 +491,8 @@ packageManagement:
         - pipenv
         - poetry
         - pycparser
-        - pyenv
-        - pyenv-virtualenv
+        # - pyenv
+        # - pyenv-virtualenv
         - pygments
         - python3.10
         - python3.11
@@ -515,7 +531,7 @@ packageManagement:
         - webp
         - obs
       darwin:
-        - harfbuzz
+        - inkscape
     music:
       - musescore
     security:
@@ -533,7 +549,7 @@ packageManagement:
       darwin:
         - coreutils
         - gawk
-        - the_silver_surfer
+        - the_silver_searcher
         - thefuck
         - tmux
         - unar
@@ -548,6 +564,10 @@ packageManagement:
         - retroarch
       darwin:
         - rom-tools
+        - innoextract
+    forensics:
+      shared:
+        - testdisk
   profiles:
     core:
       groups:
@@ -590,6 +610,7 @@ packageManagement:
       groups:
         - core
         - dev
+        - dev-python
         - fonts
         - gaming
         - media
@@ -603,6 +624,7 @@ packageManagement:
         - core
         - dev
         - dev-infrastructure
+        - dev-python
         - security
         - shell
       packages: []
