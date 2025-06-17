@@ -4,8 +4,9 @@
 {{- $ctx := $raw | fromYaml -}}
 
 brew bundle --debug --file=/dev/stdin <<EOF
-{{ if hasKey $ctx "tapsToInstall" -}}
-{{ range $ctx.tapsToInstall -}}
+{{ if and (hasKey $ctx "reposToInstall")
+          (hasKey $ctx.reposToInstall "taps") -}}
+{{ range $ctx.reposToInstall.taps -}}
 tap "{{ . }}"
 {{ end -}}
 {{ end -}}
