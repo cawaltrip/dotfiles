@@ -405,18 +405,14 @@ packageManagement:
       - awscli
     core:
       shared:
-        - adobe-creative-cloud
         - bitwarden
         - bitwarden-cli
         - chezmoi
         # - chrome
         - firefox
-        - latex
         - powershell
         - pipx
         - sevenzip
-        - texstudio
-        - viscosity
         - vscode
       darwin:
         - alfred
@@ -491,8 +487,8 @@ packageManagement:
         - pipenv
         - poetry
         - pycparser
-        # - pyenv
-        # - pyenv-virtualenv
+        - pyenv
+        - pyenv-virtualenv
         - pygments
         - python3.10
         - python3.11
@@ -610,12 +606,14 @@ packageManagement:
       groups:
         - core
         - dev
+        - dev-latex
         - dev-python
         - fonts
         - gaming
         - media
         - shell
       packages:
+        - adobe-creative-cloud
         - exiftool
         - yt-dlp
     work:
