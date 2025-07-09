@@ -131,10 +131,10 @@ cd:
 {{- $groupsDict := dict "groups" $groupsToApply -}}
 {{- $packagesDict := dict "packages" $packagesToApply -}}
 
-hooks:
+{{/* hooks:
   read-source-state:
     pre:
-      command: ".local/share/chezmoi/.install-password-manager.ps1"
+      command: ".local/share/chezmoi/.install-password-manager.ps1" */}}
 
 data:
   name: "Chris Waltrip"
