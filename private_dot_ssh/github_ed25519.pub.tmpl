@@ -1,5 +1,3 @@
 {{ if .personal -}}
 {{   bitwardenAttachmentByRef "github_ed25519.pub" "item" "SSH Keys" }}
-{{- else if .work -}}
-{{-   onepasswordRead "op://Private/github_ed25519/public key" -}}
 {{ end -}}
