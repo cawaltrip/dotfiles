@@ -362,6 +362,11 @@ packageManagement:
       darwin:
         cask: texstudio
       windows: TeXstudio.TeXstudio
+    tenv:
+      windows:
+        scoop:
+          name: tenv
+          source: main
     tfenv: {}
     the_silver_searcher: {}
     thefuck: {}
