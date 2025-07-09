@@ -58,6 +58,12 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 # Ask the system to read the hotkey plist file and ignore the output. Likely updates an in-memory cache with the new plist values.
 defaults read com.apple.symbolichotkeys.plist > /dev/null
 
+# Set iTerm to use a config file
+if defaults domains | grep -q "com.googlecode.iterm2"; then
+  defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.config/iterm2"
+  defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+fi
+
 # Run reactivateSettings to apply the updated settings.
 /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -uP
 
