@@ -4,16 +4,20 @@
 sudo_local=/etc/pam.d/sudo_local
 sudo_template="${sudo_local}.template"
 
-# template must exist
-if [ ! -f "$sudo_template" ]; then
-  echo "$sudo_template file not found." >&2
-  exit 1
+if [ ! -f "$sudo_local" ]; then
+  # template must exist
+  if [ ! -f "$sudo_template" ]; then
+    echo "$sudo_template file not found." >&2
+    exit 1
+  fi
+
+  sudo install "$sudo_template" "$sudo_local"
 fi
 
 # find the (possibly commented) pam_tid.so line
 # use grep -E for the “?” quantifier; capture line number
 auth_line=$(grep -n -E '^#?auth[[:space:]]*sufficient[[:space:]]*pam_tid\.so$' \
-              "$sudo_template" 2>/dev/null) || {
+              "$sudo_local" 2>/dev/null) || {
   echo "Could not find touch ID entry" >&2
   exit 1
 }
@@ -27,7 +31,7 @@ echo "Enabling touch ID for sudo.  You'll be prompted for password now."
 if [ -f "$sudo_local" ] && [ ! -w "$sudo_local" ]; then
     sudo chmod +w "$sudo_local"
 fi
-  
-sudo sed "${line_number}s/^#auth/auth/" "$sudo_template" > "$sudo_local"
-sudo chmod 444 "$sudo_local"
+
+sudo sed -i '' -e "${line_number}s/^#auth/auth/" "$sudo_local"
+sudo chmod a=r "$sudo_local"
 {{- end -}}
