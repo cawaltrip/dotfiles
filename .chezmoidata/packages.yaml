@@ -48,6 +48,8 @@ packageManagement:
     aws-cdk: {}
     aws-vpn-client:
       windows: Amazon.AWSVPNClient
+      darwin:
+        cask: aws-vpn-client
     awscli:
       windows: Amazon.AWSCLI
     bartender:
@@ -67,6 +69,8 @@ packageManagement:
       windows: Bitwarden.CLI
     burp-suite-professional:
       windows: PortSwigger.BurpSuite.Professional
+      darwin:
+        cask: burp-suite-professional
     calibre:
       windows: calibre.calibre
     chrome:
@@ -153,6 +157,8 @@ packageManagement:
         scoop:
           name: ghidra
           source: extras
+      darwin:
+        cask: ghidra
     git:
       windows: Git.Git
     git-extras: {} # TODO: Create a scoop package for this.
@@ -194,6 +200,8 @@ packageManagement:
       windows: ImageMagick.ImageMagick
     imhex:
       windows: WerWolv.ImHex
+      darwin:
+        cask: imhex
     inkscape:
       darwin:
         cask: inkscape
@@ -271,6 +279,8 @@ packageManagement:
     openjpeg: {}
     openlens:
       windows: MuhammedKalkan.OpenLens
+      darwin:
+        cask: openlens
     packer:
       darwin: hashicorp/tap/packer
     pango: {}
@@ -574,9 +584,9 @@ packageManagement:
         - cawaltrip/tap
         - aws/tap
         - hashicorp/tap
-        - homebrew/bundle
-        - homebrew/cask-fonts
-        - homebrew/cask-versions
+        # - homebrew/bundle
+        # - homebrew/cask-fonts
+        # - homebrew/cask-versions
         - homebrew/command-not-found
         - ubuntu/microk8s
         # If doing homebrew dev work, also tap
