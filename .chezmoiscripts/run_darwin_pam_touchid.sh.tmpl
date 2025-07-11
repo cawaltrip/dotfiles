@@ -4,7 +4,9 @@
 sudo_local=/etc/pam.d/sudo_local
 sudo_template="${sudo_local}.template"
 
-if [ ! -f "$sudo_local" ]; then
+if [ -f "$sudo_local" ]; then
+  exit 0
+else
   # template must exist
   if [ ! -f "$sudo_template" ]; then
     echo "$sudo_template file not found." >&2
