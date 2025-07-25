@@ -73,6 +73,9 @@ packageManagement:
         cask: burp-suite-professional
     calibre:
       windows: calibre.calibre
+    checkov:
+      windows:
+        pipx: checkov
     chrome:
       darwin:
         cask: google-chrome
@@ -479,6 +482,7 @@ packageManagement:
       shared:
         - aws-cdk
         - aws-vpn-client
+        - checkov
         - docker
         - helm
         - k9s
