@@ -188,6 +188,7 @@ packageManagement:
         scoop:
           name: gradle
           source: main
+    gum:
     harfbuzz:
       windows:
         scoop: 
@@ -241,6 +242,10 @@ packageManagement:
       darwin:
         cask: logi-options+
       windows: Logitech.OptionsPlus
+    logseq:
+      darwin:
+        cask: logseq
+      windows: Logseq.Logseq
     mas: {}
     microk8s:
       darwin: ubuntu/microk8s/microk8s
@@ -271,6 +276,8 @@ packageManagement:
       windows: OBSProject.OBSStudio
     obsidian:
       windows: Obsidian.Obsidian
+      darwin:
+        cask: obsidian
     omnidisksweeper:
       darwin:
         cask: omnidisksweeper
@@ -358,6 +365,10 @@ packageManagement:
       windows: Valve.Steam
     subversion:
       windows: TortoiseSVN.TortoiseSVN
+    tableplus:
+      darwin:
+        cask: tableplus
+      windows: TablePlus.TablePlus
     terraform:
       darwin: hashicorp/tap/terraform
     testdisk: {}
@@ -371,6 +382,11 @@ packageManagement:
           name: tenv
           source: main
     tfenv: {}
+    tflint:
+      windows:
+        scoop:
+          name: tflint
+          source: main
     the_silver_searcher: {}
     thefuck: {}
     tmux: {}
@@ -428,6 +444,8 @@ packageManagement:
         - chezmoi
         # - chrome
         - firefox
+        - logseq
+        - obsidian
         - powershell
         - pipx
         - sevenzip
@@ -493,6 +511,7 @@ packageManagement:
         - packer
         - podman
         - tenv
+        - tflint
     dev-latex:
       shared:
         - latex
@@ -503,6 +522,7 @@ packageManagement:
       shared:
         - pipenv
         - poetry
+        - pycharm
         - pycparser
         - pyenv
         - pyenv-virtualenv
@@ -562,6 +582,7 @@ packageManagement:
       darwin:
         - coreutils
         - gawk
+        - gum
         - the_silver_searcher
         - thefuck
         - tmux
