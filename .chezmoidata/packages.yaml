@@ -428,6 +428,8 @@ packageManagement:
       windows: yt-dlp.yt-dlp
     yq:
       windows: MikeFarah.yq
+    zoxide:
+      windows: ajeetdsouza.zoxide
   groups:
     3dprinting:
       shared:
@@ -579,6 +581,7 @@ packageManagement:
         - fzf
         - crudini
         - starship
+        - zoxide
       darwin:
         - coreutils
         - gawk
