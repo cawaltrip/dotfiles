@@ -6,3 +6,6 @@ Set-PSReadlineOption -EditMode Emacs
 
 # Start starship for the prompt
 Invoke-Expression (&starship init powershell)
+
+# Init zoxide
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
