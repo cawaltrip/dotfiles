@@ -5,6 +5,11 @@ if ((! zsh_eval_context[(I)file] )); then
     return
 fi
 
+# Disable Homebrew environment hints
+if (( ${+commands[brew]} )); then
+    export HOMEBREW_NO_ENV_HINTS=1
+fi
+
 # Is git-extras installed?
 if (( ${+commands[git-extras]} )); then
     {{ if eq .chezmoi.os "darwin" -}}
