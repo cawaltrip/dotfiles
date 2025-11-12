@@ -36,6 +36,7 @@
 {{/* Get all the configuration values */}}
 {{- $email := promptStringOnce . "email" "Email address" -}}
 {{- $bitwardenAccount := promptStringOnce . "bitwardenAccount" "Bitwarden email address" -}}
+{{- $bitwardenSSOIdentifier := promptStringOnce . "bitwardenSSOIdentifier" "Bitwarden SSO Identifier (leave empty if not needed)" -}}
 
 {{- if not $ephemeral -}}
   {{- if or (eq $hostname "chapterhouse")
@@ -130,11 +131,13 @@ cd:
 {{- $profilesDict := dict "profiles" $profilesToApply -}}
 {{- $groupsDict := dict "groups" $groupsToApply -}}
 {{- $packagesDict := dict "packages" $packagesToApply -}}
-
 {{/* hooks:
   read-source-state:
     pre:
       command: ".local/share/chezmoi/.install-password-manager.ps1" */}}
+diff:
+  exclude:
+    - "scripts"
 
 data:
   name: "Chris Waltrip"
@@ -147,6 +150,9 @@ data:
   headless: {{ $headless }}
   isUnixLike: {{ $isUnixLike }}
   bitwardenAccount: {{ $bitwardenAccount | quote }}
+  {{- if and $bitwardenSSOIdentifier (ne $bitwardenSSOIdentifier "") }}
+  bitwardenSSOIdentifier: {{ $bitwardenSSOIdentifier | quote }}
+  {{ end }}
   packagesToInstall:
     {{- toYaml $profilesDict | trim | nindent 4 }}
     {{- toYaml $groupsDict | trim | nindent 4 }}

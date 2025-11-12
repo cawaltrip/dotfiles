@@ -6,14 +6,17 @@ Brewfile
 Brewfile.lock.json
 
 {{/* Only include Library if on macOS */}}
-{{- if ne .chezmoi.os "darwin" -}}
+{{- if ne .chezmoi.os "darwin" }}
 Library
+{{- else }}
+.config/rbw
 {{- end }}
 
-{{- if eq .chezmoi.os "windows" -}}
+{{- if eq .chezmoi.os "windows" }}
 .config/zsh
 .config/vim
+.config/rbw
 .zshenv
-{{- else -}}
+{{- else }}
 Documents
 {{- end }}
