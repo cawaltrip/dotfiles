@@ -47,7 +47,10 @@
 
 {{- $packagesToInstall := dict -}}
 {{- range $name, $meta := $packages -}}
-  {{- $entry := index $meta $currentOS | default $name -}}
+  {{- $entry := $name -}}
+  {{- if and $meta (kindIs "map" $meta) -}}
+    {{- $entry = index $meta $currentOS | default $name -}}
+  {{- end -}}
   {{- $pkgKey := "" -}}
   {{- $packageName := "" -}}
 
