@@ -258,6 +258,9 @@ packageManagement:
     microsoft-office-businesspro: {}
     minikube:
       windows: Kubernetes.minikube
+    monarch:
+      darwin:
+        cask: monarch
     moom:
       darwin:
         cask: moom
@@ -333,6 +336,9 @@ packageManagement:
       darwin: python@3.13
       windows: Python.Python.3.13
     qemu: {}
+    raycast:
+      darwin:
+        cask: raycast
     rbw: {}
     rename: {}
     retroarch:
