@@ -107,7 +107,7 @@ packageManagement:
       windows: Discord.Discord
     docker:
       darwin:
-        cask: docker # Required because of name conflict between formula & cask
+        cask: docker-desktop
     docutils: {}
     exiftool: {}
     fd:
@@ -435,7 +435,7 @@ packageManagement:
     wget: {}
     wireshark:
       darwin:
-        cask: wireshark
+        cask: wireshark-app
     yarn:
       windows: Yarn.Yarn
     ykman:
