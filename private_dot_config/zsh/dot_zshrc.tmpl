@@ -66,6 +66,12 @@ path_dirs=(
     ${HOME}/Qt
     ${PYENV_ROOT}/shims
 )
+
+# If Go is installed, add it to the path.
+if (( ${+commands[go]} )); then
+    path_dirs+=(${HOME}/go/bin)
+fi
+
 for dir in ${path_dirs[@]}; do
     [[ -d ${dir} ]] && PATH="${dir}:${PATH}"
 done
