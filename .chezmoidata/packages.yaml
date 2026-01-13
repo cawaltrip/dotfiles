@@ -153,6 +153,10 @@ packageManagement:
     fzf:
       windows: junegunn.fzf
     gawk: {}
+    gcloud:
+      darwin:
+        cask: gcloud-cli
+      windows: Google.CloudSDK
     gh:
       windows: GitHub.cli
     ghidra:
@@ -407,6 +411,11 @@ packageManagement:
     vermin:
       windows:
         pipx: vermin
+    vhs:
+      windows:
+        scoop:
+          name: vhs
+          source: main
     virtualenv: {}
     viscosity:
       darwin:
@@ -567,6 +576,9 @@ packageManagement:
         - font-mona-sans
         - font-source-code-pro
         - font-source-sans-3
+    google:
+      shared:
+        - gcloud
     media:
       shared:
         - ffmpeg
@@ -670,8 +682,10 @@ packageManagement:
       groups:
         - core
         - dev
+        - dev-golang
         - dev-infrastructure
         - dev-python
+        - google
         - security
         - shell
       packages: []
