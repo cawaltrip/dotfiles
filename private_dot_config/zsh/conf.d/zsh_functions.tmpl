@@ -50,5 +50,11 @@ if (( ${+commands[zoxide]} )); then
     eval "$(zoxide init zsh --cmd cd)"
 fi
 
+# Setup gcloud autocompletion if installed
+if (( ${+commands[gcloud]} )); then
+    gcloud_sdk_root=$(gcloud info --format="value(installation.sdk_root)")
+    source "${gcloud_sdk_root}/completion.zsh.inc"
+fi
+
 autoload -Uz compinit
 compinit
