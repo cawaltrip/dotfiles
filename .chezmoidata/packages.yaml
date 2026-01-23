@@ -179,6 +179,7 @@ packageManagement:
         scoop: 
           name: git-lfs
           source: main
+    gitleaks: {}
     go:
       windows: GoLang.Go
     goland:
@@ -305,6 +306,8 @@ packageManagement:
       windows: sharkdp.pastel
     pipenv: {}
     pigz: {}
+    pike:
+      darwin: jameswoolfenden/tap/pike
     poetry:
       windows:
         pipx: poetry
@@ -315,6 +318,7 @@ packageManagement:
       darwin:
         cask: powershell
       windows: Microsoft.PowerShell
+    pre-commit: {}
     pronterface: {}
     protonvpn:
       darwin:
@@ -382,6 +386,7 @@ packageManagement:
       windows: TablePlus.TablePlus
     terraform:
       darwin: hashicorp/tap/terraform
+    terraform-docs: {}
     testdisk: {}
     texstudio:
       darwin:
@@ -401,6 +406,8 @@ packageManagement:
     the_silver_searcher: {}
     thefuck: {}
     tmux: {}
+    tofu:
+      darwin: opentofu
     unar: {}
     unicodechecker:
       darwin:
@@ -436,6 +443,7 @@ packageManagement:
     wireshark:
       darwin:
         cask: wireshark-app
+    yamllint: {}
     yarn:
       windows: Yarn.Yarn
     ykman:
@@ -487,13 +495,16 @@ packageManagement:
         - 8bitdo
     dev:
       shared:
+        - pre-commit
         - gh
         - git
         - git-filter-repo
         - git-lfs
+        - gitleaks
         - jq
         - pastel
         - vscode
+        - yamllint
         - yq
       darwin:
         - git-extras
@@ -531,6 +542,7 @@ packageManagement:
         - podman
         - tenv
         - tflint
+        - terraform-docs
     dev-latex:
       shared:
         - latex
@@ -640,6 +652,7 @@ packageManagement:
         # - homebrew/cask-versions
         - homebrew/command-not-found
         - ubuntu/microk8s
+        - jameswoolfenden/homebrew-tap
         # If doing homebrew dev work, also tap
         # - homebrew/cask
         # - homebrew/core
