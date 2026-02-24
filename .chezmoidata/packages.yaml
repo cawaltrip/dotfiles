@@ -52,6 +52,10 @@ packageManagement:
         cask: aws-vpn-client
     awscli:
       windows: Amazon.AWSCLI
+    bambu-studio:
+      darwin:
+        cask: bambu-studio
+      windows: Bambulab.Bambustudio
     bartender:
       darwin:
         cask: bartender
