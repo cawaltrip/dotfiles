@@ -81,6 +81,9 @@ packageManagement:
         cask: burp-suite-professional
     calibre:
       windows: calibre.calibre
+    checkov:
+      windows:
+        pipx: checkov
     chrome:
       darwin:
         cask: google-chrome
@@ -112,7 +115,7 @@ packageManagement:
       windows: Discord.Discord
     docker:
       darwin:
-        cask: docker # Required because of name conflict between formula & cask
+        cask: docker-desktop
     docutils: {}
     exiftool: {}
     fd:
@@ -158,6 +161,10 @@ packageManagement:
     fzf:
       windows: junegunn.fzf
     gawk: {}
+    gcloud:
+      darwin:
+        cask: gcloud-cli
+      windows: Google.CloudSDK
     gh:
       windows: GitHub.cli
     ghidra:
@@ -180,6 +187,7 @@ packageManagement:
         scoop: 
           name: git-lfs
           source: main
+    gitleaks: {}
     go:
       windows: GoLang.Go
     goland:
@@ -193,6 +201,7 @@ packageManagement:
         scoop:
           name: gradle
           source: main
+    gum:
     harfbuzz:
       windows:
         scoop: 
@@ -249,6 +258,10 @@ packageManagement:
       darwin:
         cask: logi-options+
       windows: Logitech.OptionsPlus
+    logseq:
+      darwin:
+        cask: logseq
+      windows: Logseq.Logseq
     mas: {}
     microk8s:
       darwin: ubuntu/microk8s/microk8s
@@ -261,6 +274,9 @@ packageManagement:
     microsoft-office-businesspro: {}
     minikube:
       windows: Kubernetes.minikube
+    monarch:
+      darwin:
+        cask: monarch
     moom:
       darwin:
         cask: moom
@@ -279,6 +295,8 @@ packageManagement:
       windows: OBSProject.OBSStudio
     obsidian:
       windows: Obsidian.Obsidian
+      darwin:
+        cask: obsidian
     omnidisksweeper:
       darwin:
         cask: omnidisksweeper
@@ -299,6 +317,8 @@ packageManagement:
       windows: sharkdp.pastel
     pipenv: {}
     pigz: {}
+    pike:
+      darwin: jameswoolfenden/tap/pike
     poetry:
       windows:
         pipx: poetry
@@ -309,6 +329,7 @@ packageManagement:
       darwin:
         cask: powershell
       windows: Microsoft.PowerShell
+    pre-commit: {}
     pronterface: {}
     protonvpn:
       darwin:
@@ -334,6 +355,10 @@ packageManagement:
       darwin: python@3.13
       windows: Python.Python.3.13
     qemu: {}
+    raycast:
+      darwin:
+        cask: raycast
+    rbw: {}
     rename: {}
     retroarch:
       darwin: 
@@ -366,8 +391,13 @@ packageManagement:
       windows: Valve.Steam
     subversion:
       windows: TortoiseSVN.TortoiseSVN
+    tableplus:
+      darwin:
+        cask: tableplus
+      windows: TablePlus.TablePlus
     terraform:
       darwin: hashicorp/tap/terraform
+    terraform-docs: {}
     testdisk: {}
     texstudio:
       darwin:
@@ -379,9 +409,16 @@ packageManagement:
           name: tenv
           source: main
     tfenv: {}
+    tflint:
+      windows:
+        scoop:
+          name: tflint
+          source: main
     the_silver_searcher: {}
     thefuck: {}
     tmux: {}
+    tofu:
+      darwin: opentofu
     unar: {}
     unicodechecker:
       darwin:
@@ -392,6 +429,11 @@ packageManagement:
     vermin:
       windows:
         pipx: vermin
+    vhs:
+      windows:
+        scoop:
+          name: vhs
+          source: main
     virtualenv: {}
     viscosity:
       darwin:
@@ -411,7 +453,8 @@ packageManagement:
     wget: {}
     wireshark:
       darwin:
-        cask: wireshark
+        cask: wireshark-app
+    yamllint: {}
     yarn:
       windows: Yarn.Yarn
     ykman:
@@ -420,6 +463,8 @@ packageManagement:
       windows: yt-dlp.yt-dlp
     yq:
       windows: MikeFarah.yq
+    zoxide:
+      windows: ajeetdsouza.zoxide
   groups:
     3dprinting:
       shared:
@@ -436,6 +481,8 @@ packageManagement:
         - chezmoi
         # - chrome
         - firefox
+        - logseq
+        - obsidian
         - powershell
         - pipx
         - sevenzip
@@ -451,6 +498,7 @@ packageManagement:
         - moom
         - omnidisksweeper
         - omnifocus
+        - rbw
         - shottr
         - smooze-pro
         - utm
@@ -458,13 +506,16 @@ packageManagement:
         - 8bitdo
     dev:
       shared:
+        - pre-commit
         - gh
         - git
         - git-filter-repo
         - git-lfs
+        - gitleaks
         - jq
         - pastel
         - vscode
+        - yamllint
         - yq
       darwin:
         - git-extras
@@ -490,6 +541,7 @@ packageManagement:
       shared:
         - aws-cdk
         - aws-vpn-client
+        - checkov
         - docker
         - helm
         - k9s
@@ -500,6 +552,8 @@ packageManagement:
         - packer
         - podman
         - tenv
+        - tflint
+        - terraform-docs
     dev-latex:
       shared:
         - latex
@@ -510,6 +564,7 @@ packageManagement:
       shared:
         - pipenv
         - poetry
+        - pycharm
         - pycparser
         - pyenv
         - pyenv-virtualenv
@@ -544,6 +599,9 @@ packageManagement:
         - font-mona-sans
         - font-source-code-pro
         - font-source-sans-3
+    google:
+      shared:
+        - gcloud
     media:
       shared:
         - ffmpeg
@@ -566,9 +624,11 @@ packageManagement:
         - fzf
         - crudini
         - starship
+        - zoxide
       darwin:
         - coreutils
         - gawk
+        - gum
         - the_silver_searcher
         - thefuck
         - tmux
@@ -608,6 +668,7 @@ packageManagement:
         # - homebrew/cask-versions
         - homebrew/command-not-found
         - ubuntu/microk8s
+        - jameswoolfenden/homebrew-tap
         # If doing homebrew dev work, also tap
         # - homebrew/cask
         # - homebrew/core
@@ -650,8 +711,10 @@ packageManagement:
       groups:
         - core
         - dev
+        - dev-golang
         - dev-infrastructure
         - dev-python
+        - google
         - security
         - shell
       packages: []

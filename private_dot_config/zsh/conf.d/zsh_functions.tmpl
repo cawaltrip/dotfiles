@@ -5,6 +5,11 @@ if ((! zsh_eval_context[(I)file] )); then
     return
 fi
 
+# Disable Homebrew environment hints
+if (( ${+commands[brew]} )); then
+    export HOMEBREW_NO_ENV_HINTS=1
+fi
+
 # Is git-extras installed?
 if (( ${+commands[git-extras]} )); then
     {{ if eq .chezmoi.os "darwin" -}}
@@ -38,6 +43,17 @@ if (( ${+commands[pyenv]} )); then
     eval "$(pyenv init -)"
     #eval "$(pyenv init --path)"
     #eval "$(pyenv virtualenv-init -)"
+fi
+
+# Init zoxide if installed
+if (( ${+commands[zoxide]} )); then
+    eval "$(zoxide init zsh --cmd cd)"
+fi
+
+# Setup gcloud autocompletion if installed
+if (( ${+commands[gcloud]} )); then
+    gcloud_sdk_root=$(gcloud info --format="value(installation.sdk_root)")
+    source "${gcloud_sdk_root}/completion.zsh.inc"
 fi
 
 autoload -Uz compinit

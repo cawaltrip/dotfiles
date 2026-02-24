@@ -1,0 +1,14 @@
+{{- $email := .bitwardenAccount -}}
+{{- $ssoIdValue := "null" -}}
+{{- if hasKey . "bitwardenSSOIdentifier" -}}
+    {{- $ssoIdValue = printf "%q" .bitwardenSSOIdentifier -}}
+{{- end -}}
+{{- $baseUrl := "null" -}}
+{{- $identityUrl := "null" -}}
+{{- $uiUrl := "null" -}}
+{{- $notificationsUrl := "null" -}}
+{{- $lockTimeout := 3600 -}}
+{{- $syncInterval := 3600 -}}
+{{- $pinentry := "pinentry" -}}
+{{- $clientCertPath := "null" -}}
+{"email":{{ $email | quote }},"sso_id":{{ $ssoIdValue }},"base_url":{{ $baseUrl }},"identity_url":{{ $identityUrl }},"ui_url":{{ $uiUrl }},"notifications_url":{{ $notificationsUrl }},"lock_timeout":{{ $lockTimeout }},"sync_interval":{{ $syncInterval }},"pinentry":{{ $pinentry | quote }},"client_cert_path":{{ $clientCertPath }}}

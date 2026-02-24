@@ -13,6 +13,7 @@ else
     exit 1
   fi
 
+  echo "Installing $sudo_template to $sudo_local.  You'll be prompted for password now."
   sudo install "$sudo_template" "$sudo_local"
 fi
 
@@ -24,16 +25,21 @@ auth_line=$(grep -n -E '^#?auth[[:space:]]*sufficient[[:space:]]*pam_tid\.so$' \
   exit 1
 }
 
-# extract just the line number (the part before the first “:”)
+# extract just the line number (the part before the first ":")
 line_number=$(printf '%s\n' "$auth_line" | cut -d: -f1)
+# extract the actual line content (the part after the first ":")
+line_content=$(printf '%s\n' "$auth_line" | cut -d: -f2-)
 
-echo "Enabling touch ID for sudo.  You'll be prompted for password now."
+# check if the line needs to be changed (is commented, starts with #)
+if ! printf '%s\n' "$line_content" | grep -q '^[[:space:]]*auth'; then
+  echo "Enabling touch ID for sudo.  You'll be prompted for password now."
 
-# uncomment that line in the copy
-if [ -f "$sudo_local" ] && [ ! -w "$sudo_local" ]; then
-    sudo chmod +w "$sudo_local"
+  # uncomment that line in the copy
+  if [ -f "$sudo_local" ] && [ ! -w "$sudo_local" ]; then
+      sudo chmod +w "$sudo_local"
+  fi
+
+  sudo sed -i '' -e "${line_number}s/^#auth/auth/" "$sudo_local"
+  sudo chmod a=r "$sudo_local"
 fi
-
-sudo sed -i '' -e "${line_number}s/^#auth/auth/" "$sudo_local"
-sudo chmod a=r "$sudo_local"
 {{- end -}}
