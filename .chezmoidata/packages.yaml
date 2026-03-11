@@ -315,8 +315,6 @@ packageManagement:
       windows: RedHat.Podman
     postman: {}
     powershell:
-      darwin:
-        cask: powershell
       windows: Microsoft.PowerShell
     pre-commit: {}
     pronterface: {}
