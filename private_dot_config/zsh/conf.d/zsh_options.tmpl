@@ -11,14 +11,14 @@ setopt auto_param_slash
 setopt complete_aliases
 
 # history
-setopt extended_history
-setopt share_history
-setopt bang_hist
-setopt hist_fcntl_lock
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt hist_reduce_blanks
-setopt inc_append_history
+setopt extended_history # Write history in ':start:elapsed;command' format.
+#setopt share_history # Share history between all sessions.  Not needed with inc_append_history{,_time}
+setopt bang_hist # enable “!” history expansion
+setopt hist_fcntl_lock # Lock the history file to prevent concurrent writes.
+setopt hist_ignore_dups # Don't save duplicate of prior command.
+setopt hist_ignore_space # Don't save if command starts with a space.
+setopt hist_reduce_blanks # Remove superfluous blanks.
+setopt inc_append_history_time # Write to the history file immediately after command finishes, not when the shell exits.
 export HISTFILE="${XDG_STATE_HOME:-${HOME}/.local/state}/zsh_history"
 
 # input/output
