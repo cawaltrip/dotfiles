@@ -84,6 +84,12 @@ packageManagement:
       darwin:
         cask: google-chrome@dev
       windows: Google.Chrome.Dev
+    claude:
+      darwin:
+        cask: claude
+    claude-code:
+      darwin:
+        cask: claude-code
     clion:
       darwin:
         cask: clion
@@ -441,6 +447,9 @@ packageManagement:
     wireshark:
       darwin:
         cask: wireshark-app
+    xbar:
+      darwin:
+        cask: xbar
     yamllint: {}
     yarn:
       windows: Yarn.Yarn
@@ -467,6 +476,8 @@ packageManagement:
         - bitwarden-cli
         - chezmoi
         # - chrome
+        - claude
+        - claude-code
         - firefox
         - logseq
         - obsidian
@@ -489,6 +500,7 @@ packageManagement:
         - shottr
         - smooze-pro
         - utm
+        - xbar
       windows:
         - 8bitdo
     dev:
