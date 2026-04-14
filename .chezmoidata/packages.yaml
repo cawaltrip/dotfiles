@@ -34,6 +34,10 @@ packageManagement:
         cask: 8bitdo-ultimate-software
       windows:
         msstore: 9PMC9MN3ZZ85
+    8bitdo-v2:
+      darwin:
+        cask: 8bitdo-ultimate-software-v2
+      windows: 8BitDo.UltimateSoftwareV2
     act: {}
     adobe-creative-cloud:
       darwin:
@@ -52,6 +56,10 @@ packageManagement:
         cask: aws-vpn-client
     awscli:
       windows: Amazon.AWSCLI
+    bambu-studio:
+      darwin:
+        cask: bambu-studio
+      windows: Bambulab.Bambustudio
     bartender:
       darwin:
         cask: bartender
@@ -236,6 +244,9 @@ packageManagement:
       windows: jqlang.jq
     k9s:
       windows: Derailed.k9s
+    karabiner:
+      darwin:
+        cask: karabiner-elements
     keyboardcleantool:
       darwin:
         cask: keyboardcleantool
@@ -643,9 +654,14 @@ packageManagement:
       shared:
         - discord
         - steam
+        - 8bitdo
+        - 8bitdo-v2
+      darwin:
+        - karabiner
     gaming-emulation:
       shared:
         - 8bitdo
+        - 8bitdo-v2
         - retroarch
       darwin:
         - rom-tools
