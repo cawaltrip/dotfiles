@@ -20,3 +20,8 @@ Library
 {{- else }}
 Documents
 {{- end }}
+
+{{/* Temporarily ignore Firefox config on macOS. */}}
+{{- if eq .chezmoi.os "darwin" }}
+Library/Application Support/Firefox/
+{{- end }}
