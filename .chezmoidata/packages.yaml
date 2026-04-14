@@ -543,17 +543,18 @@ packageManagement:
         - aws-vpn-client
         - checkov
         - docker
-        - helm
-        - k9s
-        - kubernetes-cli
-        - microk8s
-        - minikube
-        - openlens
-        - packer
-        - podman
         - tenv
         - tflint
         - terraform-docs
+    dev-kubernetes:
+      shared:
+        - helm
+        - k9s
+        - kubernetes-cli
+        # - microk8s # Trouble with the homebrew package currently.
+        - minikube
+        - openlens
+        - podman
     dev-latex:
       shared:
         - latex
