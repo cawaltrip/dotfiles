@@ -89,7 +89,8 @@ packageManagement:
         cask: claude
     claude-code:
       darwin:
-        cask: claude-code
+        cask: claude-code@latest
+      windows: Anthropic.ClaudeCode
     clion:
       darwin:
         cask: clion
