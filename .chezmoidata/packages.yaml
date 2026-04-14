@@ -348,6 +348,9 @@ packageManagement:
     python3.13:
       darwin: python@3.13
       windows: Python.Python.3.13
+    python3.14:
+      darwin: python@3.14
+      windows: Python.Python.3.14
     qemu: {}
     raycast:
       darwin:
@@ -573,7 +576,8 @@ packageManagement:
         - python3.10
         - python3.11
         - python3.12
-        - python3.13     
+        - python3.13
+        - python3.14  
     dev-swift: {}
     dev-web:
       shared:
