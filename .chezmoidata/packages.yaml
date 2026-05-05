@@ -260,6 +260,9 @@ packageManagement:
     leptonica: {}
     libheif: {}
     libtiff: {}
+    linear:
+      darwin:
+        cask: linear-linear
     little-cms2: {}
     logi-options+:
       darwin:
@@ -270,6 +273,9 @@ packageManagement:
         cask: logseq
       windows: Logseq.Logseq
     mas: {}
+    meetingbar:
+      darwin:
+        cask: meetingbar
     microk8s:
       darwin: ubuntu/microk8s/microk8s
       windows:
@@ -508,6 +514,7 @@ packageManagement:
         - iterm2
         - keyboardcleantool
         - mas
+        - meetingbar
         - moom
         - omnidisksweeper
         - omnifocus
