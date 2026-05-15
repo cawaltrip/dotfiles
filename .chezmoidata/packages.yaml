@@ -116,6 +116,7 @@ packageManagement:
       darwin: ultimaker-cura
       windows: Ultimaker.Cura
     cursor: {}
+    d2: {}
     discord:
       darwin:
         cask: discord
@@ -539,6 +540,7 @@ packageManagement:
         - yamllint
         - yq
       darwin:
+        - d2
         - git-extras
         - docutils
     dev-android:
