@@ -469,6 +469,8 @@ packageManagement:
     wireshark:
       darwin:
         cask: wireshark-app
+    worktrunk:
+      windows: max-sixty.worktrunk
     xbar:
       darwin:
         cask: xbar
@@ -537,6 +539,7 @@ packageManagement:
         - jq
         - pastel
         - vscode
+        - worktrunk
         - yamllint
         - yq
       darwin:
