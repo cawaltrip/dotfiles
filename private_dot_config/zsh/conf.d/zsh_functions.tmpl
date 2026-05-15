@@ -58,3 +58,8 @@ fi
 
 autoload -Uz compinit
 compinit
+
+# Worktrunk needs to be loaded after compinit
+if (( ${+commands[wt]} )); then
+    source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/integrations/worktrunk
+fi
