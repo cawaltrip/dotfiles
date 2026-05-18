@@ -642,8 +642,8 @@ packageManagement:
     security:
       shared:
         - burp-suite-professional
-        - ghidra
-        - imhex
+        # - ghidra
+        # - imhex
         - wireshark
     shell:
       shared:
