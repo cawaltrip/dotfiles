@@ -236,6 +236,8 @@ packageManagement:
     iterm2:
       darwin:
         cask: iterm2
+    jd:
+      windows: JosephBurnett.JD
     jpeg-xl:
       windows:
         scoop:
@@ -483,6 +485,10 @@ packageManagement:
       windows: yt-dlp.yt-dlp
     yq:
       windows: MikeFarah.yq
+    zed:
+      darwin:
+        cask: zed
+      windows: ZedIndustries.Zed
     zoxide:
       windows: ajeetdsouza.zoxide
   groups:
@@ -509,6 +515,7 @@ packageManagement:
         - pipx
         - sevenzip
         - vscode
+        - zed
       darwin:
         - alfred
         - bartender
@@ -535,6 +542,7 @@ packageManagement:
         - git-filter-repo
         - git-lfs
         - gitleaks
+        - jd
         - jq
         - pastel
         - vscode
