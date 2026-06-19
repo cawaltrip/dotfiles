@@ -31,3 +31,7 @@ fi
 if (( ${+commands[kubectl]} )); then
     alias k=kubectl
 fi
+
+if (( ${+commands[rg]} )); then
+    retrain ag rg
+fi

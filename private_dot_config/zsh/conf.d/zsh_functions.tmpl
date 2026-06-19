@@ -5,6 +5,19 @@ if ((! zsh_eval_context[(I)file] )); then
     return
 fi
 
+# Add retrain function to help form muscle memory of new commands
+retrain() {
+  local old=$1 new=$2
+  functions[$old]="
+    print -u2 -- \"\u2192 use '$new' instead of '$old'\"
+    if read -q \"?run '$new' now? [y/N] \"; then
+      print; $new \"\$@\"
+    else
+      print; command $old \"\$@\"
+    fi
+  "
+}
+
 # Disable Homebrew environment hints
 if (( ${+commands[brew]} )); then
     export HOMEBREW_NO_ENV_HINTS=1
@@ -54,6 +67,17 @@ fi
 if (( ${+commands[gcloud]} )); then
     gcloud_sdk_root=$(gcloud info --format="value(installation.sdk_root)")
     source "${gcloud_sdk_root}/completion.zsh.inc"
+fi
+
+# Point ripgrep to its config file
+if (( ${+commands[rg]} )); then
+    export RIPGREP_CONFIG_PATH=${XDG_CONFIG_HOME:~/.config}/ripgrep/config
+fi
+
+# Add delta autocompletion
+if (( ${+commands[delta]} )); then
+    eval $(delta --generate-completion zsh)
+    export DELTA_PAGER="less --quit-if-one-screen --no-init --mouse"
 fi
 
 autoload -Uz compinit
