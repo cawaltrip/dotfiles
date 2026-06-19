@@ -7,7 +7,7 @@ brew bundle --debug --file=/dev/stdin <<EOF
 {{ if and (hasKey $ctx "reposToInstall")
           (hasKey $ctx.reposToInstall "taps") -}}
 {{ range $ctx.reposToInstall.taps -}}
-tap "{{ . }}"
+tap "{{ . }}", trusted: true
 {{ end -}}
 {{ end -}}
 
