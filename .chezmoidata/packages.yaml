@@ -433,6 +433,8 @@ packageManagement:
           source: main
     tfenv: {}
     tflint:
+      darwin:
+        cask: terraform-linters/tap/tflint
       windows:
         scoop:
           name: tflint
@@ -493,6 +495,10 @@ packageManagement:
       windows: yt-dlp.yt-dlp
     yq:
       windows: MikeFarah.yq
+    zap:
+      darwin:
+        cask: zap
+      windows: ZAP.ZAP
     zed:
       darwin:
         cask: zed
@@ -676,7 +682,6 @@ packageManagement:
         - coreutils
         - gawk
         - gum
-        # - the_silver_searcher
         - thefuck
         - tmux
         - unar
@@ -713,9 +718,10 @@ packageManagement:
         # - homebrew/bundle
         # - homebrew/cask-fonts
         # - homebrew/cask-versions
-        - homebrew/command-not-found
+        # - homebrew/command-not-found
         - ubuntu/microk8s
         - jameswoolfenden/homebrew-tap
+        - terraform-linters/tap
         # If doing homebrew dev work, also tap
         # - homebrew/cask
         # - homebrew/core
