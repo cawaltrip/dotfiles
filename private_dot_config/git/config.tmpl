@@ -3,9 +3,14 @@
     email = {{ .email | quote }}
 [core]
     editor = vim
-    pager = less -+FX
+    # pager = less -+FX
+    pager = delta
 [init]
     defaultBranch = main
+[interactive]
+    diffFilter = delta --color-only
+[merge]
+    conflictStyle = zdiff3
 [web]
     browser = firefox
 [pull]
@@ -14,18 +19,31 @@
     default = simple
     followTags = true
     autoSetupRemote = true
+[delta]
+	features = unobtrusive-line-numbers decorations
+	hyperlinks = true
+	hyperlinks-file-link-format = "zed://file/{path}:{line}"
+    navigate = true  # use n and N to move between diff sections
+[delta "unobtrusive-line-numbers"]
+    line-numbers = true
+    line-numbers-minus-style = "#444444"
+    line-numbers-zero-style = "#444444"
+    line-numbers-plus-style = "#444444"
+    line-numbers-left-format = "{nm:>4}┊"
+    line-numbers-right-format = "{np:>4}│"
+    line-numbers-left-style = blue
+    line-numbers-right-style = blue
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = yellow
+    file-decoration-style = blue ul ol
+    hunk-header-decoration-style = yellow box
 [color]
     ui = auto
 [color "branch"]
-    current = 
-    local = 
-    remote = 
-[color "diff"]
-    meta = 
-    frag = 
-    old = red bold
-    new = green bold
-    whitespace = 
+    current =
+    local =
+    remote =
 [color "status"]
     added = green bold
     changed = yellow bold
@@ -37,9 +55,10 @@
     ca = commit -a
     cm = commit -m
     cam = commit -am
-    dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)%an <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
     co = checkout
+    dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)%an <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+    diffs = -c delta.features=side-by-side diff
+    flog = log --oneline --name-status
     lg1 = log --graph --no-merges --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
     lg2 = log --graph --no-merges --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
     lg = !"git lg1"
-    flog = log --oneline --name-status
