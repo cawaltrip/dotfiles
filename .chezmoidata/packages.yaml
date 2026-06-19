@@ -263,6 +263,8 @@ packageManagement:
         cask: mactex-no-gui
       windows: MikTeX.MikTeX
     leptonica: {}
+    less:
+      windows: jftuga.less
     libheif: {}
     libtiff: {}
     linear:
@@ -383,6 +385,8 @@ packageManagement:
       darwin:
         cask: retroarch-metal
       windows: Libretro.RetroArch
+    ripgrep:
+      windows: BurntSushi.ripgrep.MSVC
     rom-tools: {}
     rider:
       darwin:
@@ -513,6 +517,7 @@ packageManagement:
         - claude
         - claude-code
         - firefox
+        - less
         - logseq
         - obsidian
         - powershell
@@ -665,12 +670,13 @@ packageManagement:
         - fzf
         - crudini
         - starship
+        - ripgrep
         - zoxide
       darwin:
         - coreutils
         - gawk
         - gum
-        - the_silver_searcher
+        # - the_silver_searcher
         - thefuck
         - tmux
         - unar
