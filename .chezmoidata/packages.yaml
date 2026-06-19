@@ -117,6 +117,8 @@ packageManagement:
       windows: Ultimaker.Cura
     cursor: {}
     d2: {}
+    delta:
+      windows: dandavison.delta
     discord:
       darwin:
         cask: discord
@@ -538,7 +540,7 @@ packageManagement:
         - 8bitdo
     dev:
       shared:
-        - pre-commit
+        - delta
         - gh
         - git
         - git-filter-repo
@@ -547,6 +549,7 @@ packageManagement:
         - jd
         - jq
         - pastel
+        - pre-commit
         - vscode
         - worktrunk
         - yamllint
