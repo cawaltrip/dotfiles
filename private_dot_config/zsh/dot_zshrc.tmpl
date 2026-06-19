@@ -45,7 +45,11 @@ eval "$(starship init zsh)"
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR=vim
 else
-    if (( ${+commands[code]} )); then
+    if (( ${+commands[zed]} )); then
+        export EDITOR=zed
+    elif (( ${+commands[cursor]} )); then
+        export EDITOR=cursor
+    elif (( ${+commands[code]} )); then
         export EDITOR=code
     else
         export EDITOR=vim
