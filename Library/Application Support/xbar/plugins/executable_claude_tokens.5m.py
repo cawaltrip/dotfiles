@@ -5,10 +5,10 @@
 # <xbar.author>Preslav Rachev</xbar.author>
 # <xbar.desc>Shows today's Claude Code token usage in the Mac toolbar</xbar.desc>
 
-import json
-import subprocess
-import os
 import glob
+import json
+import os
+import subprocess
 from datetime import datetime
 from typing import Any
 
@@ -23,7 +23,12 @@ def format_number(num):
 
 
 def get_ccusage_data() -> dict[str, Any]:
-    """Fetches Claude Code usage statistics using the `npx ccusage@latest -j` command."""
+    """Fetches Claude Code usage statistics via the pinned `npx ccusage@20.0.14 -j` command.
+
+    This version emits a per-model `modelBreakdowns` array in each daily entry,
+    which powers the "By Model" submenu. Older versions (e.g. v19.0.3) omit it,
+    and the breakdown section degrades gracefully when it is absent.
+    """
     try:
         # Set up environment with common paths for xbar
         env = os.environ.copy()
@@ -55,7 +60,7 @@ def get_ccusage_data() -> dict[str, Any]:
 
         # Try running npx from PATH
         result = subprocess.run(
-            ["npx", "ccusage@latest", "-j"],
+            ["npx", "ccusage@20.0.14", "-j"],
             capture_output=True,
             text=True,
             timeout=30,
@@ -79,6 +84,50 @@ def get_ccusage_data() -> dict[str, Any]:
         return {"error": "npx command not found - Node.js may not be installed"}
 
 
+def format_model_name(model_name: str) -> str:
+    """Shortens a ccusage model id for display.
+
+    e.g. 'claude-haiku-4-5-20251001' -> 'haiku-4-5', 'claude-opus-4-8' -> 'opus-4-8'.
+    """
+    name = model_name.removeprefix("claude-")
+    parts = name.split("-")
+    # Drop a trailing 8-digit date stamp segment if present (e.g. '-20251001').
+    if parts and len(parts[-1]) == 8 and parts[-1].isdigit():
+        parts = parts[:-1]
+    return "-".join(parts)
+
+
+def print_model_breakdown(today_usage: dict[str, Any]) -> None:
+    """Prints today's per-model cost/token breakdown as an xbar submenu section.
+
+    No-ops when the daily entry has no `modelBreakdowns` array (older ccusage).
+    """
+    breakdowns = today_usage.get("modelBreakdowns") or []
+    if not breakdowns:
+        return
+
+    day_cost = today_usage.get("totalCost", 0) or 0
+
+    print("---")
+    print("By Model (Today)")
+    for model in sorted(breakdowns, key=lambda m: m.get("cost", 0), reverse=True):
+        name = format_model_name(model.get("modelName", "unknown"))
+        cost = model.get("cost", 0)
+        share = f"{cost / day_cost * 100:.0f}%" if day_cost else "—"
+        model_tokens = (
+            model.get("inputTokens", 0)
+            + model.get("outputTokens", 0)
+            + model.get("cacheCreationTokens", 0)
+            + model.get("cacheReadTokens", 0)
+        )
+        print(f"{name}  ${cost:.2f}  ({share})")
+        print(f"--Tokens: {format_number(model_tokens)}")
+        print(f"--Input: {format_number(model.get('inputTokens', 0))}")
+        print(f"--Output: {format_number(model.get('outputTokens', 0))}")
+        print(f"--Cache Creation: {format_number(model.get('cacheCreationTokens', 0))}")
+        print(f"--Cache Read: {format_number(model.get('cacheReadTokens', 0))}")
+
+
 def main():
     """Main function to fetch and display Claude Code usage statistics."""
     # Get today's date in YYYY-MM-DD format
@@ -100,10 +149,11 @@ def main():
             print("Failed to fetch usage data")
         return
 
-    # Find today's usage
+    # Find today's usage. ccusage keys the daily date as "period"; older
+    # versions used "date", so fall back to it for resilience.
     today_usage = None
     for day in data.get("daily", []):
-        if day.get("date") == today:
+        if (day.get("period") or day.get("date")) == today:
             today_usage = day
             break
 
@@ -117,7 +167,7 @@ def main():
     total_tokens = today_usage.get("totalTokens", 0)
     total_cost = today_usage.get("totalCost", 0)
 
-    print(f"📊 {format_number(total_tokens)}")
+    print(f"📊 ${total_cost:.2f} · {format_number(total_tokens)}")
     print("---")
     print(f"Today's Usage ({today})")
     print(f"Total Tokens: {format_number(total_tokens)}")
@@ -126,6 +176,10 @@ def main():
     print(f"Cache Creation: {format_number(today_usage.get('cacheCreationTokens', 0))}")
     print(f"Cache Read: {format_number(today_usage.get('cacheReadTokens', 0))}")
     print(f"Cost: ${total_cost:.2f}")
+
+    # Per-model breakdown (only present in newer ccusage output)
+    print_model_breakdown(today_usage)
+
     print("---")
 
     # Show total usage
