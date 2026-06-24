@@ -71,7 +71,7 @@ fi
 
 # Point ripgrep to its config file
 if (( ${+commands[rg]} )); then
-    export RIPGREP_CONFIG_PATH=${XDG_CONFIG_HOME:~/.config}/ripgrep/config
+    export RIPGREP_CONFIG_PATH=${XDG_CONFIG_HOME}/ripgrep/config
 fi
 
 # Add delta autocompletion
