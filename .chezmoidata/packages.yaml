@@ -238,6 +238,7 @@ packageManagement:
     iterm2:
       darwin:
         cask: iterm2
+    jaq: {}
     jd:
       windows: JosephBurnett.JD
     jpeg-xl:
@@ -558,7 +559,6 @@ packageManagement:
         - git-lfs
         - gitleaks
         - jd
-        - jq
         - pastel
         - pre-commit
         - vscode
@@ -569,6 +569,9 @@ packageManagement:
         - d2
         - git-extras
         - docutils
+        - jaq
+      windows:
+        - jq # TODO: Find native way to install jaq on Windows
     dev-android:
       shared:
         - android-studio
