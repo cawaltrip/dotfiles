@@ -1,0 +1,24 @@
+extensions:
+  shared:
+    - catppuccin
+    - csv
+    - cursor
+    - dockerfile
+    - git-firefly
+    - github-dark-default
+    - graphql
+    - html
+    - ini
+    - latex
+    - log
+    - make
+    - markdown-oxide
+    - material-dark
+    - one-dark-pro
+    - opentofu
+    - powershell
+    - rst
+    - sql
+    - tokyo-night
+    - toml
+    - vscode-dark-modern
