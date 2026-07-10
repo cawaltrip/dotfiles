@@ -1,4 +1,4 @@
-extensions:
+zed_extensions:
   shared:
     - catppuccin
     - csv
