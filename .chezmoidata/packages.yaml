@@ -719,12 +719,12 @@ packageManagement:
         - aws/tap
         - hashicorp/tap
         # - homebrew/bundle
-        # - homebrew/cask-fonts
-        # - homebrew/cask-versions
         # - homebrew/command-not-found
         - ubuntu/microk8s
         - jameswoolfenden/homebrew-tap
         - terraform-linters/tap
+        - octavore/tools
+        - nrlquaker/createzap
         # If doing homebrew dev work, also tap
         # - homebrew/cask
         # - homebrew/core
