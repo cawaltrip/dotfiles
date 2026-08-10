@@ -49,6 +49,8 @@ packageManagement:
     amethyst: {}
     android-studio:
       windows: Google.AndroidStudio
+    atuin:
+      windows: Atuinsh.Atuin
     aws-cdk: {}
     aws-vpn-client:
       windows: Amazon.AWSVPNClient
