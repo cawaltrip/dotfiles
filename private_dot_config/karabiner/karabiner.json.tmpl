@@ -1,0 +1,21 @@
+{{ if .personal -}}
+{
+    "profiles": [
+        {
+            "name": "Default profile",
+            "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        }
+    ],
+    "devices":[
+        {
+            "identifiers":
+                {
+                    "vendor_id": 1118,
+                    "product_id": 654
+                },
+        "ignore": true
+        }
+    ]
+}
+{{ end -}}
