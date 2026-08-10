@@ -127,7 +127,9 @@ packageManagement:
       darwin:
         cask: docker-desktop
     docutils: {}
+    dust: {}
     exiftool: {}
+    eza: {}
     fd:
       windows: sharkdp.fd
     ffmpeg:
@@ -349,6 +351,7 @@ packageManagement:
     powershell:
       windows: Microsoft.PowerShell
     pre-commit: {}
+    procs: {}
     pronterface: {}
     protonvpn:
       darwin:
@@ -537,12 +540,15 @@ packageManagement:
         - bartender
         - batteries
         - bettertouchtool
+        - dust
+        - eza
         - iterm2
         - keyboardcleantool
         - mas
         - meetingbar
         - moom
         - omnidisksweeper
+        - procs
         - rbw
         - shottr
         - smooze-pro
