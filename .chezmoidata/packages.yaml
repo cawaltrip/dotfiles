@@ -80,7 +80,7 @@ packageManagement:
     burp-suite-professional:
       windows: PortSwigger.BurpSuite.Professional
       darwin:
-        cask: burp-suite-professional
+        cask: burp-suite
     calibre:
       windows: calibre.calibre
     checkov:
