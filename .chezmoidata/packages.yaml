@@ -118,6 +118,7 @@ packageManagement:
     cursor: {}
     d2: {}
     delta:
+      darwin: git-delta
       windows: dandavison.delta
     discord:
       darwin:
@@ -638,7 +639,6 @@ packageManagement:
         - ngrok
         - nodejs
         # - postman
-        - webstorm
         - yarn
       darwin:
         - unicodechecker
