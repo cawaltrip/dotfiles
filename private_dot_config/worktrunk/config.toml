@@ -1,3 +1,8 @@
 # Worktrunk config file.
 # See available commands and examples at: https://worktrunk.dev/config/
 worktree-path = "{{ repo_path }}/.worktrees/{{ branch | sanitize }}"
+
+[projects]
+
+[commit.generation]
+command = "MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''"
