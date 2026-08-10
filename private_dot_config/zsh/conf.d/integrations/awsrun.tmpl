@@ -1,0 +1,9 @@
+# awsrun: bridge AWS CLI autocompletion into `awsrun ... aws ...`.
+# Delegates to ~/.local/bin/awsrun-aws-completer, which strips the awsrun
+# prefix from COMP_LINE and hands the rest to aws_completer.
+# Requires bash-style `complete` (OMZP::aws normally loads bashcompinit,
+# but guard in case that plugin ever goes away).
+if ! whence -w complete >/dev/null 2>&1; then
+    autoload -Uz bashcompinit && bashcompinit
+fi
+complete -C "${XDG_BIN_HOME:-${HOME}/.local/bin}/awsrun-aws-completer" awsrun

@@ -80,10 +80,20 @@ if (( ${+commands[delta]} )); then
     export DELTA_PAGER="less --quit-if-one-screen --no-init --mouse"
 fi
 
+# Set awsrun config path
+if (( ${+commands[awsrun]} )); then
+    export AWSRUN_CONFIG=${XDG_CONFIG_HOME}/awsrun/config.yaml
+fi
+
 autoload -Uz compinit
 compinit
 
 # Worktrunk needs to be loaded after compinit
 if (( ${+commands[wt]} )); then
     source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/integrations/worktrunk
+fi
+
+# awsrun: AWS CLI autocompletion bridge (needs compinit loaded first)
+if (( ${+commands[awsrun]} )); then
+    source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/integrations/awsrun
 fi
