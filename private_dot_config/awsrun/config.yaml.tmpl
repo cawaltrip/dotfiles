@@ -1,0 +1,25 @@
+# awsrun user configuration — https://github.com/fidelity/awsrun
+#
+# Accounts come from the local inventory file; credentials come from the
+# named profiles in ~/.aws/credentials that awsssome refreshes.
+#
+# Usage:
+#   awsrun --include org=goguardian aws sts get-caller-identity   # all accounts
+#   awsrun --account gg-security aws s3 ls                        # one account
+#   awsrun --include org=goguardian --force aws ...               # skip confirm prompt
+
+Accounts:
+  plugin: awsrun.plugins.accts.YAML
+  options:
+    url: file://{{ .chezmoi.homeDir }}/.config/awsrun/accounts.yaml
+    id_attr: id
+    str_template: "{id} ({account_id})"
+
+Credentials:
+  plugin: awsrun.plugins.creds.aws.Profile
+
+Commands:
+  aws:
+    region:
+      - us-west-2
+      - us-east-1

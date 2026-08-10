@@ -1,15 +1,27 @@
 #!/usr/bin/env zsh
 
-{{ if eq .chezmoi.os "darwin" -}}
-ls_color="-G"
-{{ else if eq .chezmoi.os "linux" }}
-ls_color="--color=auto"
-{{ end -}}
+if (( ${+commands[eza]} )); then
+  ls_command=eza
+  ls_color="--color=auto --color-scale=all --color-scale-mode=gradient"
+  ls_extra_defaults="--icons=auto --no-permissions --octal-permissions --binary --group-directories-first"
+  ls_human="" # human readable by default
+  ls_all="--all" # or -a; acts like `ls -A`; use a second time for `ls -a`
+else
+  ls_command=ls
+  ls_extra_defaults=""
+  ls_human="-h"
+  ls_all="-A"
+  {{ if eq .chezmoi.os "darwin" -}}
+  ls_color="-G"
+  {{ else if eq .chezmoi.os "linux" }}
+  ls_color="--color=auto"
+  {{ end -}}
+fi
 
-alias ls="ls ${ls_color}"
-alias ll="ls -lh ${ls_color}"
-alias lal="ls -Alh ${ls_color}"
-alias lla="ls -Alh ${ls_color}"
+alias ls="${ls_command} ${ls_extra_defaults} ${ls_color}"
+alias ll="${ls_command} ${ls_extra_defaults} -l ${ls_human} ${ls_color}"
+alias lal="${ls_command} ${ls_extra_defaults} -l ${ls_all} ${ls_human} ${ls_color}"
+alias lla="${ls_command} ${ls_extra_defaults} -l ${ls_all} ${ls_human} ${ls_color}"
 
 alias history='fc -iDl 1'
 
@@ -19,23 +31,35 @@ alias gst='git status'
 
 {{ if eq .chezmoi.os "darwin" -}}
 if [[ +commands[gdircolors] ]]; then
-    alias dircolors=gdircolors
+  alias dircolors=gdircolors
 fi
 alias brew64="PATH=/usr/local/bin:\$PATH arch -x86_64 brew"
 {{ end }}
 
 if (( ${+commands[terraform]} )); then
-    alias tf=terraform
+  alias tf=terraform
 fi
 
 if (( ${+commands[kubectl]} )); then
-    alias k=kubectl
+  alias k=kubectl
 fi
 
 if (( ${+commands[rg]} )); then
-    retrain ag rg
+  retrain ag rg
 fi
 
 if (( ${+commands[jaq]} )); then
-    retrain jq jaq
+  retrain jq jaq
+fi
+
+if (( ${+commands[bat]} )); then
+  retrain cat bat
+fi
+
+if (( ${+commands[dust]} )); then
+  retrain du dust
+fi
+
+if (( ${+commands[procs]} )); then
+  retrain ps procs
 fi

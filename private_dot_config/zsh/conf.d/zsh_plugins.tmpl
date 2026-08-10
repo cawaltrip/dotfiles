@@ -14,6 +14,10 @@ zinit light lukechilds/zsh-nvm
 zinit ice blockf
 zinit light zsh-users/zsh-completions
 
+if (( ${+commands[atuin]} )); then
+  zinit load atuinsh/atuin
+fi
+
 # zi snippet OMZP::git  # Disabling git for now to not pollute aliases.
 zi snippet OMZP::aws
 zi snippet OMZP::battery

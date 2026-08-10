@@ -49,6 +49,8 @@ packageManagement:
     amethyst: {}
     android-studio:
       windows: Google.AndroidStudio
+    atuin:
+      windows: Atuinsh.Atuin
     aws-cdk: {}
     aws-vpn-client:
       windows: Amazon.AWSVPNClient
@@ -78,7 +80,7 @@ packageManagement:
     burp-suite-professional:
       windows: PortSwigger.BurpSuite.Professional
       darwin:
-        cask: burp-suite-professional
+        cask: burp-suite
     calibre:
       windows: calibre.calibre
     checkov:
@@ -128,7 +130,9 @@ packageManagement:
       darwin:
         cask: docker-desktop
     docutils: {}
+    dust: {}
     exiftool: {}
+    eza: {}
     fd:
       windows: sharkdp.fd
     ffmpeg:
@@ -185,6 +189,9 @@ packageManagement:
           source: extras
       darwin:
         cask: ghidra
+    ghostty:
+      darwin:
+        cask: ghostty
     git:
       windows: Git.Git
     git-extras: {} # TODO: Create a scoop package for this.
@@ -350,6 +357,7 @@ packageManagement:
     powershell:
       windows: Microsoft.PowerShell
     pre-commit: {}
+    procs: {}
     pronterface: {}
     protonvpn:
       darwin:
@@ -538,12 +546,16 @@ packageManagement:
         - bartender
         - batteries
         - bettertouchtool
+        - dust
+        - eza
         - iterm2
+        - ghostty
         - keyboardcleantool
         - mas
         - meetingbar
         - moom
         - omnidisksweeper
+        - procs
         - rbw
         - shottr
         - smooze-pro

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#
+# awsrun-aws-completer — AWS CLI tab completion for awsrun's `aws` command.
+#
+# Register with: complete -C awsrun-aws-completer awsrun
+#
+# The shell invokes this with the full command line in COMP_LINE and the
+# cursor position in COMP_POINT. Everything before the first standalone
+# `aws` token is stripped and the remainder is handed to aws_completer,
+# which completes it exactly as it would a normal AWS CLI invocation:
+#
+#   awsrun --include org=goguardian --force aws ec2 desc<TAB>
+#                                           `-- aws_completer sees from here
+
+completer=$(command -v aws_completer) || exit 0
+
+line="${COMP_LINE:-}"
+point="${COMP_POINT:-${#line}}"
+
+# Only text left of the cursor matters. Find the first standalone `aws`
+# word; it always has whitespace before it since the line starts `awsrun`.
+left="${line:0:point}"
+offset=$(printf '%s' "$left" | LC_ALL=C awk '
+  { if (match($0, /[[:space:]]aws([[:space:]]|$)/)) { print RSTART; exit } }')
+
+# Cursor is still in the awsrun prefix — nothing for us to complete.
+[[ -n "$offset" ]] || exit 0
+
+COMP_LINE="${left:offset}"
+COMP_POINT=${#COMP_LINE}
+export COMP_LINE COMP_POINT
+exec "$completer"
