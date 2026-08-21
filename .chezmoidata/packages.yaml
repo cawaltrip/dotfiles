@@ -436,6 +436,8 @@ packageManagement:
       darwin:
         cask: texstudio
       windows: TeXstudio.TeXstudio
+    tennis:
+      darwin: gurgeous/tap/tennis
     tenv:
       windows:
         scoop:
@@ -737,6 +739,7 @@ packageManagement:
         - terraform-linters/tap
         - octavore/tools
         - nrlquaker/createzap
+        - gurgeous/tap
         # If doing homebrew dev work, also tap
         # - homebrew/cask
         # - homebrew/core
