@@ -206,6 +206,8 @@ packageManagement:
           name: git-lfs
           source: main
     gitleaks: {}
+    glow:
+      windows: charmbracelet.glow
     go:
       windows: GoLang.Go
     goland:
