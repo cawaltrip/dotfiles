@@ -80,3 +80,11 @@ for dir in ${path_dirs[@]}; do
     [[ -d ${dir} ]] && PATH="${dir}:${PATH}"
 done
 export PATH
+
+# nvm's node must beat Homebrew's node. nvm won't re-order PATH when its bin dir is
+# already present (nvm-sh/nvm#1652), and the path_dirs loop above puts Homebrew first,
+# so re-prepend the active nvm version after PATH is assembled.
+if [[ -n ${NVM_BIN} && -d ${NVM_BIN} ]]; then
+    PATH="${NVM_BIN}:${PATH}"
+    export PATH
+fi

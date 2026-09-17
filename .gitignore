@@ -64,3 +64,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows
+# Worktrunk worktrees live inside the repo; chezmoi ignores dot-prefixed dirs, git should too.
+.worktrees/
