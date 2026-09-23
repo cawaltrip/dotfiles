@@ -122,6 +122,7 @@ packageManagement:
     delta:
       darwin: git-delta
       windows: dandavison.delta
+    direnv: {}
     discord:
       darwin:
         cask: discord
@@ -691,6 +692,7 @@ packageManagement:
         - wireshark
     shell:
       shared:
+        - direnv
         - fd
         - fzf
         - crudini
