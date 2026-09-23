@@ -64,3 +64,12 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows
+
+# Worktrunk / git worktrees
+.worktrees/
+
+# skill-creator eval workspaces
+.agents/skills/*-workspace/
+
+# Python bytecode
+__pycache__/
