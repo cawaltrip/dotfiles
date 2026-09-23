@@ -1,0 +1,30 @@
+diff --git a/.chezmoidata/packages.yaml b/.chezmoidata/packages.yaml
+index 0260fbb..00ab675 100644
+--- a/.chezmoidata/packages.yaml
++++ b/.chezmoidata/packages.yaml
+@@ -136,7 +136,7 @@ packageManagement:
+     fd:
+       windows: sharkdp.fd
+     ffmpeg:
+-      windows: Gyan.FFmpeg
++      windows: Gyan.FFmpeg.Essentials
+     figma:
+       darwin:
+         cask: figma
+@@ -517,6 +517,8 @@ packageManagement:
+       darwin:
+         cask: zed
+       windows: ZedIndustries.Zed
++    zellij: {}
++    zig: {}
+     zoxide:
+       windows: ajeetdsouza.zoxide
+   groups:
+@@ -697,6 +699,7 @@ packageManagement:
+         - starship
+         - ripgrep
+         - zoxide
++        - zellij
+       darwin:
+         - coreutils
+         - gawk
