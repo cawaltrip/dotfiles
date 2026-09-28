@@ -23,6 +23,11 @@ packageManagement:
     linux-redhat: dnf
     linux-ubuntu: apt
     windows: winget
+  preferedManagerOrder:
+    windows:
+      - winget
+      - scoop
+      - pipx
 
   # Package definitions (no installers block ⇒ use the default installer)
   packages:
