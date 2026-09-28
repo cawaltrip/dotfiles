@@ -441,6 +441,14 @@ packageManagement:
       darwin:
         cask: tableplus
       windows: TablePlus.TablePlus
+    temurin: {}
+    tennis:
+      darwin: gurgeous/tap/tennis
+    tenv:
+      windows:
+        scoop:
+          name: tenv
+          source: main
     terraform:
       darwin: hashicorp/tap/terraform
     terraform-docs: {}
@@ -449,13 +457,6 @@ packageManagement:
       darwin:
         cask: texstudio
       windows: TeXstudio.TeXstudio
-    tennis:
-      darwin: gurgeous/tap/tennis
-    tenv:
-      windows:
-        scoop:
-          name: tenv
-          source: main
     tfenv: {}
     tflint:
       darwin:
