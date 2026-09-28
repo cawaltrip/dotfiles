@@ -51,6 +51,9 @@ packageManagement:
     alfred:
       darwin:
         cask: alfred
+    alloy:
+      darwin:
+        cask: alloy-analyzer
     amethyst: {}
     android-studio:
       windows: Google.AndroidStudio
