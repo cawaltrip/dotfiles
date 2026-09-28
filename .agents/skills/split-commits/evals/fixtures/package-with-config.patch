@@ -1,0 +1,45 @@
+diff --git a/.chezmoidata/packages.yaml b/.chezmoidata/packages.yaml
+index 0260fbb..04e04d6 100644
+--- a/.chezmoidata/packages.yaml
++++ b/.chezmoidata/packages.yaml
+@@ -233,6 +233,7 @@ packageManagement:
+       darwin:
+         cask: intellij-idea
+       windows: JetBrains.IntelliJIDEA.Ultimate
++    htop: {}
+     imagemagick:
+       windows: ImageMagick.ImageMagick
+     imhex:
+@@ -274,6 +275,7 @@ packageManagement:
+         cask: mactex-no-gui
+       windows: MikTeX.MikTeX
+     leptonica: {}
++    lazygit: {}
+     less:
+       windows: jftuga.less
+     libheif: {}
+@@ -576,7 +578,7 @@ packageManagement:
+         - git-lfs
+         - gitleaks
+         - jd
+-        - pastel
++        - lazygit
+         - pre-commit
+         - vscode
+         - worktrunk
+diff --git a/private_dot_config/lazygit/config.yml b/private_dot_config/lazygit/config.yml
+new file mode 100644
+index 0000000..95e2327
+--- /dev/null
++++ b/private_dot_config/lazygit/config.yml
+@@ -0,0 +1,10 @@
++gui:
++  theme:
++    activeBorderColor:
++      - green
++      - bold
++  showFileTree: true
++git:
++  paging:
++    colorArg: always
++    pager: delta --dark --paging=never

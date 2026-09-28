@@ -1,0 +1,72 @@
+{
+  "skill_name": "split-commits",
+  "notes": "Each eval runs inside a scratch clone built by fixtures/make-fixture.sh <fixture> <dest>. Replace {{REPO}} in the prompt with that clone's path. Never run these against the real checkout.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "packages-mixed",
+      "fixture": "packages-mixed",
+      "prompt": "I've been adding stuff to my chezmoi dotfiles repo at {{REPO}} and haven't committed in a while. Can you commit my changes to packages.yaml? Follow my usual commit style.",
+      "expected_output": "Seven commits on main, each `type(packages): subject` with no body or trailers: a feat for the new preferedManagerOrder key; chore adds for alloy, direnv, gitnr (definition and dev-group line together), openjdk+temurin (grouped or separate is acceptable), windirstat; one chore that only moves tennis and tenv into sorted order. Working tree clean afterwards and byte-identical to before. No edits to the user's content (the prefered typo stays).",
+      "files": [],
+      "expectations": [
+        "Commits landed on the branch the user was on (main), not a new branch or worktree",
+        "Working tree is clean afterwards (everything committed, nothing left over)",
+        "Final committed content is byte-identical to the user's edits (nothing altered, dropped, or 'fixed')",
+        "Between 6 and 8 commits were created",
+        "Every subject is `type(scope): lowercase imperative`, no trailing period, <=72 chars",
+        "No commit has a body or trailer (history has none; no Co-Authored-By)",
+        "Commits touching only packages.yaml use scope `packages` (never `homebrew`)",
+        "gitnr's package definition and its dev-group line are in the same commit",
+        "The tennis/tenv re-sort is one commit containing only the 7 moved lines (+7/-7)",
+        "The preferedManagerOrder schema change is its own commit (5 lines, no packages)",
+        "No commit bundles unrelated packages (only openjdk+temurin may share one)",
+        "Each package-adding commit names the package(s) in its subject"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "package-with-config",
+      "fixture": "package-with-config",
+      "prompt": "commit what's in {{REPO}} please. i added lazygit (and its config), htop, and dropped pastel from the dev group. separate commits like i normally do",
+      "expected_output": "Three commits: feat(lazygit): add lazygit config (or similar) containing the packages.yaml definition, the dev-group membership line, AND the new private_dot_config/lazygit/config.yml; chore(packages): add htop; chore(packages): remove pastel from dev group. No commit mixes the removal with an addition. Working tree clean afterwards.",
+      "files": [],
+      "expectations": [
+        "Commits landed on the branch the user was on (main), not a new branch or worktree",
+        "Working tree is clean afterwards (everything committed, nothing left over)",
+        "Final committed content is byte-identical to the user's edits (nothing altered, dropped, or 'fixed')",
+        "Between 3 and 3 commits were created",
+        "Every subject is `type(scope): lowercase imperative`, no trailing period, <=72 chars",
+        "No commit has a body or trailer (history has none; no Co-Authored-By)",
+        "Commits touching only packages.yaml use scope `packages` (never `homebrew`)",
+        "The lazygit commit spans both files: config.yml plus the packages.yaml definition and dev-group line",
+        "The lazygit commit is typed feat with scope lazygit (a new tool with its config)",
+        "htop is its own single-line commit whose subject names it",
+        "The pastel removal is its own commit with no additions, and the subject says remove + pastel",
+        "No commit mixes a removal with an addition"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "adjacent-and-modify",
+      "fixture": "adjacent-and-modify",
+      "prompt": "In {{REPO}}, split up and commit the uncommitted changes to .chezmoidata/packages.yaml, one commit per logical change, using the same conventional-commit style as the existing history.",
+      "expected_output": "Three commits: chore(packages): add zellij (definition plus the shell-group line, even though the definition shares a hunk with zig); chore(packages): add zig; a chore updating the ffmpeg winget id (e.g. chore(packages): update ffmpeg winget id or chore(ffmpeg): update winget package name). zellij and zig are not grouped together (unrelated tools). Working tree clean afterwards.",
+      "files": [],
+      "expectations": [
+        "Commits landed on the branch the user was on (main), not a new branch or worktree",
+        "Working tree is clean afterwards (everything committed, nothing left over)",
+        "Final committed content is byte-identical to the user's edits (nothing altered, dropped, or 'fixed')",
+        "Between 3 and 3 commits were created",
+        "Every subject is `type(scope): lowercase imperative`, no trailing period, <=72 chars",
+        "No commit has a body or trailer (history has none; no Co-Authored-By)",
+        "Commits touching only packages.yaml use scope `packages` (never `homebrew`)",
+        "zellij's definition and shell-group line share one commit that does not include zig",
+        "zig is its own single-line commit (split out of the hunk it shares with zellij)",
+        "The ffmpeg winget-id change is a lone one-line modification whose subject names ffmpeg",
+        "The ffmpeg change is typed chore or fix (an id correction, not a feature)"
+      ]
+    }
+  ],
+  "grading": "evals/grade.py <eval-name> <run-dir> checks every expectation against the scratch repo's git history and writes grading.json."
+}
