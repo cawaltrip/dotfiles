@@ -23,6 +23,11 @@ packageManagement:
     linux-redhat: dnf
     linux-ubuntu: apt
     windows: winget
+  preferedManagerOrder:
+    windows:
+      - winget
+      - scoop
+      - pipx
 
   # Package definitions (no installers block ⇒ use the default installer)
   packages:
@@ -46,6 +51,9 @@ packageManagement:
     alfred:
       darwin:
         cask: alfred
+    alloy:
+      darwin:
+        cask: alloy-analyzer
     amethyst: {}
     android-studio:
       windows: Google.AndroidStudio
@@ -122,6 +130,7 @@ packageManagement:
     delta:
       darwin: git-delta
       windows: dandavison.delta
+    direnv: {}
     discord:
       darwin:
         cask: discord
@@ -206,6 +215,7 @@ packageManagement:
           name: git-lfs
           source: main
     gitleaks: {}
+    gitnr: {}
     glow:
       windows: charmbracelet.glow
     go:
@@ -336,6 +346,7 @@ packageManagement:
         cask: omnifocus
     onelogin-aws-cli:
       darwin: cawaltrip/tap/onelogin-aws-cli
+    openjdk: {}
     openjpeg: {}
     openlens:
       windows: MuhammedKalkan.OpenLens
@@ -430,6 +441,14 @@ packageManagement:
       darwin:
         cask: tableplus
       windows: TablePlus.TablePlus
+    temurin: {}
+    tennis:
+      darwin: gurgeous/tap/tennis
+    tenv:
+      windows:
+        scoop:
+          name: tenv
+          source: main
     terraform:
       darwin: hashicorp/tap/terraform
     terraform-docs: {}
@@ -438,13 +457,6 @@ packageManagement:
       darwin:
         cask: texstudio
       windows: TeXstudio.TeXstudio
-    tennis:
-      darwin: gurgeous/tap/tennis
-    tenv:
-      windows:
-        scoop:
-          name: tenv
-          source: main
     tfenv: {}
     tflint:
       darwin:
@@ -492,6 +504,8 @@ packageManagement:
         cask: webstorm
       windows: JetBrains.WebStorm
     wget: {}
+    windirstat:
+      windows: WinDirStat.WinDirStat
     wireshark:
       darwin:
         cask: wireshark-app
@@ -585,6 +599,7 @@ packageManagement:
       darwin:
         - d2
         - git-extras
+        - gitnr
         - docutils
         - jaq
       windows:

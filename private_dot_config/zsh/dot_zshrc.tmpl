@@ -59,8 +59,14 @@ fi
 # Vim variables
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
-# Set the path
+# Set the path. Listed in priority order: the first entry wins. Unset
+# variables drop out of the array at assignment; (N-/) keeps only entries
+# that resolve to existing directories. typeset -U on both names keeps PATH
+# free of duplicates for the life of the shell, including later scalar
+# prepends by tools like nvm and pyenv.
+typeset -U path PATH
 path_dirs=(
+    ${NVM_BIN}
     ${HOMEBREW_PREFIX:-/opt/homebrew}/sbin
     ${HOMEBREW_PREFIX:-/opt/homebrew}/bin
     ${HOME}/.local/bin
@@ -70,13 +76,5 @@ path_dirs=(
     ${HOME}/Qt
     ${PYENV_ROOT}/shims
 )
-
-# If Go is installed, add it to the path.
-if (( ${+commands[go]} )); then
-    path_dirs+=(${HOME}/go/bin)
-fi
-
-for dir in ${path_dirs[@]}; do
-    [[ -d ${dir} ]] && PATH="${dir}:${PATH}"
-done
+path=(${^path_dirs}(N-/) $path)
 export PATH

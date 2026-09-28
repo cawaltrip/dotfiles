@@ -1,0 +1,80 @@
+# retrain: nudge toward new commands to build muscle memory, without
+# shadowing the old ones.
+#
+# `retrain old new` registers a pair. The check runs only when Enter is
+# pressed on a command line that invokes `old` in a command position, so
+# completion functions, plugins, hooks, and scripts that call `old` are
+# never affected. Use `\old` or `command old` to bypass the nudge.
+# Prompt answers follow zsh's CORRECT convention: y = run with the new
+# command, e = put the rewritten line back in the editor, anything else =
+# run as typed.
+#
+# Autoloaded zsh-style: on the first call this whole file runs as the
+# function body, so the setup below happens once and is discarded. The
+# `retrain` definition is retained for later calls, and the trailing
+# `retrain "$@"` performs the first call's registration. See "Autoloading
+# Functions" in zshmisc(1).
+
+typeset -gA _retrain_map
+
+# Words that may precede a command name without being the command.
+typeset -ga _retrain_prefixes=(sudo doas time noglob nocorrect)
+# Tokens after which a new command position begins.
+typeset -ga _retrain_separators=('|' '|&' '||' '&&' ';' '&' '!' '{' '(' \
+  if then elif else while until do coproc)
+
+_retrain_accept_line() {
+  setopt localoptions extendedglob
+  if (( ${#_retrain_map} )); then
+    local -a words hints
+    local -i i is_cmd=1
+    local w
+    words=(${(z)BUFFER})
+    for (( i = 1; i <= $#words; i++ )); do
+      w=$words[i]
+      if (( is_cmd )); then
+        # Skip leading VAR=value assignments and precommand modifiers.
+        [[ $w == [[:alpha:]_][[:alnum:]_]#=* ]] && continue
+        (( $_retrain_prefixes[(Ie)$w] )) && continue
+        if (( ${+_retrain_map[$w]} )); then
+          hints+=("→ use '${_retrain_map[$w]}' instead of '$w'")
+          words[i]=${_retrain_map[$w]}
+        fi
+        is_cmd=0
+      fi
+      (( $_retrain_separators[(Ie)$w] )) && is_cmd=1
+    done
+    if (( $#hints )); then
+      local reply=
+      # Rebuilding from tokens turns newlines into ';', so only offer the
+      # rewrite for single-line commands.
+      if [[ $BUFFER != *$'\n'* ]]; then
+        # Ask while ZLE still owns the terminal. After `zle -I` the tty is
+        # back in cooked mode and `read -k` would block until a newline.
+        zle -R "${(j:; :)hints}   run with the new command? [y/N/e] "
+        read -k 1 reply
+      fi
+      zle -I
+      print -u2 -l -- $hints
+      case $reply in
+        [yY]) BUFFER=${(j: :)words}; CURSOR=$#BUFFER ;;
+        # e: put the rewritten line back in the editor without running it
+        [eE]) BUFFER=${(j: :)words}; CURSOR=$#BUFFER; return 0 ;;
+      esac
+    fi
+  fi
+  zle _retrain_orig_accept_line
+}
+
+# Wrap whatever accept-line is currently bound to (guarded against re-init).
+if [[ ${widgets[accept-line]} != user:_retrain_accept_line ]]; then
+  zle -A accept-line _retrain_orig_accept_line
+  zle -N accept-line _retrain_accept_line
+fi
+
+retrain() {
+  (( $# == 2 )) || { print -u2 -- "usage: retrain <old> <new>"; return 1 }
+  _retrain_map[$1]=$2
+}
+
+retrain "$@"

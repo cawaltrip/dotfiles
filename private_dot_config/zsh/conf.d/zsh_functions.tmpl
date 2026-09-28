@@ -5,19 +5,6 @@ if ((! zsh_eval_context[(I)file] )); then
     return
 fi
 
-# Add retrain function to help form muscle memory of new commands
-retrain() {
-  local old=$1 new=$2
-  functions[$old]="
-    print -u2 -- \"\u2192 use '$new' instead of '$old'\"
-    if read -q \"?run '$new' now? [y/N] \"; then
-      print; $new \"\$@\"
-    else
-      print; command $old \"\$@\"
-    fi
-  "
-}
-
 # Disable Homebrew environment hints
 if (( ${+commands[brew]} )); then
     export HOMEBREW_NO_ENV_HINTS=1
@@ -45,7 +32,8 @@ fi
 {{ end -}}
 
 fpath=(${XDG_CONFIG_HOME}/zsh/functions ${fpath})
-autoload -Uz chezmoi
+# retrain lives in functions/retrain; first use is from zsh_aliases.
+autoload -Uz chezmoi retrain
 
 # Disable Python virtual environment prompt
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -96,4 +84,11 @@ fi
 # awsrun: AWS CLI autocompletion bridge (needs compinit loaded first)
 if (( ${+commands[awsrun]} )); then
     source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/integrations/awsrun
+fi
+
+# direnv: load/unload per-directory environment from .envrc files (https://direnv.net).
+# Registers precmd/chpwd hooks, so it must run after compinit and before the shell
+# starts prompting; the prompt (starship) composes with it fine.
+if (( ${+commands[direnv]} )); then
+    eval "$(direnv hook zsh)"
 fi
