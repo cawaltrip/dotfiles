@@ -504,6 +504,8 @@ packageManagement:
         cask: webstorm
       windows: JetBrains.WebStorm
     wget: {}
+    windirstat:
+      windows: WinDirStat.WinDirStat
     wireshark:
       darwin:
         cask: wireshark-app
