@@ -31,6 +31,7 @@ from dataclasses import asdict, dataclass
 DEFAULT_FILE = os.path.join(".chezmoidata", "packages.yaml")
 DARWIN_INSTALLERS = {"brew", "cask"}
 WINDOWS_INSTALLERS = {"winget", "scoop", "pipx", "msstore"}
+BREW_KEYS = {"name", "service"}  # keys the darwin install script reads from a `brew:` mapping
 GROUP_SUBKEYS = {"shared", "unixlike", "darwin", "windows", "linux"}
 CORE_TAPS = {"homebrew/core", "homebrew/cask"}
 KEY_RE = re.compile(r"^( *)([^\s#\-][^:]*?):(?:\s|$)")
@@ -128,6 +129,19 @@ def collect_repos(profiles: dict) -> tuple[set[str], set[str]]:
     return taps, buckets
 
 
+def check_brew_mapping(where: str, ident: dict) -> list[Finding]:
+    out: list[Finding] = []
+    unknown = sorted(set(ident) - BREW_KEYS)
+    if unknown:
+        out.append(Finding("error", "brew-shape", f"{where}: a brew mapping only takes {sorted(BREW_KEYS)}, found {unknown}"))
+    name = ident.get("name")
+    if not isinstance(name, str) or not name.strip():
+        out.append(Finding("error", "brew-shape", f"{where}: a brew mapping needs a non-empty `name`"))
+    if "service" in ident and not isinstance(ident["service"], bool):
+        out.append(Finding("error", "brew-service", f"{where}: `service` must be true or false, got {ident['service']!r}"))
+    return out
+
+
 def check_identifier(where: str, installer: str, ident, taps: set[str], buckets: set[str]) -> list[Finding]:
     out: list[Finding] = []
     if installer == "scoop":
@@ -136,6 +150,11 @@ def check_identifier(where: str, installer: str, ident, taps: set[str], buckets:
         elif ident["source"] not in buckets:
             out.append(Finding("error", "bucket-missing", f"{where}: bucket `{ident['source']}` is not declared under profiles.windows.buckets"))
         return out
+    if installer == "brew" and isinstance(ident, dict):
+        out += check_brew_mapping(where, ident)
+        if not isinstance(ident.get("name"), str) or not ident["name"].strip():
+            return out
+        ident = ident["name"]  # the tap check below applies to the formula name
     if not isinstance(ident, str) or not ident.strip():
         out.append(Finding("error", "identifier-shape", f"{where}: identifier must be a non-empty string"))
         return out

@@ -14,7 +14,14 @@ tap "{{ . }}", trusted: true
 {{ if hasKey $ctx "packagesToInstall" -}}
 {{ if hasKey $ctx.packagesToInstall "brew" -}}
 {{ range $ctx.packagesToInstall.brew -}}
+{{ if kindIs "map" . -}}
+{{ if not (get . "name") -}}
+{{ fail (printf "packages.yaml: brew mapping %s needs a name" (toJson .)) -}}
+{{ end -}}
+brew "{{ get . "name" }}"{{ if get . "service" }}, restart_service: :changed{{ end }}
+{{ else -}}
 brew "{{ . }}"
+{{ end -}}
 {{ end -}}
 {{ end -}}
 {{ if hasKey $ctx.packagesToInstall "cask" -}}
