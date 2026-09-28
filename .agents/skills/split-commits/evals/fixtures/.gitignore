@@ -1,0 +1,2 @@
+# Fixture diffs are data, not scratch: re-include them despite a global *.patch ignore rule.
+!*.patch
