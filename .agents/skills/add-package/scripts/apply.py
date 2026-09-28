@@ -93,6 +93,8 @@ def sort_key(name: str) -> list:
 
 def scalar(value) -> str:
     """Write a scalar the way the file does (bare) unless YAML would misread it."""
+    if isinstance(value, bool):  # `brew: {service: true}` must stay a boolean, not the string "True"
+        return "true" if value else "false"
     text = str(value)
     if (text.strip() != text or text.lower() in YAML_WORDS or text[0] in YAML_SPECIAL_START
             or text.startswith("- ") or text.endswith(":") or ": " in text or " #" in text or NUMBER_RE.match(text)):

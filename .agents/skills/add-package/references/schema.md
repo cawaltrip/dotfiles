@@ -39,6 +39,7 @@ For the current OS, the template takes the entry `packages.<key>`:
 | `key: {}` or `key:` (null) | `<default installer> <key>` on every OS |
 | `key: {darwin: some-name}` | on darwin: `brew "some-name"`; on any OS **without** a key: `<default installer> <key>` |
 | `key: {darwin: {cask: tok}}` | on darwin: `cask "tok"` |
+| `key: {darwin: {brew: {name: n, service: true}}}` | on darwin: `brew "n", restart_service: :changed` (see §4, Services) |
 | `key: {windows: Pub.Name}` | on windows: `winget install Pub.Name` |
 | `key: {windows: {scoop: {name: n, source: b}}}` | on windows: scoop app `n` from bucket `b` |
 | `key: {windows: {pipx: n}}` | on windows: `pipx install n` |
@@ -58,13 +59,14 @@ Exactly one installer key per OS. The template reads `first (keys entry)` and si
 | `darwin` | brew formula | `brew`, `cask` |
 | `windows` | winget package identifier | `winget` (rare, same as string), `scoop`, `pipx`, `msstore` |
 
-Formulae and casks are written in the string form or under `brew:` interchangeably; the file mostly uses the string form for formulae and `cask:` for casks. Prefer that.
+Formulae and casks are written in the string form or under `brew:` interchangeably; the file mostly uses the string form for formulae and `cask:` for casks. Prefer that. The exception is a formula that should run as a service, which needs the `brew:` mapping form (§4).
 
 ## 4. Homebrew
 
 - Casks are GUI apps, fonts (`font-*`), and a few CLIs distributed as binaries (e.g. `gcloud-cli`, `claude-code@latest`). Formulae are everything else. When a name exists as both (e.g. `docker`), the GUI app is the cask (`docker-desktop`) and the CLI is the formula; pick based on what the user wants and say which you chose.
 - Versioned formulae use `@`: `python@3.12`, `google-chrome@dev`, `visual-studio-code@insiders`.
 - **Third-party taps** appear in the identifier as `user/repo/name` (`hashicorp/tap/terraform`, `koekeishiya/formulae/yabai`, `terraform-linters/tap/tflint` for a cask). The tap `user/repo` must be listed under `profiles.unixlike.taps` (machine-wide) or `profiles.personal.taps` (personal machines only). `brew` treats `user/homebrew-repo` and `user/repo` as the same tap; the file has both spellings. Default new taps to `unixlike`.
+- **Services.** A formula that should run in the background (`redis`, `postgresql@17`) is written `darwin: {brew: {name: <formula>, service: true}}`. The install script emits `brew "<formula>", restart_service: :changed`: `brew bundle` starts the service if it is stopped, registers it to start at login, and restarts it after the formula is installed or upgraded. `name` is required even when it equals the key, `service` must be a boolean, and no other keys are read; `check.py` enforces all three. Only formulae have services, so `service` never goes under `cask:` or next to `brew:` (that second key would make the entry silently disappear, §2). Add it only when the user asks for the service to run, and confirm the formula defines one (`brew info --json=v2 <formula>` has a non-null `service`).
 - Homebrew core formulae are looked up at `https://formulae.brew.sh/api/formula/<name>.json`, casks at `/api/cask/<token>.json`. Third-party taps are GitHub repos named `user/homebrew-repo` with `Formula/<name>.rb` or `Casks/<name>.rb`.
 
 ## 5. winget and msstore

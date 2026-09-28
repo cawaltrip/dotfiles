@@ -6,6 +6,13 @@
 # * If a package name is specified in a group or a profile, it should have an
 #   entry under the `packages` key.  If it isn't, the behavior isn't
 #   well-defined.
+# * To run a Homebrew formula as a service (started now, at login, and
+#   restarted after upgrades), use the mapping form under `brew`:
+#     redis:
+#       darwin:
+#         brew:
+#           name: redis
+#           service: true
 
 packageManagement:
   # TODO (Chris): Add WSL here too.
