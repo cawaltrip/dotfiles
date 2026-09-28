@@ -215,6 +215,7 @@ packageManagement:
           name: git-lfs
           source: main
     gitleaks: {}
+    gitnr: {}
     glow:
       windows: charmbracelet.glow
     go:
@@ -594,6 +595,7 @@ packageManagement:
       darwin:
         - d2
         - git-extras
+        - gitnr
         - docutils
         - jaq
       windows:
