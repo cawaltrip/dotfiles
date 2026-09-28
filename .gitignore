@@ -1,3 +1,6 @@
+# Worktrees
+.worktrees/
+
 # Cursor files
 .history/
 
