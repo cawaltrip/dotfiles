@@ -1,0 +1,76 @@
+# Atuin client config: local-only history with repo-aware search.
+# Every option and its default: `atuin default-config`, or
+# https://docs.atuin.sh/configuration/config/
+
+## Local only. No sync server is configured and Homebrew handles upgrades, so
+## never contact api.atuin.sh.
+auto_sync = false
+update_check = false
+
+## Enter and Tab both put the selected command on the prompt to edit; press
+## Enter again to run it.
+enter_accept = false
+
+## Ctrl-R starts in the current git repo (any directory in its tree), or in
+## global history outside a repo; pressing Ctrl-R again cycles through
+## search.filters. filter_mode is deliberately unset so that fallback works.
+workspaces = true
+
+## Up-arrow searches the current shell session only, prefix-matching whatever
+## is already typed (like zsh's up-line-or-beginning-search).
+filter_mode_shell_up_key_binding = "session"
+search_mode_shell_up_key_binding = "prefix"
+
+## Compact list drawn under the prompt instead of full screen.
+style = "compact"
+inline_height = 20
+inline_height_shell_up_key_binding = 12
+
+## Built-in credential detection (AWS, GitHub, GitLab, Slack, Stripe, npm, ...).
+## history_filter below covers the formats it misses.
+secrets_filter = true
+
+## Commands matching any of these are never saved. Unanchored Rust regexes;
+## \x27 is a single quote. A value starting with $ (a variable or command
+## substitution) is not treated as a secret.
+history_filter = [
+  # Secret-looking env vars assigned a literal: GITHUB_TOKEN=..., DD_APP_KEY=...
+  '\b[A-Z0-9_]*(TOKEN|SECRET|PASSWORD|PASSWD|PASSPHRASE|CREDENTIALS?|API_?KEY|APP(LICATION)?_?KEY|PRIVATE_?KEY|ACCESS_?KEY|BW_SESSION)[A-Z0-9_]*=["\x27]?[^\s$"\x27]',
+  # Password/token flags given a value (--password-stdin and friends are fine).
+  # Bare --secret is left out: gcloud and docker use it to name a secret.
+  '(?i)(^|\s)--?(password|passwd|pass|passin|passout|token|client[-_]secret|api[-_]?key|access[-_]token|auth[-_]?token|auth[-_]?key)[=\s]+["\x27]?[^\s$"\x27-]',
+  '\b(mysql|mysqldump|mariadb)\b.*\s-p\S|\bsshpass\b.*\s-p',
+  '\bsecret\b.*(--from-literal=|\s(-b|--body)[=\s])|\baws\s+configure\s+set\s+\S*(secret|session_token)',
+  # HTTP credentials: auth headers, cookies, curl -u user:pass
+  '(?i)\bauthorization\s*:\s*(bearer|basic|token|digest)\s+[^\s$"\x27]',
+  '(?i)\b(x-api-key|api-key|x-auth-token|private-token|cookie)\s*:\s*[^\s$"\x27]',
+  '\bcurl\b.*\s(-b|--cookie)\s+["\x27]?\w+=|\bcurl\b.*\s(-u|--user)\s*["\x27]?[^\s:"\x27]+:[^\s$"\x27]',
+  # user:password@ inside a URL
+  '\b[a-zA-Z][a-zA-Z0-9+.-]*://[^\s/:@]+:[^\s/@$]+@',
+  # Token formats: JWT, Google API key and OAuth access token, Anthropic/OpenAI,
+  # Atlassian, Linear, Tailscale, PEM private keys
+  '\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]*',
+  '\bAIza[0-9A-Za-z_-]{35}|\bya29\.[0-9A-Za-z_-]{20,}',
+  '(^|[\s"\x27=:])sk-((ant|proj|svcacct)-[A-Za-z0-9_-]{20,}|[A-Za-z0-9]{40,})|\bATATT3[A-Za-z0-9_=-]{20,}|\blin_(api|oauth)_[A-Za-z0-9]{20,}|\btskey-[a-z]+-[A-Za-z0-9-]{10,}',
+  '-----BEGIN [A-Z ]*PRIVATE KEY-----',
+]
+
+[search]
+## Ctrl-R cycle order. "workspace" is skipped outside a git repo, so search
+## starts in "global" there.
+filters = ["workspace", "global", "directory", "session"]
+
+[ui]
+columns = ["exit", "duration", "time", "command"]
+
+[stats]
+## Break these down by subcommand in `atuin stats` (gcloud auth vs gcloud config).
+common_subcommands = [
+  "aws", "brew", "cargo", "chezmoi", "docker", "gcloud", "gh", "git", "go",
+  "kubectl", "npm", "pnpm", "tmux", "wt", "yarn",
+]
+ignored_commands = ["cd", "ll", "lal", "ls", "pwd"]
+
+[daemon]
+## Only needed for sync or output capture, both of which are off.
+enabled = false
