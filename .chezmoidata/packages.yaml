@@ -127,6 +127,7 @@ packageManagement:
     delta:
       darwin: git-delta
       windows: dandavison.delta
+    direnv: {}
     discord:
       darwin:
         cask: discord

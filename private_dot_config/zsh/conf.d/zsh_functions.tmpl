@@ -97,3 +97,10 @@ fi
 if (( ${+commands[awsrun]} )); then
     source ${ZDOTCONFDIR:-~/.config/zsh/conf.d}/integrations/awsrun
 fi
+
+# direnv: load/unload per-directory environment from .envrc files (https://direnv.net).
+# Registers precmd/chpwd hooks, so it must run after compinit and before the shell
+# starts prompting; the prompt (starship) composes with it fine.
+if (( ${+commands[direnv]} )); then
+    eval "$(direnv hook zsh)"
+fi
