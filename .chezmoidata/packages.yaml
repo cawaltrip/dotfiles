@@ -346,6 +346,7 @@ packageManagement:
         cask: omnifocus
     onelogin-aws-cli:
       darwin: cawaltrip/tap/onelogin-aws-cli
+    openjdk: {}
     openjpeg: {}
     openlens:
       windows: MuhammedKalkan.OpenLens
