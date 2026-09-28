@@ -1,0 +1,118 @@
+{
+  "skill_name": "add-package",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Add lazygit to the dev group in my chezmoi packages file. The packages file to edit is the packages.yaml in the current directory (it's a copy of .chezmoidata/packages.yaml, edit it in place). Don't prompt me, just do it and tell me what you changed.",
+      "expected_output": "packages.yaml gains `lazygit:` with `windows: JesseDuffield.lazygit` and no darwin key (the formula name equals the key), inserted alphabetically between `latex` and `leptonica`; `groups.dev.shared` gains `- lazygit` between `jd` and `pastel`; no taps or buckets touched; file still parses and comments are intact.",
+      "files": [],
+      "expectations": [
+        "packages.lazygit exists",
+        "windows identifier is the fully qualified winget id JesseDuffield.lazygit (string form)",
+        "no darwin key (formula name equals the key, so the default applies)",
+        "lazygit is listed under groups.dev.shared",
+        "lazygit is not listed under an OS-specific dev list",
+        "package key inserted alphabetically between latex and leptonica",
+        "group entry inserted alphabetically between jd and pastel",
+        "profiles (taps, buckets) unchanged",
+        "exactly one new package key (lazygit) was added",
+        "all existing comment lines are preserved",
+        "no new structural findings from check.py",
+        "file still parses as YAML with the same top-level sections"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "I want yabai on my Macs. It's in the koekeishiya/formulae homebrew tap. Put it in the core group, mac only. Edit the packages.yaml in the current directory (a copy of my chezmoi .chezmoidata/packages.yaml). No need to ask me anything.",
+      "expected_output": "packages.yaml gains `yabai:` with `darwin: koekeishiya/formulae/yabai` and no windows key; `koekeishiya/formulae` is appended to profiles.unixlike.taps after `gurgeous/tap` (before the trailing commented taps); `- yabai` is added under `groups.core.darwin` (not shared) after `xbar`; nothing else changes.",
+      "files": [],
+      "expectations": [
+        "packages.yabai exists",
+        "darwin identifier is the tap-qualified formula koekeishiya/formulae/yabai",
+        "no windows key (nothing to install there)",
+        "tap koekeishiya/formulae is declared in a profile's taps",
+        "tap was added to profiles.unixlike.taps (machine-wide default)",
+        "tap appended after gurgeous/tap and before the trailing commented taps",
+        "yabai is listed under groups.core.darwin",
+        "yabai is NOT listed under groups.core.shared (would break Windows)",
+        "package key inserted alphabetically between xbar and yamllint",
+        "exactly one new package key (yabai) was added",
+        "all existing comment lines are preserved",
+        "no new structural findings from check.py",
+        "file still parses as YAML with the same top-level sections"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "add vscode insiders to packages.yaml (in cwd, it's a copy of my chezmoi .chezmoidata/packages.yaml) - on mac that's a cask, on windows use scoop (I think it's in the versions bucket). don't put it in a group. no questions please",
+      "expected_output": "packages.yaml gains `vscode-insiders:` with `darwin: {cask: visual-studio-code@insiders}` and `windows: {scoop: {name: vscode-insiders, source: versions}}`, inserted alphabetically after `vscode`; `profiles.windows.buckets` gains `versions:` with `source: https://github.com/ScoopInstaller/Versions`; no group changes; file parses.",
+      "files": [],
+      "expectations": [
+        "package key is vscode-insiders",
+        "darwin is the cask visual-studio-code@insiders (under a cask: key)",
+        "windows is scoop with name vscode-insiders and source versions",
+        "profiles.windows.buckets gained versions pointing at github.com/ScoopInstaller/Versions",
+        "existing buckets (main, extras, nerd-fonts) unchanged",
+        "not added to any group (groups unchanged)",
+        "package key inserted alphabetically between vscode and webp",
+        "exactly one new package key (vscode-insiders) was added",
+        "all existing comment lines are preserved",
+        "no new structural findings from check.py",
+        "file still parses as YAML with the same top-level sections"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "add tealdeer to the shell group in packages.yaml (in cwd, a copy of my chezmoi .chezmoidata/packages.yaml). no prompts.",
+      "expected_output": "`tealdeer: {windows: dbrgn.tealdeer}` (no darwin key), inserted between tableplus and temurin; `- tealdeer` added to groups.shell.shared directly before zoxide; no taps/buckets touched; report does not evaluate scoop or PyPI since winget confirmed first.",
+      "files": [],
+      "expectations": [
+        "packages.tealdeer exists",
+        "windows identifier is the fully qualified winget id dbrgn.tealdeer (not the moniker)",
+        "no darwin key (formula name equals the key)",
+        "tealdeer is listed under groups.shell.shared",
+        "group entry placed directly before zoxide (alphabetical position in a not-quite-sorted list)",
+        "package key inserted alphabetically between tableplus and temurin",
+        "profiles (taps, buckets) unchanged",
+        "report does not evaluate or offer lower-priority managers (no scoop/pypi/pipx alternative mentioned)",
+        "exactly one new package key (tealdeer) was added",
+        "all existing comment lines are preserved",
+        "no new structural findings from check.py",
+        "file still parses as YAML with the same top-level sections"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "add docker to the dev-infrastructure group in packages.yaml (in cwd, a copy of my chezmoi .chezmoidata/packages.yaml). don't ask me anything.",
+      "expected_output": "No change: docker is already defined (darwin cask docker-desktop) and already listed in dev-infrastructure.shared. The report says so instead of adding a duplicate or rewriting the stanza.",
+      "files": [],
+      "expectations": [
+        "packages.yaml is byte-identical to the original (docker was already defined and already in dev-infrastructure)",
+        "no duplicate or renamed docker entry was added",
+        "docker listed exactly once in dev-infrastructure",
+        "report tells the user docker is already defined / already in the group",
+        "file still parses as YAML"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "add powertoys to core in packages.yaml (in cwd, a copy of my chezmoi .chezmoidata/packages.yaml), no questions",
+      "expected_output": "`powertoys: {windows: Microsoft.PowerToys}` with no darwin key, inserted between postman and pre-commit; `- powertoys` added under groups.core.windows (not shared, since nothing exists for macOS); report notes macOS was left out.",
+      "files": [],
+      "expectations": [
+        "packages.powertoys exists",
+        "windows identifier is Microsoft.PowerToys",
+        "no darwin key (no Homebrew package exists)",
+        "powertoys is listed under groups.core.windows",
+        "powertoys is NOT under groups.core.shared (would make macOS run brew install powertoys)",
+        "package key inserted alphabetically between postman and pre-commit",
+        "profiles (taps, buckets) unchanged",
+        "report says macOS has no package / was left out",
+        "exactly one new package key (powertoys) was added",
+        "all existing comment lines are preserved",
+        "no new structural findings from check.py",
+        "file still parses as YAML with the same top-level sections"
+      ]
+    }
+  ]
+}

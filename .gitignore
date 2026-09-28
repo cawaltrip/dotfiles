@@ -68,5 +68,8 @@ $RECYCLE.BIN/
 # Worktrunk / git worktrees
 .worktrees/
 
-# Skill eval scratch space
+# skill-creator eval workspaces
 .agents/skills/*-workspace/
+
+# Python bytecode
+__pycache__/
