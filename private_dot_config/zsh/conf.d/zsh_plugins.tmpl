@@ -15,7 +15,9 @@ zinit ice blockf
 zinit light zsh-users/zsh-completions
 
 if (( ${+commands[atuin]} )); then
-  zinit load atuinsh/atuin
+  # Initialized directly rather than through zinit so --disable-ai can keep
+  # `?` on an empty prompt from opening Atuin AI.
+  eval "$(atuin init zsh --disable-ai)"
 fi
 
 # zi snippet OMZP::git  # Disabling git for now to not pollute aliases.
