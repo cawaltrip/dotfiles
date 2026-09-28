@@ -4,6 +4,9 @@
 # Preview colors with: bash scripts/color-preview.sh
 COLOR="blue"
 
+# Show session cost (e.g. $1.2300): true or false
+SHOW_COST=false
+
 # Color codes
 C_RESET='\033[0m'
 C_GRAY='\033[38;5;245m'  # explicit gray for default text
@@ -178,7 +181,8 @@ fi
 
 # Build cost segment from .cost.total_cost_usd in JSON input
 cost_segment=""
-cost_usd=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
+cost_usd=""
+[[ "$SHOW_COST" == "true" ]] && cost_usd=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
 if [[ -n "$cost_usd" ]]; then
     cost_color="$C_COST_LOW"
     cost_int=$(echo "$cost_usd" | awk '{printf "%d", $1 * 100}')  # cents
